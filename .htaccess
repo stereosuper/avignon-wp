@@ -1,11 +1,11 @@
 # BEGIN WordPress
 <IfModule mod_rewrite.c>
 RewriteEngine On
-RewriteBase /valid/avignon/wordpress/
+RewriteBase /
 RewriteRule ^index\.php$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /valid/avignon/wordpress/index.php [L]
+RewriteRule . /index.php [L]
 </IfModule>
 
 # END WordPress
