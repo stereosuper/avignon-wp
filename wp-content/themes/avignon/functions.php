@@ -5,7 +5,7 @@
 /*-----------------------------------------------------------------------------------*/
 // Theme support
 add_theme_support( 'html5', array('comment-list', 'comment-form', 'search-form', 'gallery', 'caption', 'widgets') );
-add_theme_support( 'post-thumbnails', array( 'post', 'teachers', 'page', 'board-members' )); 
+add_theme_support( 'post-thumbnails', array( 'post', 'teachers', 'page', 'board-members' ));
 
 // Feed
 add_theme_support( 'automatic-feed-links' );
@@ -13,7 +13,9 @@ function remove_comments_rss( $for_comments ){ return; }
 add_filter('post_comments_feed_link', 'remove_comments_rss');
 
 // Admin bar
-show_admin_bar(false);
+if ( ! current_user_can( 'manage_options' ) ) {
+    show_admin_bar(false);
+}
 
 /*-----------------------------------------------------------------------------------*/
 /* Hide Wordpress version and stuff for security, hide login errors
@@ -38,8 +40,8 @@ add_filter( 'comment_class' , 'remove_comment_author_class' );
 /*-----------------------------------------------------------------------------------*/
 /* Menus
 /*-----------------------------------------------------------------------------------*/
-register_nav_menus( 
-	array( 
+register_nav_menus(
+	array(
         'primary' => 'Primary Menu',
         'secondary-study' => 'Secondary Menu - Study',
         'secondary-live' => 'Secondary Menu - Live'
@@ -56,7 +58,7 @@ add_filter('page_css_class', 'css_attributes_filter', 100, 1);
 // Add a class to li if has subMenu
 function sub_menu( $sorted_menu_items, $args ) {
     $last_top = 0;
-    
+
     foreach( $sorted_menu_items as $key => $obj ){
         if( 0 == $obj->menu_item_parent ){
             $last_top = $key;
@@ -72,56 +74,56 @@ add_filter( 'wp_nav_menu_objects', 'sub_menu', 10, 2 );
 /* Sidebars
 /*-----------------------------------------------------------------------------------*/
 function avignon_register_sidebars() {
-	register_sidebar(array(				
-		'id' => 'footer-social', 					
-		'name' => 'Footer - Social',				
-		'description' => 'Set here your social networks for the footer', 
-		'before_widget' => '',	
-		'after_widget' => '',	
-		'before_title' => '',	
-		'after_title' => '',		
+	register_sidebar(array(
+		'id' => 'footer-social',
+		'name' => 'Footer - Social',
+		'description' => 'Set here your social networks for the footer',
+		'before_widget' => '',
+		'after_widget' => '',
+		'before_title' => '',
+		'after_title' => '',
 		'empty_title'=> ''
 	));
-    register_sidebar(array(             
-        'id' => 'footer-contact',                    
-        'name' => 'Footer - Contact',                
-        'description' => 'Set here your contact informations for the footer', 
-        'before_widget' => '',  
-        'after_widget' => '',   
-        'before_title' => '',   
-        'after_title' => '',        
+    register_sidebar(array(
+        'id' => 'footer-contact',
+        'name' => 'Footer - Contact',
+        'description' => 'Set here your contact informations for the footer',
+        'before_widget' => '',
+        'after_widget' => '',
+        'before_title' => '',
+        'after_title' => '',
         'empty_title'=> ''
     ));
-    register_sidebar(array(             
-        'id' => 'footer-bottom',                    
-        'name' => 'Footer - Bottom',                
-        'description' => 'Set here your legal informations for the bottom of the footer', 
-        'before_widget' => '',  
-        'after_widget' => '',   
-        'before_title' => '',   
-        'after_title' => '',        
+    register_sidebar(array(
+        'id' => 'footer-bottom',
+        'name' => 'Footer - Bottom',
+        'description' => 'Set here your legal informations for the bottom of the footer',
+        'before_widget' => '',
+        'after_widget' => '',
+        'before_title' => '',
+        'after_title' => '',
         'empty_title'=> ''
     ));
-} 
+}
 add_action( 'widgets_init', 'avignon_register_sidebars' );
 
 /*-----------------------------------------------------------------------------------*/
 /* Custom widgets
 /*-----------------------------------------------------------------------------------*/
-// widget social 
+// widget social
 class Social_Widget extends WP_Widget{
     function Social_Widget() {
         parent::__construct(false, 'Avignon - Social Networks');
     }
     function form($instance){
         $youtube = esc_attr($instance['youtube']);
-        $facebook = esc_attr($instance['facebook']);  
-        $twitter = esc_attr($instance['twitter']);  
+        $facebook = esc_attr($instance['facebook']);
+        $twitter = esc_attr($instance['twitter']);
         ?>      <h4>Social networks links</h4>
                 <p><label for="<?php echo $this->get_field_id('youtube'); ?>">Youtube link :</label> <input class="widefat" id="<?php echo $this->get_field_id('youtube'); ?>" name="<?php echo $this->get_field_name('youtube'); ?>" value="<?php echo $youtube; ?>" /></p>
                 <p><label for="<?php echo $this->get_field_id('facebook'); ?>">Facebook link :</label> <input class="widefat" id="<?php echo $this->get_field_id('facebook'); ?>" name="<?php echo $this->get_field_name('facebook'); ?>" type="text" value="<?php echo $facebook; ?>" /></p>
-                <p><label for="<?php echo $this->get_field_id('twitter'); ?>">Twitter link:</label> <input class="widefat" id="<?php echo $this->get_field_id('twitter'); ?>" name="<?php echo $this->get_field_name('twitter'); ?>" type="text" value="<?php echo $twitter; ?>" /></p>     
-        <?php  
+                <p><label for="<?php echo $this->get_field_id('twitter'); ?>">Twitter link:</label> <input class="widefat" id="<?php echo $this->get_field_id('twitter'); ?>" name="<?php echo $this->get_field_name('twitter'); ?>" type="text" value="<?php echo $twitter; ?>" /></p>
+        <?php
     }
     function update($new_instance, $old_instance){
         return $new_instance;
@@ -136,8 +138,8 @@ class Social_Widget extends WP_Widget{
                 --><li><a href="<?php echo $instance['twitter']; ?>" title="Institut d'Avignon on Twitter" target="_blank"><span class="icon-twitter"></span></a></li>
             <?php } ?>
         </ul>
-        
-        <?php 
+
+        <?php
     }
 }
 register_widget('Social_Widget');
@@ -149,19 +151,19 @@ class Address_Widget extends WP_Widget{
     }
     function form($instance){
         $title1 = esc_attr($instance['title1']);
-        $title2 = esc_attr($instance['title2']);  
-        $content1 = esc_attr($instance['content1']);  
-        $content2 = esc_attr($instance['content2']);  
-        $content3 = esc_attr($instance['content3']);  
+        $title2 = esc_attr($instance['title2']);
+        $content1 = esc_attr($instance['content1']);
+        $content2 = esc_attr($instance['content2']);
+        $content3 = esc_attr($instance['content3']);
         ?>      <h4>Title</h4>
                 <p><label for="<?php echo $this->get_field_id('title1'); ?>">First line :</label> <input class="widefat" id="<?php echo $this->get_field_id('title1'); ?>" name="<?php echo $this->get_field_name('title1'); ?>" value="<?php echo $title1; ?>" /></p>
                 <p><label for="<?php echo $this->get_field_id('title2'); ?>">Second line :</label> <input class="widefat" id="<?php echo $this->get_field_id('title2'); ?>" name="<?php echo $this->get_field_name('title2'); ?>" type="text" value="<?php echo $title2; ?>" /></p>
 
-                <h4>Content</h4>   
+                <h4>Content</h4>
                 <p><label for="<?php echo $this->get_field_id('content1'); ?>">First line :</label> <input class="widefat" id="<?php echo $this->get_field_id('content1'); ?>" name="<?php echo $this->get_field_name('content1'); ?>" value="<?php echo $content1; ?>" /></p>
                 <p><label for="<?php echo $this->get_field_id('content2'); ?>">Second line :</label> <input class="widefat" id="<?php echo $this->get_field_id('content2'); ?>" name="<?php echo $this->get_field_name('content2'); ?>" value="<?php echo $content2; ?>" /></p>
                 <p><label for="<?php echo $this->get_field_id('content3'); ?>">Third line :</label> <input class="widefat" id="<?php echo $this->get_field_id('content3'); ?>" name="<?php echo $this->get_field_name('content3'); ?>" value="<?php echo $content3; ?>" /></p>
-        <?php  
+        <?php
     }
     function update($new_instance, $old_instance){
         return $new_instance;
@@ -169,32 +171,32 @@ class Address_Widget extends WP_Widget{
     function widget($args, $instance){ ?>
         <div class='adress'>
             <p class='adress-title'>
-                <?php 
+                <?php
                     if($instance['title1'] != ''){
                         echo $instance['title1'] . '<br/>';
-                    } 
-                    if($instance['title2'] != ''){ 
+                    }
+                    if($instance['title2'] != ''){
                         echo $instance['title2'];
-                    } 
+                    }
                 ?>
             </p>
 
             <p class='adress-content'>
-                <?php 
+                <?php
                     if($instance['content1'] != ''){
                         echo $instance['content1'] . '<br/>';
-                    } 
-                    if($instance['content2'] != ''){ 
+                    }
+                    if($instance['content2'] != ''){
                         echo $instance['content2'] . '<br/>';
-                    } 
-                    if($instance['content3'] != ''){ 
+                    }
+                    if($instance['content3'] != ''){
                         echo $instance['content3'];
-                    } 
+                    }
                 ?>
             </p>
         </div><!--
-        
-        --><?php 
+
+        --><?php
     }
 }
 register_widget('Address_Widget');
@@ -206,13 +208,13 @@ class Contact_Widget extends WP_Widget{
     }
     function form($instance){
         $phone = esc_attr($instance['phone']);
-        $fax = esc_attr($instance['fax']);  
-        $mail = esc_attr($instance['mail']);  
+        $fax = esc_attr($instance['fax']);
+        $mail = esc_attr($instance['mail']);
         ?>      <h4>Your contact informations</h4>
                 <p><label for="<?php echo $this->get_field_id('phone'); ?>">Phone number :</label> <input class="widefat" id="<?php echo $this->get_field_id('phone'); ?>" name="<?php echo $this->get_field_name('phone'); ?>" value="<?php echo $phone; ?>" /></p>
                 <p><label for="<?php echo $this->get_field_id('fax'); ?>">Fax number :</label> <input class="widefat" id="<?php echo $this->get_field_id('fax'); ?>" name="<?php echo $this->get_field_name('fax'); ?>" value="<?php echo $fax; ?>" /></p>
                 <p><label for="<?php echo $this->get_field_id('mail'); ?>">Email address :</label> <input class="widefat" id="<?php echo $this->get_field_id('mail'); ?>" name="<?php echo $this->get_field_name('mail'); ?>" value="<?php echo $mail; ?>" /></p>
-        <?php  
+        <?php
     }
     function update($new_instance, $old_instance){
         return $new_instance;
@@ -229,8 +231,8 @@ class Contact_Widget extends WP_Widget{
                 <?php } ?>
             </ul>
         </div>
-        
-        <?php 
+
+        <?php
     }
 }
 register_widget('Contact_Widget');
@@ -242,20 +244,20 @@ class Legal_Widget extends WP_Widget{
     }
     function form($instance){
         $text = esc_attr($instance['text']);
-        $legals = esc_attr($instance['legals']);  
-        $sitemap = esc_attr($instance['sitemap']);  
+        $legals = esc_attr($instance['legals']);
+        $sitemap = esc_attr($instance['sitemap']);
         ?>      <h4>Your legal informations</h4>
                 <p><label for="<?php echo $this->get_field_id('text'); ?>">Text :</label> <input class="widefat" id="<?php echo $this->get_field_id('text'); ?>" name="<?php echo $this->get_field_name('text'); ?>" value="<?php echo $text; ?>" /></p>
                 <p><label for="<?php echo $this->get_field_id('legals'); ?>">Legal informations page url :</label> <input class="widefat" id="<?php echo $this->get_field_id('legals'); ?>" name="<?php echo $this->get_field_name('legals'); ?>" value="<?php echo $legals; ?>" /></p>
                 <p><label for="<?php echo $this->get_field_id('sitemap'); ?>">Sitemap page url :</label> <input class="widefat" id="<?php echo $this->get_field_id('sitemap'); ?>" name="<?php echo $this->get_field_name('sitemap'); ?>" value="<?php echo $sitemap; ?>" /></p>
-        <?php  
+        <?php
     }
     function update($new_instance, $old_instance){
         return $new_instance;
     }
     function widget($args, $instance){ ?>
         <div id="copy"><?php if($instance['text'] != ''){ echo $instance['text']; } ?> &copy; - <?php echo date('Y'); ?> - <?php if($instance['legals'] != ''){ ?><a href="<?php echo $instance['legals']; ?>">Legals</a> -<?php } ?> <?php if($instance['sitemap'] != ''){ ?><a href="<?php echo $instance['sitemap']; ?>">Sitemap</a><?php } ?></div>
-        <?php 
+        <?php
     }
 }
 register_widget('Legal_Widget');
@@ -267,13 +269,13 @@ class Logo_Widget extends WP_Widget{
     }
     function form($instance){
         $link = esc_attr($instance['link']);
-        $img = esc_attr($instance['img']);  
+        $img = esc_attr($instance['img']);
         $text = esc_attr($instance['text']);
-        ?>      
+        ?>
                 <p><label for="<?php echo $this->get_field_id('link'); ?>">Link :</label> <input class="widefat" id="<?php echo $this->get_field_id('link'); ?>" name="<?php echo $this->get_field_name('link'); ?>" value="<?php echo $link; ?>" /></p>
                 <p><label for="<?php echo $this->get_field_id('img'); ?>">Logo url :</label> <input class="widefat" id="<?php echo $this->get_field_id('img'); ?>" name="<?php echo $this->get_field_name('img'); ?>" value="<?php echo $img; ?>" /></p>
                 <p><label for="<?php echo $this->get_field_id('text'); ?>">Alternative text for the picture :</label> <input class="widefat" id="<?php echo $this->get_field_id('text'); ?>" name="<?php echo $this->get_field_name('text'); ?>" value="<?php echo $text; ?>" /></p>
-        <?php  
+        <?php
     }
     function update($new_instance, $old_instance){
         return $new_instance;
@@ -281,7 +283,7 @@ class Logo_Widget extends WP_Widget{
     function widget($args, $instance){ ?>
         <?php if($instance['link'] != '' && $instance['img'] != ''){ ?>
             <a href="<?php echo $instance['link']; ?>" id="logo-bryn-mawr" target='_blank'><img src="<?php echo $instance['img']; ?>" <?php if($instance['text'] != ''){ ?> alt="<?php echo $instance['text']; ?>"<?php } ?> ></a>
-        <?php } 
+        <?php }
     }
 }
 register_widget('Logo_Widget');
@@ -364,7 +366,7 @@ function courses_permalinks( $permalink, $post ) {
     if($post->post_type !== 'courses') return $permalink;
 
     $terms = get_the_terms( $post->ID, 'types' );
-    
+
     if(!$terms) return str_replace( '%types%/', '', $permalink );
 
     $post_terms = array();
@@ -401,7 +403,7 @@ if(!function_exists('avignon_button')){
     }
 }
 add_filter( 'mce_buttons_2', 'avignon_button' );
- 
+
 if(!function_exists('avignon_mce_before_init')){
     function avignon_mce_before_init( $styles ) {
         $style_formats = array (
@@ -416,7 +418,7 @@ if(!function_exists('avignon_mce_before_init')){
                 'classes' => 'btn-arrow'
             ),
         );
-       
+
         $styles['style_formats'] = json_encode( $style_formats );
 
         $styles['block_formats'] = 'Paragraph=p;Heading 2=h2;Heading 3=h3;Heading 4=h4;Heading 5=h5;Heading 6=h6';
@@ -462,11 +464,11 @@ include_once( get_template_directory() . '/functions/ics.php' );
 /* Enqueue Styles and Scripts
 /*-----------------------------------------------------------------------------------*/
 
-function avignon_scripts()  { 
+function avignon_scripts()  {
 		// header
 		wp_enqueue_style( 'avignon-style', get_template_directory_uri() . '/css/style.css', array(), AVIGNON_VERSION );
 		wp_enqueue_script( 'avignon-modernizr', get_template_directory_uri() . '/js/modernizr-min.js', array(), null);
-		
+
 		// footer
 	    wp_deregister_script('jquery');
 		wp_enqueue_script( 'jquery', get_template_directory_uri() . '/js/jquery-1.11.2.min.js', array(), null, true );
@@ -477,9 +479,9 @@ function avignon_scripts()  {
         if(is_front_page())
             wp_enqueue_script( 'avignon-scrollreveal', get_template_directory_uri() . '/js/scrollReveal.min.js', array(), null, true );
         wp_enqueue_script( 'avignon-imgliquid', get_template_directory_uri() . '/js/imgLiquid.min.js', array(), null, true );
-        
+
 
         wp_enqueue_script( 'avignon', get_template_directory_uri() . '/js/script.js', array(), AVIGNON_VERSION, true );
-  
+
 }
 add_action( 'wp_enqueue_scripts', 'avignon_scripts' );
