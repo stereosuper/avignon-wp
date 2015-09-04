@@ -1072,6 +1072,7 @@ function avignon_applicant_updated( $post_id )
                 break;
             case 'refused':
                 // Envoi de l'email de refus
+                $refused_reasons = $_POST['fields']['field_55e86b22e0050'];
                 ob_start();
                 include get_stylesheet_directory() . '/email/refused.php';
                 $message = ob_get_clean();

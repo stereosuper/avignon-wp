@@ -2,7 +2,7 @@
 
 <p>Your application has been rejected. Let us explain why:</p>
 
-<?php the_field( 'applicant_reason' ) ?>
+<?php echo $refused_reasons ?>
 
 <p>Feel free to contact us for a more detailed account.</p>
 
