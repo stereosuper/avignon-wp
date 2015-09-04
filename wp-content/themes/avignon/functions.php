@@ -1059,7 +1059,7 @@ function avignon_applicant_updated( $post_id )
     $next_status = $_POST['fields']['field_55e86af1e004f'];
 
     if ( $prev_status != $next_status ) {
-        switch ( $status ) {
+        switch ( $next_status ) {
             case 'accepted':
                 // Envoi de l'email d'acceptation
                 ob_start();
