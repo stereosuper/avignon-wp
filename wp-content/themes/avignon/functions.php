@@ -15,9 +15,9 @@ function remove_comments_rss( $for_comments ){ return; }
 add_filter('post_comments_feed_link', 'remove_comments_rss');
 
 // Admin bar
-if ( ! current_user_can( 'manage_options' ) ) {
+//if ( ! current_user_can( 'manage_options' ) ) {
     show_admin_bar(false);
-}
+//}
 
 /*-----------------------------------------------------------------------------------*/
 /* Hide Wordpress version and stuff for security, hide login errors
