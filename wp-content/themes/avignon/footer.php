@@ -7,10 +7,10 @@
 					<ul id='menu-footer'>
 						<li>
 							<h3>Study</h3>
-							<?php wp_nav_menu( array( 'theme_location' => 'secondary-study', 'container' => false ) ); ?>
+							<?php wp_nav_menu( array( 'theme_location' => 'footer-study', 'container' => false ) ); ?>
 						</li><li>
 							<h3>Live</h3>
-							<?php wp_nav_menu( array( 'theme_location' => 'secondary-live', 'container' => false ) ); ?>
+							<?php wp_nav_menu( array( 'theme_location' => 'footer-live', 'container' => false ) ); ?>
 						</li><li id='social'>
 							<h3>Network</h3>
 							<?php dynamic_sidebar('footer-social'); ?>

@@ -563,7 +563,7 @@ a:active {
 }
 .btn-arrow:before,
 .btn-arrow-back:before {
-  content: "›";
+  content: "\203A";
   position: absolute;
   top: 50%;
   left: 0;
@@ -598,7 +598,7 @@ ul.courses-list li a:focus .btn-arrow {
   color: #942712;
 }
 .btn-arrow-back:before {
-  content: '‹';
+  content: '\2039';
 }
 .btn {
   display: inline-block;
@@ -617,7 +617,7 @@ ul.courses-list li a:focus .btn-arrow {
   border: 2px solid #942712;
 }
 .btn:before {
-  content: "›";
+  content: "\203A";
   position: absolute;
   top: 50%;
   left: 24px;
@@ -701,7 +701,8 @@ ol li:before {
   left: -26px;
 }
 ul li:before {
-  content: "•";
+  content: "\2219";
+  font-size: 55px;
 }
 ol li {
   counter-increment: step-counter;
@@ -914,6 +915,10 @@ legend .legend {
   width: 160px;
   padding: 20px 0 30px;
   margin: 15px 0 0;
+  /*div{
+            position: relative;
+            overflow: hidden;
+        }*/
 }
 .gfield.browse label {
   text-align: center;
@@ -924,6 +929,17 @@ legend .legend {
 .gfield.browse input {
   margin: 0 auto;
   display: block;
+  /*position: absolute;
+                top: 0;
+                right: 0;
+                margin: 0;
+                padding: 0;
+                font-size: 20px;
+                cursor: pointer;
+                opacity: 0;*/
+}
+.gfield.browse.marginDefault {
+  margin: 0 20px 25px 0;
 }
 .gfield.verySmall input {
   width: 100px !important;
@@ -1110,7 +1126,7 @@ object {
   display: inline-block;
   vertical-align: top;
   width: 50%;
-  height: 33.33%;
+  height: 33.3%;
   margin: 0;
   padding: 0;
 }
@@ -2978,6 +2994,83 @@ ul.events-list .btn-arrow {
   display: inline-block;
   padding: 0 0 0 5px;
 }
+.encart p,
+.encart .encart-img {
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 50%;
+}
+.encart .encart-img {
+  position: relative;
+}
+.encart .encart-img a {
+  position: absolute;
+  background: #fff;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -54%);
+  -ms-transform: translate(-50%, -54%);
+  transform: translate(-50%, -54%);
+}
+.encart .encart-img a:hover,
+.encart .encart-img a:focus {
+  background: #942712;
+}
+.encart .encart-img img {
+  max-width: 100%;
+  height: auto;
+}
+.encart .encart-img + p {
+  padding-left: 20px;
+  padding-right: 80px;
+}
+.encart p {
+  padding-right: 20px;
+}
+.gallery {
+  margin: 80px 60px 100px;
+}
+.gallery figure {
+  display: inline-block;
+  vertical-align: top;
+  width: 300px;
+  height: 215px;
+  margin: 10px;
+  line-height: 215px;
+  text-align: center;
+  overflow: hidden;
+}
+/* @end */
+/* @group Non semantic Boilerplate */
+/* remplacement image */
+.ir {
+  background-color: transparent;
+  border: 0;
+  overflow: hidden;
+  /* IE 6/7 fallback */
+  *text-indent: -9999px;
+}
+.ir:before {
+  content: "";
+  display: block;
+  width: 0;
+  height: 100%;
+}
+/* masqué */
+.hidden {
+  display: none !important;
+}
+/* clearfix */
+.clearfix:before,
+.clearfix:after {
+  content: " ";
+  /* 1 */
+  display: table;
+  /* 2 */
+}
+.clearfix:after {
+  clear: both;
+}
 /* @end */
 @media (max-width: 1150px) {
   /* @group Study */
@@ -3086,7 +3179,7 @@ ul.events-list .btn-arrow {
     width: 100%;
   }
   ul#menu-footer > li {
-    width: 33.33333%;
+    width: 33.3%;
     margin: 0;
     padding: 0 20px 0 0;
     box-sizing: border-box;
@@ -3509,6 +3602,11 @@ ul.events-list .btn-arrow {
   }
 }
 @media (max-width: 600px) {
+  iframe,
+  embed,
+  object {
+    height: 270px;
+  }
   header.pushed:not(.scrolled) #logo-institut-avignon .txt-logo {
     display: none;
   }
@@ -3560,6 +3658,11 @@ ul.events-list .btn-arrow {
   }
 }
 @media (max-width: 430px) {
+  iframe,
+  embed,
+  object {
+    height: 200px;
+  }
   /* @group Alumni */
   #bloc-contribute {
     padding: 180px 0 45px 0;
@@ -3569,7 +3672,7 @@ ul.events-list .btn-arrow {
   }
   #bloc-contribute #img-bloc-contribute ul#images-contribute li {
     height: 50%;
-    width: 33.333333333%;
+    width: 33.3%;
   }
   /* @end */
   #bloc-faculty-home ul#links-faculty li {
@@ -3592,37 +3695,6 @@ ul.events-list .btn-arrow {
     margin: 0;
   }
 }
-/* @group Non semantic Boilerplate */
-/* remplacement image */
-.ir {
-  background-color: transparent;
-  border: 0;
-  overflow: hidden;
-  /* IE 6/7 fallback */
-  *text-indent: -9999px;
-}
-.ir:before {
-  content: "";
-  display: block;
-  width: 0;
-  height: 100%;
-}
-/* masqué */
-.hidden {
-  display: none !important;
-}
-/* clearfix */
-.clearfix:before,
-.clearfix:after {
-  content: " ";
-  /* 1 */
-  display: table;
-  /* 2 */
-}
-.clearfix:after {
-  clear: both;
-}
-/* @end */
 /* ==|== print styles =======================================================
    ========================================================================== */
 @media print {

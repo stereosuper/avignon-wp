@@ -27,12 +27,12 @@ window.requestAnimFrame = (function(){
 			function(callback){ window.setTimeout(callback, 1000/60); };
 })();
 
-filterInt = function(value){
+/*filterInt = function(value){
 	value.replace('px','');
   	if(/^(\-|\+)?([0-9]+|Infinity)$/.test(value)) 
   		return Number(value);
   	return 0;
-}
+}*/
 
 
 
@@ -81,7 +81,7 @@ function scrollPage(){
 	myScroll = $(document).scrollTop();
 
 	fixedElements();
-	
+
 	if($('#bg-top').length)
 		parallax();
 
@@ -125,7 +125,7 @@ $(function(){
 		});
 
 		mask.on("click", function(e){
-			closeMenu();
+			openCloseMenu();
 			e.preventDefault();
 		});
 
