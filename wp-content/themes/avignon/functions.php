@@ -1056,7 +1056,7 @@ add_action( 'gform_after_submission_' . AVIGNON_HEALTH_EVALUATION_UPLOAD_FORM_ID
 function avignon_applicant_updated( $post_id )
 {
     $prev_status = get_field( 'applicant_status' );
-    $next_status = $_POST['field_55e86af1e004f'];
+    $next_status = $_POST['fields']['field_55e86af1e004f'];
 
     if ( $prev_status != $next_status ) {
         switch ( $status ) {
