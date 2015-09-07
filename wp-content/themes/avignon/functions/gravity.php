@@ -119,6 +119,51 @@ function avignon_markup_applicant_mandatory( $field_container )
 }
 add_filter( 'gform_field_container_' . AVIGNON_APPLY_FORM_ID . '_23', 'avignon_markup_applicant_mandatory' );
 
+/**
+ * Markup pour le début de la partie "Academic".
+ *
+ * @param  string $field_container
+ * @return string
+ */
+function avignon_markup_academic_start( $field_container )
+{
+    if ( ! is_admin() ) {
+        $field_container = '<li><ul>' . $field_container;
+    }
+    return $field_container;
+}
+add_filter( 'gform_field_container_' . AVIGNON_APPLY_FORM_ID . '_25', 'avignon_markup_academic_start' );
+
+/**
+ * Markup pour le début de la partie "Academic".
+ *
+ * @param  string $field_container
+ * @return string
+ */
+function avignon_markup_academic_infos( $field_container )
+{
+    if ( ! is_admin() ) {
+        $field_container = '</ul><ul>' . $field_container;
+    }
+    return $field_container;
+}
+add_filter( 'gform_field_container_' . AVIGNON_APPLY_FORM_ID . '_26', 'avignon_markup_academic_infos' );
+
+/**
+ * Markup pour le début de la partie "Academic".
+ *
+ * @param  string $field_container
+ * @return string
+ */
+function avignon_markup_academic_mandatory( $field_container )
+{
+    if ( ! is_admin() ) {
+        $field_container = '</ul></li>' . $field_container;
+    }
+    return $field_container;
+}
+add_filter( 'gform_field_container_' . AVIGNON_APPLY_FORM_ID . '_34', 'avignon_markup_academic_mandatory' );
+
 
 
 
