@@ -11,7 +11,7 @@ define( 'AVIGNON_HEALTH_EVALUATION_UPLOAD_PAGE_ID', 351 );
 function avignon_ss_label( $field_content, $field, $value = null, $num = 0, $form_id = null )
 {
     if ( $field->formId == AVIGNON_APPLY_FORM_ID && $field->id == 6 ) {
-        $field_content = preg_replace("@(<label class='gfield_label')(.*)(<span class='gfield_required'>*</span></label>)@", "$1$2<span class='legend'>(encrypted)</span>$3", $field_content);
+        $field_content = preg_replace("@(<label class='gfield_label')(.*)(<span class='gfield_required'>)@", "$1$2<span class='legend'>(encrypted)</span>$3", $field_content);
     }
     return $field_content;
 }
