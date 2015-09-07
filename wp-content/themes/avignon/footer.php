@@ -1,5 +1,7 @@
 		<footer role="contentinfo">
-			<div id='motif'></div>
+			<div id='motif'>
+				<?php if(get_field('displayFooterTop')) dynamic_sidebar('footer-top'); ?>
+			</div>
 			
 			<div class='container'>
 

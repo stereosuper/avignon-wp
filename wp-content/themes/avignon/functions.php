@@ -7,7 +7,7 @@ define( 'AVIGNON_VERSION', 1.0 );
 /*-----------------------------------------------------------------------------------*/
 // Theme support
 add_theme_support( 'html5', array('comment-list', 'comment-form', 'search-form', 'gallery', 'caption', 'widgets') );
-add_theme_support( 'post-thumbnails', array( 'post', 'teachers', 'page', 'board-members' ));
+add_theme_support( 'post-thumbnails' );
 
 // Feed
 add_theme_support( 'automatic-feed-links' );
@@ -77,7 +77,17 @@ add_filter( 'wp_nav_menu_objects', 'sub_menu', 10, 2 );
 /*-----------------------------------------------------------------------------------*/
 /* Sidebars
 /*-----------------------------------------------------------------------------------*/
-function avignon_register_sidebars() {
+function avignon_register_sidebars(){
+    register_sidebar(array(
+        'id' => 'footer-top',
+        'name' => 'Footer - Top',
+        'description' => 'Set here your custom text above the footer',
+        'before_widget' => '',
+        'after_widget' => '',
+        'before_title' => '',
+        'after_title' => '',
+        'empty_title'=> ''
+    ));
 	register_sidebar(array(
 		'id' => 'footer-social',
 		'name' => 'Footer - Social',
@@ -291,6 +301,42 @@ class Logo_Widget extends WP_Widget{
     }
 }
 register_widget('Logo_Widget');
+
+// widget texte
+class Text_Widget extends WP_Widget{
+    function Text_Widget() {
+        parent::__construct(false, 'Avignon - Custom text');
+    }
+    function form($instance){
+        $title = esc_attr($instance['title']);
+        $text = esc_attr($instance['text']);
+        $link = esc_attr($instance['link']);
+        $btn = esc_attr($instance['btn']);
+        ?>
+                <p><label for="<?php echo $this->get_field_id('title'); ?>">Title :</label> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" value="<?php echo $title; ?>" /></p>
+                <p><label for="<?php echo $this->get_field_id('text'); ?>">Text :</label> <textarea class="widefat" id="<?php echo $this->get_field_id('text'); ?>" name="<?php echo $this->get_field_name('text'); ?>" style="height:100px;"><?php echo $text; ?></textarea></p>
+                <p><label for="<?php echo $this->get_field_id('link'); ?>">Link :</label> <input class="widefat" id="<?php echo $this->get_field_id('link'); ?>" name="<?php echo $this->get_field_name('link'); ?>" value="<?php echo $link; ?>" /></p>
+                <p><label for="<?php echo $this->get_field_id('btn'); ?>">Button text :</label> <input class="widefat" id="<?php echo $this->get_field_id('btn'); ?>" name="<?php echo $this->get_field_name('btn'); ?>" value="<?php echo $btn; ?>" /></p>
+        <?php
+    }
+    function update($new_instance, $old_instance){
+        return $new_instance;
+    }
+    function widget($args, $instance){ ?>
+        <div class='container'>
+        <?php if($instance['title'] != ''){ ?>
+            <h2><?php echo $instance['title']; ?></h2>
+        <?php } ?>
+        <?php if($instance['text'] != ''){ ?>
+            <p><?php echo $instance['text']; ?></p>
+        <?php } ?>
+        <?php if($instance['link'] != '' && $instance['btn'] != ''){ ?>
+            <a href="<?php echo $instance['link']; ?>" class='btn'><?php echo $instance['btn']; ?></a>
+        <?php } ?>
+        </div>
+    <?php }
+}
+register_widget('Text_Widget');
 
 /*-----------------------------------------------------------------------------------*/
 /* Custom Post Types
@@ -551,6 +597,16 @@ include_once( get_template_directory() . '/functions/gravity.php' );
 include_once( get_template_directory() . '/functions/gf-multipage-navigation.php' );
 new GWMultipageNavigation(array('activate_on_last_page' => false));
 
+/*-----------------------------------------------------------------------------------*/
+/* Disable fb comments on custom posts
+/*-----------------------------------------------------------------------------------*/
+function disable_fb_custom( $post_ID, $post ){
+    if( $post->post_type == 'post' ){
+        return;
+    }
+    update_post_meta($post_ID, '_disable_fbc', 'on' );
+}
+add_action( 'save_post', 'disable_fb_custom', 10, 2 );
 
 /*-----------------------------------------------------------------------------------*/
 /* Enqueue Styles and Scripts
