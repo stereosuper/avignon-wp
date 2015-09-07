@@ -209,6 +209,51 @@ function avignon_markup_emergency_mandatory( $field_container )
 }
 add_filter( 'gform_field_container_' . AVIGNON_APPLY_FORM_ID . '_60', 'avignon_markup_emergency_mandatory' );
 
+/**
+ * Markup pour le début de la partie "Reference".
+ *
+ * @param  string $field_container
+ * @return string
+ */
+function avignon_markup_reference_one( $field_container )
+{
+    if ( ! is_admin() ) {
+        $field_container = '<li><ul class="inlineBlock first">' . $field_container;
+    }
+    return $field_container;
+}
+add_filter( 'gform_field_container_' . AVIGNON_APPLY_FORM_ID . '_50', 'avignon_markup_reference_one' );
+
+/**
+ * Markup pour le début de la partie "Reference two".
+ *
+ * @param  string $field_container
+ * @return string
+ */
+function avignon_markup_reference_two( $field_container )
+{
+    if ( ! is_admin() ) {
+        $field_container = '</ul><ul class="inlineBlock">' . $field_container;
+    }
+    return $field_container;
+}
+add_filter( 'gform_field_container_' . AVIGNON_APPLY_FORM_ID . '_50', 'avignon_markup_reference_two' );
+
+/**
+ * Markup pour le début de la partie "Reference mandatory".
+ *
+ * @param  string $field_container
+ * @return string
+ */
+function avignon_markup_reference_mandatory( $field_container )
+{
+    if ( ! is_admin() ) {
+        $field_container = '</ul></li>' . $field_container;
+    }
+    return $field_container;
+}
+add_filter( 'gform_field_container_' . AVIGNON_APPLY_FORM_ID . '_61', 'avignon_markup_reference_mandatory' );
+
 
 
 
