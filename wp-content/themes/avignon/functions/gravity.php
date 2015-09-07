@@ -57,7 +57,7 @@ function avignon_markup_applicant_email( $field_container )
     }
     return $field_container;
 }
-add_filter( 'gform_field_container_' . AVIGNON_APPLY_FORM_ID . '_7', 'avignon_markup_applicant_email' );
+add_filter( 'gform_field_container_' . AVIGNON_APPLY_FORM_ID . '_9', 'avignon_markup_applicant_email' );
 
 /**
  * Markup pour le début de la partie "Applicant photo".
