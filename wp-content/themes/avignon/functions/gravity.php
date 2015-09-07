@@ -117,7 +117,7 @@ function avignon_markup_applicant_mandatory( $field_container )
     }
     return $field_container;
 }
-add_filter( 'gform_field_container_' . AVIGNON_APPLY_FORM_ID . '_70', 'avignon_markup_applicant_mandatory' );
+add_filter( 'gform_field_container_' . AVIGNON_APPLY_FORM_ID . '_23', 'avignon_markup_applicant_mandatory' );
 
 
 
