@@ -8,7 +8,19 @@ define( 'AVIGNON_RECOMMENDATION_PAGE_ID', 316 );
 define( 'AVIGNON_HEALTH_EVALUATION_PAGE_ID', 349 );
 define( 'AVIGNON_HEALTH_EVALUATION_UPLOAD_PAGE_ID', 351 );
 
-function avignon_ss_label( $field_content, $field, $value = null, $num = 0, $form_id = null )
+/**
+ * Possibilité de cacher les labels des champs Gravity Forms
+ */
+add_filter( 'gform_enable_field_label_visibility_settings', '__return_true' );
+
+/**
+ * Ajoute la mention "(encrypted)" au champs SS#.
+ *
+ * @param  string  $field_content
+ * @param  object  $field
+ * @return string
+ */
+function avignon_ss_label( $field_content, $field )
 {
     if ( $field->formId == AVIGNON_APPLY_FORM_ID && $field->id == 6 ) {
         $field_content = preg_replace("@(<label class='gfield_label')(.*)(<span class='gfield_required'>)@", "$1$2<span class='legend'>(encrypted)</span>$3", $field_content);
@@ -16,6 +28,99 @@ function avignon_ss_label( $field_content, $field, $value = null, $num = 0, $for
     return $field_content;
 }
 add_filter( 'gform_field_content', 'avignon_ss_label', 10, 2 );
+
+/**
+ * Markup pour le début de la partie "Applicant infos".
+ *
+ * @param  string $field_container
+ * @return string
+ */
+function avignon_markup_applicant_start( $field_container )
+{
+    if ( ! is_admin() ) {
+        $field_container = '<li><ul><li><ul>' . $field_container;
+    }
+    return $field_container;
+}
+add_filter( 'gform_field_container_' . AVIGNON_APPLY_FORM_ID . '_3', 'avignon_markup_applicant_start' );
+
+/**
+ * Markup pour le début de la partie "Applicant email".
+ *
+ * @param  string $field_container
+ * @return string
+ */
+function avignon_markup_applicant_email( $field_container )
+{
+    if ( ! is_admin() ) {
+        $field_container = '</ul><ul class="inlineBlock big">' . $field_container;
+    }
+    return $field_container;
+}
+add_filter( 'gform_field_container_' . AVIGNON_APPLY_FORM_ID . '_7', 'avignon_markup_applicant_email' );
+
+/**
+ * Markup pour le début de la partie "Applicant photo".
+ *
+ * @param  string $field_container
+ * @return string
+ */
+function avignon_markup_applicant_photo( $field_container )
+{
+    if ( ! is_admin() ) {
+        $field_container = '</ul><ul class="inlineBlock small">' . $field_container;
+    }
+    return $field_container;
+}
+add_filter( 'gform_field_container_' . AVIGNON_APPLY_FORM_ID . '_13', 'avignon_markup_applicant_photo' );
+
+/**
+ * Markup pour le début de la partie "Applicant current address".
+ *
+ * @param  string $field_container
+ * @return string
+ */
+function avignon_markup_applicant_current_address( $field_container )
+{
+    if ( ! is_admin() ) {
+        $field_container = '</ul></li><li><ul class="inlineBlock first">' . $field_container;
+    }
+    return $field_container;
+}
+add_filter( 'gform_field_container_' . AVIGNON_APPLY_FORM_ID . '_16', 'avignon_markup_applicant_current_address' );
+
+/**
+ * Markup pour le début de la partie "Applicant permanent address".
+ *
+ * @param  string $field_container
+ * @return string
+ */
+function avignon_markup_applicant_permanent_address( $field_container )
+{
+    if ( ! is_admin() ) {
+        $field_container = '</ul><ul class="inlineBlock">' . $field_container;
+    }
+    return $field_container;
+}
+add_filter( 'gform_field_container_' . AVIGNON_APPLY_FORM_ID . '_70', 'avignon_markup_applicant_permanent_address' );
+
+/**
+ * Markup pour le début de la partie "Applicant mandatory".
+ *
+ * @param  string $field_container
+ * @return string
+ */
+function avignon_markup_applicant_mandatory( $field_container )
+{
+    if ( ! is_admin() ) {
+        $field_container = '</ul></li>' . $field_container . '</ul></li>';
+    }
+    return $field_container;
+}
+add_filter( 'gform_field_container_' . AVIGNON_APPLY_FORM_ID . '_70', 'avignon_markup_applicant_mandatory' );
+
+
+
 
 /**
  * Génère automatiquement un jeton d'authentification pour le formulaire d'application.
