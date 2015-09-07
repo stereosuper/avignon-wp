@@ -8,6 +8,15 @@ define( 'AVIGNON_RECOMMENDATION_PAGE_ID', 316 );
 define( 'AVIGNON_HEALTH_EVALUATION_PAGE_ID', 349 );
 define( 'AVIGNON_HEALTH_EVALUATION_UPLOAD_PAGE_ID', 351 );
 
+function avignon_ss_label( $field_content, $field, $value = null, $num = 0, $form_id = null )
+{
+    if ( $field->formId == AVIGNON_APPLY_FORM_ID && $field->id == 6 ) {
+        $field_content = preg_replace("@(<label class='gfield_label')(.*)(<span class='gfield_required'>*</span></label>)@", "$1$2<span class='legend'>(encrypted)</span>$3", $field_content);
+    }
+    return $field_content;
+}
+add_filter( 'gform_field_content', 'avignon_ss_label', 10, 2 );
+
 /**
  * Génère automatiquement un jeton d'authentification pour le formulaire d'application.
  *
