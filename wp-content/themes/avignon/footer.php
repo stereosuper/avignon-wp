@@ -1,7 +1,30 @@
 		<footer role="contentinfo">
-			<div id='motif'>
-				<?php if(get_field('displayFooterTop')) dynamic_sidebar('footer-top'); ?>
-			</div>
+			<?php if(get_field('displayFooterTop')){ ?>
+			<?php $alumni = new WP_Query(array( 'post_type' => 'page', 'meta_key' => '_wp_page_template', 'meta_value' => 'alumni.php')); ?>
+				<?php if(is_page_template('alumni.php') || $post->post_parent == $alumni->post->ID || is_home() || is_singular('post')){ ?>
+					<div class='footer-alumni'>
+						<div class='container'>
+							<?php get_template_part( 'includes/bloc-alumni' ); ?>
+						</div>
+					</div>
+				<?php }else{ ?>
+				<div id='motif'>
+					<div class='container'>
+						<?php if(get_field('admissionsTitle', 'options')){ ?>
+						    <h2><?php the_field('admissionsTitle', 'options'); ?></h2>
+						<?php } if(get_field('admissionsText', 'options')){ ?>
+						    <p><?php the_field('admissionsText', 'options'); ?></p>
+						<?php } if(get_field('admissionsBtn', 'options') && get_field('admissionsUrl', 'options')){ ?>
+						    <a href="<?php the_field('admissionsUrl', 'options'); ?>" class='btn'>
+						    	<?php the_field('admissionsBtn', 'options'); ?>
+						    </a>
+						<?php } ?>
+					</div>
+				</div>
+				<?php } ?>
+			<?php }else{ ?>
+				<div id='motif'></div>
+			<?php } ?>
 			
 			<div class='container'>
 

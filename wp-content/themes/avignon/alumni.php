@@ -1,4 +1,9 @@
-<?php get_header(); ?>
+<?php 
+/*
+Template Name: Alumni
+*/
+
+get_header(); ?>
 
 	<div id="mask"></div>
 	<div id="bloc-top"><div id="bg-top"></div></div>
@@ -11,28 +16,16 @@
 
 				<?php while ( have_posts() ) : the_post(); ?>
 
-					<article>
-							
-						<h1><?php the_title(); ?></h1>
-						<div class="post-meta">
-							<span class='date'><?php echo get_the_date(); ?></span>
-						</div>
-								
-						<?php the_content(); ?>
-								
-					</article>
+					<h1><?php the_title(); ?></h1>
+					<?php the_content(); ?>
 
 				<?php endwhile; ?>
-
-
+			
 			<?php else : ?>
 						
-				<article>
-					<h1>404</h1>
-				</article>
+				<h1>404</h1>
 
 			<?php endif; ?>
-
 
 		</div>
 

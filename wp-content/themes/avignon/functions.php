@@ -47,6 +47,7 @@ register_nav_menus(
         'primary' => 'Primary Menu',
         'secondary-study' => 'Sidebar Menu - Study',
         'secondary-live' => 'Sidebar Menu - Live',
+        'secondary-alumni' => 'Sidebar Menu - Alumni',
         'footer-study' => 'Footer Menu - Study',
         'footer-live' => 'Footer Menu - Live'
     )
@@ -79,16 +80,6 @@ add_filter( 'wp_nav_menu_objects', 'sub_menu', 10, 2 );
 /*-----------------------------------------------------------------------------------*/
 function avignon_register_sidebars(){
     register_sidebar(array(
-        'id' => 'footer-top',
-        'name' => 'Footer - Top',
-        'description' => 'Set here your custom text above the footer',
-        'before_widget' => '',
-        'after_widget' => '',
-        'before_title' => '',
-        'after_title' => '',
-        'empty_title'=> ''
-    ));
-	register_sidebar(array(
 		'id' => 'footer-social',
 		'name' => 'Footer - Social',
 		'description' => 'Set here your social networks for the footer',
@@ -302,42 +293,6 @@ class Logo_Widget extends WP_Widget{
 }
 register_widget('Logo_Widget');
 
-// widget texte
-class Text_Widget extends WP_Widget{
-    function Text_Widget() {
-        parent::__construct(false, 'Avignon - Custom text');
-    }
-    function form($instance){
-        $title = esc_attr($instance['title']);
-        $text = esc_attr($instance['text']);
-        $link = esc_attr($instance['link']);
-        $btn = esc_attr($instance['btn']);
-        ?>
-                <p><label for="<?php echo $this->get_field_id('title'); ?>">Title :</label> <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" value="<?php echo $title; ?>" /></p>
-                <p><label for="<?php echo $this->get_field_id('text'); ?>">Text :</label> <textarea class="widefat" id="<?php echo $this->get_field_id('text'); ?>" name="<?php echo $this->get_field_name('text'); ?>" style="height:100px;"><?php echo $text; ?></textarea></p>
-                <p><label for="<?php echo $this->get_field_id('link'); ?>">Link :</label> <input class="widefat" id="<?php echo $this->get_field_id('link'); ?>" name="<?php echo $this->get_field_name('link'); ?>" value="<?php echo $link; ?>" /></p>
-                <p><label for="<?php echo $this->get_field_id('btn'); ?>">Button text :</label> <input class="widefat" id="<?php echo $this->get_field_id('btn'); ?>" name="<?php echo $this->get_field_name('btn'); ?>" value="<?php echo $btn; ?>" /></p>
-        <?php
-    }
-    function update($new_instance, $old_instance){
-        return $new_instance;
-    }
-    function widget($args, $instance){ ?>
-        <div class='container'>
-        <?php if($instance['title'] != ''){ ?>
-            <h2><?php echo $instance['title']; ?></h2>
-        <?php } ?>
-        <?php if($instance['text'] != ''){ ?>
-            <p><?php echo $instance['text']; ?></p>
-        <?php } ?>
-        <?php if($instance['link'] != '' && $instance['btn'] != ''){ ?>
-            <a href="<?php echo $instance['link']; ?>" class='btn'><?php echo $instance['btn']; ?></a>
-        <?php } ?>
-        </div>
-    <?php }
-}
-register_widget('Text_Widget');
-
 /*-----------------------------------------------------------------------------------*/
 /* Custom Post Types
 /*-----------------------------------------------------------------------------------*/
@@ -494,6 +449,48 @@ function avignon_sizes_admin( $sizes ) {
 add_filter( 'image_size_names_choose', 'avignon_sizes_admin' );
 
 /*-----------------------------------------------------------------------------------*/
+/* Custom excerpt
+/*-----------------------------------------------------------------------------------*/
+function custom_wp_trim_excerpt($wpse_excerpt) {
+    $raw_excerpt = $wpse_excerpt;
+    
+    if( '' == $wpse_excerpt ){
+        $wpse_excerpt = get_the_content('');
+        $wpse_excerpt = strip_shortcodes( $wpse_excerpt );
+        $wpse_excerpt = apply_filters('the_content', $wpse_excerpt);
+        $wpse_excerpt = str_replace(']]>', ']]&gt;', $wpse_excerpt);
+        $wpse_excerpt = strip_tags($wpse_excerpt, '<em>,<i>,<strong>,<b>');
+
+        $excerpt_length = apply_filters('excerpt_length', 14); 
+        $tokens = array();
+        $excerptOutput = '';
+        $count = 0;
+
+        preg_match_all('/(<[^>]+>|[^<>\s]+)\s*/u', $wpse_excerpt, $tokens);
+
+        foreach($tokens[0] as $token){ 
+
+            if($count >= $excerpt_length /*&& preg_match('/[\,\;\?\.\!]\s*$/uS', $token)*/){ //pour arreter l'extrait a un point ou une virgule, etc
+                $excerptOutput .= trim($token);
+                break;
+            }
+
+            $count++;
+            $excerptOutput .= $token;
+        }
+
+        $wpse_excerpt = trim(force_balance_tags($excerptOutput));
+        $wpse_excerpt .= '...';
+
+        return $wpse_excerpt;   
+
+    }
+    return apply_filters('custom_wp_trim_excerpt', $wpse_excerpt, $raw_excerpt);
+}
+remove_filter('get_the_excerpt', 'wp_trim_excerpt');
+add_filter('get_the_excerpt', 'custom_wp_trim_excerpt'); 
+
+/*-----------------------------------------------------------------------------------*/
 /* Admin
 /*-----------------------------------------------------------------------------------*/
 // Remove default link around images
@@ -581,6 +578,17 @@ function add_right_now_custom_post() {
     }
 }
 add_action('dashboard_glance_items', 'add_right_now_custom_post');
+
+// Page d'options
+function custom_menu_order( $menu_ord ){  
+    if(!$menu_ord) return true;  
+    $menu = 'acf-options';
+    $menu_ord = array_diff($menu_ord, array( $menu ));
+    array_splice( $menu_ord, 1, 0, array( $menu ) );
+    return $menu_ord;
+}  
+add_filter('custom_menu_order', 'custom_menu_order');
+add_filter('menu_order', 'custom_menu_order');
 
 /*-----------------------------------------------------------------------------------*/
 /* Calendar - Generate .ics file (events and activities)
