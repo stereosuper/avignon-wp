@@ -1941,6 +1941,9 @@ nav ul li:before {
 #bloc-twitter-home a.btn {
   margin: 15px 0 0 0;
 }
+#twitter-widget-0 {
+  max-height: 250px;
+}
 #bloc-activities-home {
   width: 380px;
   height: auto;
@@ -1964,9 +1967,6 @@ nav ul li:before {
   padding: 0;
 }
 #bloc-activities-home ul.activities {
-  display: block;
-  width: 100%;
-  height: auto;
   margin: 0 0 15px 0;
   padding: 0;
 }
@@ -1980,11 +1980,14 @@ nav ul li:before {
 #bloc-activities-home ul.activities li:before {
   display: none;
 }
-#bloc-activities-home ul.activities li .activities-date {
+#bloc-activities-home ul.activities li div {
   display: table-cell;
-  vertical-align: top;
+  vertical-align: middle;
+  line-height: 1em;
+  box-sizing: border-box;
+}
+#bloc-activities-home ul.activities li .activities-date {
   width: 32px;
-  height: auto;
   font-family: 'klinic_slabbold', sans-serif;
   font-weight: normal;
   font-size: 0.875em;
@@ -1994,20 +1997,15 @@ nav ul li:before {
   text-align: center;
   text-transform: uppercase;
   color: #ffffff;
-  line-height: 1em;
-  box-sizing: border-box;
 }
 #bloc-activities-home ul.activities li .activities-date span {
   display: block;
-  padding: 2px 5px 5px 5px;
+  padding: 2px 5px 5px;
   background-color: #942712;
 }
 #bloc-activities-home ul.activities li .activities-title {
-  display: table-cell;
-  vertical-align: top;
-  padding: 7px 0 0 10px;
+  padding: 5px 0 5px 10px;
   margin: 0;
-  box-sizing: border-box;
 }
 /* @group Facebook responsive*/
 #bloc-facebook-responsive {
@@ -2474,6 +2472,7 @@ footer {
 }
 .page-template-apply .main section {
   width: 470px;
+  max-width: 100%;
 }
 .page-template-apply .main section h2 {
   margin: 40px 0 25px;
@@ -2691,7 +2690,7 @@ footer {
   color: #942712;
 }
 .info + .address {
-  margin: 60px 0 0;
+  margin: 30px 0 0;
 }
 .address {
   font-size: .88em;
@@ -3117,11 +3116,13 @@ p.address-teacher {
   margin-bottom: -20px;
 }
 .blog .courses-list .date,
-.archive .courses-list .date {
+.archive .courses-list .date,
+.page-template-alumni .courses-list .date {
   display: block;
 }
 .blog .courses-list img,
-.archive .courses-list img {
+.archive .courses-list img,
+.page-template-alumni .courses-list img {
   max-width: 120px;
   height: auto;
   position: absolute;
@@ -3132,19 +3133,24 @@ p.address-teacher {
 }
 .blog .courses-list .hasImg .date,
 .archive .courses-list .hasImg .date,
+.page-template-alumni .courses-list .hasImg .date,
 .blog .courses-list .hasImg .title,
 .archive .courses-list .hasImg .title,
+.page-template-alumni .courses-list .hasImg .title,
 .blog .courses-list .hasImg .txt,
-.archive .courses-list .hasImg .txt {
+.archive .courses-list .hasImg .txt,
+.page-template-alumni .courses-list .hasImg .txt {
   padding-left: 135px;
 }
 .blog .courses-list .title,
-.archive .courses-list .title {
+.archive .courses-list .title,
+.page-template-alumni .courses-list .title {
   display: block;
   line-height: 1.2em;
 }
 .blog .courses-list .txt,
-.archive .courses-list .txt {
+.archive .courses-list .txt,
+.page-template-alumni .courses-list .txt {
   display: block;
   font-size: .75em;
   line-height: 1.5em;
@@ -3249,6 +3255,57 @@ p.address-teacher {
 }
 .footer-alumni #bloc-contribute {
   padding: 0;
+  margin-top: 0;
+}
+.text-alumni {
+  display: inline-block;
+  font-size: .9em;
+  width: 40.79%;
+  margin: 0 3.95% 0 0;
+}
+.text-alumni p {
+  padding-right: 0;
+}
+.img-alumni {
+  display: inline-block;
+  vertical-align: top;
+  width: 55.26%;
+}
+.img-alumni img {
+  height: auto;
+  width: auto !important;
+  max-width: 100%;
+  margin: 0 !important;
+}
+.nav-alumni {
+  margin: 20px 0 0;
+  padding: 0 0 0 80px;
+}
+.nav-alumni .btn {
+  vertical-align: bottom;
+}
+.block-xp {
+  width: 300px;
+  max-width: 100%;
+  display: inline-block;
+  margin: 0 0 0 65px;
+  height: 115px;
+  border: 2px solid #dfdfdf;
+  text-align: center;
+  box-sizing: border-box;
+  padding: 15px 50px 20px;
+}
+.block-xp em {
+  display: block;
+  margin: 0 0 15px;
+}
+.sitemap ul {
+  padding: 0 80px 0 40px;
+  margin: 10px 0 20px;
+  font-size: 0.9em;
+}
+.sitemap ul li:before {
+  font-size: 45px;
 }
 /* @end */
 /* @group Non semantic Boilerplate */
@@ -3444,7 +3501,8 @@ p.address-teacher {
   .arianne {
     background: #fff;
   }
-  .second-menu .menu {
+  .second-menu .menu,
+  .second-menu .btn.small {
     display: none;
   }
   .main aside:not(.aside-course) {
@@ -3472,6 +3530,13 @@ p.address-teacher {
   }
   .encart .encart-img + p {
     padding-right: 0;
+  }
+  .nav-alumni {
+    padding: 0;
+  }
+  .block-xp {
+    display: block;
+    margin: 20px 0 0;
   }
 }
 @media (max-width: 850px) {
@@ -3664,10 +3729,10 @@ p.address-teacher {
   }
   #bloc-contribute {
     display: block;
-    padding: 100px 0 45px 0;
+    padding: 100px 0 45px;
     position: relative;
     width: 100%;
-    margin: 70px 0 0 0;
+    margin: 70px 0 0;
   }
   .footer-alumni #bloc-contribute {
     padding: 100px 0 0;
@@ -3829,6 +3894,13 @@ p.address-teacher {
   .nav-course:focus.next {
     right: -30px;
   }
+  .text-alumni {
+    width: 100%;
+    margin: 0;
+  }
+  .img-alumni {
+    width: 100%;
+  }
 }
 @media (max-width: 600px) {
   iframe,
@@ -3954,12 +4026,20 @@ p.address-teacher {
   #hamburger-menu.on {
     margin: 0;
   }
-  .blog .courses-list img {
+  .blog .courses-list img,
+  .archive .courses-list img,
+  .page-template-alumni .courses-list img {
     max-width: 90px;
   }
   .blog .courses-list .hasImg .date,
+  .archive .courses-list .hasImg .date,
+  .page-template-alumni .courses-list .hasImg .date,
   .blog .courses-list .hasImg .title,
-  .blog .courses-list .hasImg .txt {
+  .archive .courses-list .hasImg .title,
+  .page-template-alumni .courses-list .hasImg .title,
+  .blog .courses-list .hasImg .txt,
+  .archive .courses-list .hasImg .txt,
+  .page-template-alumni .courses-list .hasImg .txt {
     padding-left: 105px;
   }
 }

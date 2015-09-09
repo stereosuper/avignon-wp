@@ -590,6 +590,20 @@ function custom_menu_order( $menu_ord ){
 add_filter('custom_menu_order', 'custom_menu_order');
 add_filter('menu_order', 'custom_menu_order');
 
+// Remove default WYSIWYG editor in Home
+function hide_editor() {
+    if(isset($_GET['post']) || isset($_POST['post_ID'])){
+        $post_id = $_GET['post'] ? $_GET['post'] : $_POST['post_ID'] ;
+    }
+    if( !isset( $post_id ) ) return;
+    $template_file = get_post_meta($post_id, '_wp_page_template', true);
+    
+    if($template_file == 'front-page.php'){
+        remove_post_type_support('page', 'editor');
+    }
+}
+add_action( 'admin_init', 'hide_editor' );
+
 /*-----------------------------------------------------------------------------------*/
 /* Calendar - Generate .ics file (events and activities)
 /*-----------------------------------------------------------------------------------*/

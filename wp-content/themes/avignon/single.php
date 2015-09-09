@@ -1,7 +1,6 @@
 <?php get_header(); ?>
 
-	<div id="mask"></div>
-	<div id="bloc-top"><div id="bg-top"></div></div>
+	<?php get_template_part( 'includes/header-live' ); ?>
 
 	<div class="bloc-content white-bg" role='main'>
 
@@ -14,7 +13,7 @@
 
 		<div class='container default'>
 
-			<?php get_template_part( 'includes/sidebar-blog' ); ?><section class='main live'>
+			<?php get_template_part( 'includes/sidebar-alumni' ); ?><section class='main live'>
 
 				<article>
 
@@ -32,7 +31,7 @@
 							</div>
 						</div>
 
-						<?php if ( has_post_thumbnail() ) { the_post_thumbnail(); } ?>
+						<?php //if ( has_post_thumbnail() ) { the_post_thumbnail(); } ?>
 									
 						<?php the_content(); ?>
 
@@ -61,9 +60,11 @@
 
 					<?php else : ?>
 
-						<h1 class="h2 bordered">404</h1>
-
-						<p>Post not found</p>
+						<h1 class="h2 bordered">404 - Page not found</h1>
+						<p>
+							We are sorry, the page you're looking for doesn't exist or has been removed.<br/>
+							You can check the <a href='<?php echo site_url(); ?>/sitemap'>sitemap</a> if you're lost!
+						</p>
 
 					<?php endif; ?>
 

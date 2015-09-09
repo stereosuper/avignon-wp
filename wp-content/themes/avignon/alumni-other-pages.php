@@ -1,10 +1,10 @@
 <?php 
 /*
-Template Name: Live pages
+Template Name: Alumni Pages
 */
 
 get_header(); ?>
-	
+
 	<?php get_template_part( 'includes/header-live' ); ?>
 
 	<div class="bloc-content white-bg" role='main'>
@@ -12,25 +12,20 @@ get_header(); ?>
 		<div class='arianne clearfix' data-scroll='arianne'>
 			<div class="container">
 				<a href="<?php echo site_url(); ?>" title="Back to home" class='btn-arrow-back'>Home</a>
-				<a href="<?php echo get_permalink( $post->post_parent ); ?>" title="Go back" class='btn-arrow-back' data-click='back'>Back</a>
 			</div>
 		</div>
 
-		<div class='container'>
-				
-			<?php get_template_part( 'includes/sidebar-live' ); ?><section class='main live'>
+		<div class='container default'>
+
+			<?php get_template_part( 'includes/sidebar-alumni' ); ?><section class='main live'>
 
 				<?php if ( have_posts() ) : the_post(); ?>
 
 					<h1 class="h2 bordered"><?php the_title(); ?></h1>
 					<?php the_content(); ?>
-					
-					<?php the_field('video'); ?>
-					
-					<?php the_field('secondPart'); ?>
 
 				<?php else : ?>
-							
+						
 					<h1 class="h2 bordered">404 - Page not found</h1>
 					<p>
 						We are sorry, the page you're looking for doesn't exist or has been removed.<br/>

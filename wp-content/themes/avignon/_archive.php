@@ -1,7 +1,6 @@
 <?php get_header(); ?>
 	
-	<div id="mask"></div>
-	<div id="bloc-top"><div id="bg-top"></div></div>
+	<?php get_template_part( 'includes/header-live' ); ?>
 
 	<div class="bloc-content white-bg" role='main'>
 
@@ -23,7 +22,7 @@
 				$paged = 1;
 			} ?>
 
-			<?php get_template_part( 'includes/sidebar-blog' ); ?><section class='main live'>
+			<?php get_template_part( 'includes/sidebar-alumni' ); ?><section class='main live'>
 
 				<h1 class="h2 bordered">Blog</h1>
 

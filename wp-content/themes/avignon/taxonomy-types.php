@@ -60,8 +60,7 @@
 
 					</ul>
 
-					<?php previous_posts_link('Next courses'); ?>
-					<?php next_posts_link('Previous courses'); ?>
+					<div class='pagination'><?php echo paginate_links( array('prev_text' => '<span class="icon-left"><span class="hidden">Previous</span></span>', 'next_text' => '<span class="icon-arrow"><span class="hidden">Next</span></span>', 'type' => 'list') ); ?></div>
 	
 				<?php else : ?>
 							

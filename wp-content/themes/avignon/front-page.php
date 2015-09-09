@@ -6,7 +6,15 @@ Template Name: Home
 get_header(); ?>
 	
 	<div id="bloc-top" class="bloc-top-home">
-  		<div id="bg-top"></div>
+		<?php
+			$styleImg = '';
+			if(has_post_thumbnail()){
+				$styleImg = 'style="background-image:url('. wp_get_attachment_url( get_post_thumbnail_id($post->ID) ) .')"';
+			}else if(get_field('studyImg', 'options')){
+				$styleImg = 'style="background-image:url('. get_field('studyImg', 'options') .')"';
+			}
+		?>
+		<div id="bg-top" <?php echo $styleImg; ?>></div>
 
   		<div id="container-bloc-txt-home">
   			<div id="wrapper-bloc-logo-home">
@@ -19,10 +27,12 @@ get_header(); ?>
 			<div id="wrapper-bloc-txt-home">
 				<div id="bloc-txt-home">
 					<h1>
-						<a href="#zone-left-study" id="btn-study">Study</a> <i>&amp;</i> 
-						<a href="#live-top" id="btn-live">Live</a><br /> <span class="txt-h1">in Avignon</span>
+						<a href="#zone-left-study" id="btn-study"><?php the_field('studyTitle'); ?></a> 
+						<i>&amp;</i> 
+						<a href="#live-top" id="btn-live"><?php the_field('liveTitle'); ?></a><br/> 
+						<span class="txt-h1"><?php the_field('title'); ?></span>
 					</h1>
-					<p>A six-week intensive program in French Literature, History, and Theater studies, Founded in 1962 by Michel Guggenheim &amp; René Girard<br /> under the auspices of Bryn Mawr College</p>
+					<p><?php the_field('sub-title'); ?></p>
 				</div>
 	  		</div>
 
@@ -42,10 +52,10 @@ get_header(); ?>
 		  		</div>
 
 				<div id="bloc-txt-zone-left-study">
-					<h2 class="h1">Study</h2>
-					<h3 class="h2">Curriculum</h3>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec pretium ante, sed ultrices eros. Etiam porttitor purus enim, sit amet consectetur sem eget. Donec nec ante, sed ultrices eros. Etiam porttitor purus enim, sit amet sem pellentesque eget. nec ante, sed ultrices eros. Etiam purus, sit amet consectetur sem pellentesque eget.</p>
-					<a href="#" class="btn">All courses</a>
+					<h2 class="h1"><?php the_field('studyTitle'); ?></h2>
+					<h3 class="h2"><?php the_field('curriculumTitle'); ?></h3>
+					<p><?php the_field('curriculumText'); ?></p>
+					<a href="<?php the_field('curriculumUrl'); ?>" class="btn"><?php the_field('curriculumBtn'); ?></a>
 				</div>
 
 		  	</div><div id="zone-right-study">
@@ -58,25 +68,25 @@ get_header(); ?>
 
 				<div id="bloc-txt-zone-right-study">
 					<div id="bloc-apply-home" class="bloc-bg-pattern">
-						<h3 class="h2">Apply</h3>
+						<h3 class="h2"><?php the_field('applyTitle'); ?></h3>
 						<div id="zone-txt-bloc-apply">
 							<div id="zone-txt-left-bloc-apply">
-								<p>Lorem ipsum dolor sit amet, clit. Donec nec prit amet consectetur sem pellentesque eget.</p>
+								<p><?php the_field('applyText'); ?></p>
 							</div>
 							<div id="zone-txt-right-bloc-apply">
-								<a href="#" class="btn btn-grey">Apply</a>
+								<a href="<?php the_field('applyUrl'); ?>" class="btn btn-grey"><?php the_field('applyBtn'); ?></a>
 							</div>
 						</div>
 					</div>
 
 					<div id="bloc-faculty-home">
-						<h3 class="h2">Faculty</h3>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec pretium ante, sed ultrices eros. Etiam porttitor purus enim, sit amet consectetur sem pellentesque eget.</p>
+						<h3 class="h2"><?php the_field('facTitle'); ?></h3>
+						<p><?php the_field('facText'); ?></p>
 						<ul id="links-faculty">
 							<li>
-								<a class="btn-arrow" href="#">See faculty's list</a>
+								<a class="btn-arrow" href="<?php the_field('facUrl1'); ?>"><?php the_field('facBtn1'); ?></a>
 							</li><li>
-								<a class="btn-arrow" href="#">See calendar</a>
+								<a class="btn-arrow" href="<?php the_field('facUrl2'); ?>"><?php the_field('facBtn2'); ?></a>
 							</li>
 						</ul>
 					</div>
@@ -113,10 +123,10 @@ get_header(); ?>
 		  			
 		  			<div id="live-top">
 		  				<div id="bloc-live-home">
-		  					<h2 class="h1">Live</h2>
-		  					<h3 class="h2">Discover Avignon</h3>
-		  					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec pretium ante, sed ultrices eros. Etiam porttitor purus enim, sit amet sempellentesque eget. Donec nec pretium ante, sed ultrices eros. Etiam porttitor purus enim, sit amet consectetur sem pellentesque eget.</p>
-		  					<a href="#" class="btn">Living in Avignon</a>
+		  					<h2 class="h1"><?php the_field('liveTitle'); ?></h2>
+		  					<h3 class="h2"><?php the_field('discoverTitle'); ?></h3>
+		  					<p><?php the_field('discoverText'); ?></p>
+		  					<a href="<?php the_field('discoverUrl'); ?>" class="btn"><?php the_field('discoverBtn'); ?></a>
 		  				</div>
 		  			</div>
 
@@ -124,33 +134,33 @@ get_header(); ?>
 		  				<div id="live-right">
 
 		  					<div id="bloc-activities-home">
-		  						<h3 class="h2">Activities</h3>
-		  						<p>Lorem ipsum dolor sit amet, consectetur adipiretium ante, sed ultrices eros.</p>
-		  						<ul class="activities">
-		  							<li>
-		  								<div class="activities-date">
-		  									<span>13 juin</span>
-		  								</div>
-		  								<div class="activities-title">
-		  									Visite guidée d'Avignon
-		  								</div>
-		  							</li><li>
-		  								<div class="activities-date">
-		  									<span>17 juin</span>
-		  								</div>
-		  								<div class="activities-title">
-		  									Uzès &amp; Pont-du-Gard (canoë)
-		  								</div>
-		  							</li><li>
-		  								<div class="activities-date">
-		  									<span>20 juin</span>
-		  								</div>
-		  								<div class="activities-title">
-		  									Cours de cuisine à <a href="#">La Mirande</a>
-		  								</div>
-		  							</li>
-		  						</ul>
-		  						<a href="#" class="btn">All activities</a>
+		  						<h3 class="h2"><?php the_field('activitiesTitle'); ?></h3>
+		  						<p><?php the_field('activitiesText'); ?></p>
+
+		  						<?php $acts = new WP_Query( array('post_type' => 'activities', 'posts_per_page' => 3, 'meta_query' => array( array( 'key' => 'date2' ) ), 'orderby' => 'meta_value_num', 'order' => 'ASC') ); ?>
+		  						<?php if( $acts->have_posts() ) : ?>
+			  						
+			  						<?php
+				  						function setDate($date){
+				  							$srtDate = strtotime($date);
+				  							$dateOk = date_i18n('F d', $srtDate);
+				  							return $dateOk;
+				  						}
+			  						?>
+
+			  						<ul class="activities">
+
+			  							<?php while( $acts->have_posts() ) : $acts->the_post(); ?><li>
+				  							<div class="activities-date">
+				  								<span><?php echo setDate(get_field('date1')); ?></span>
+				  							</div>
+				  							<div class="activities-title"><?php the_title(); ?></div>
+				  						</li><?php endwhile; ?>
+
+			  						</ul>
+			  					<?php endif; wp_reset_query(); ?>
+
+		  						<a href="<?php the_field('activitiesUrl'); ?>" class="btn"><?php the_field('activitiesBtn'); ?></a>
 		  					</div>
 
 		  				</div><div id="live-left">
@@ -162,57 +172,46 @@ get_header(); ?>
 		  					</div>
 		  					
 		  					<div id="bloc-twitter-home">
-		  						<h5><strong>#livingAvignon</strong> on Twitter</h5>
-		  						<p>Students are tweeting with this hashtag to share their experience</p>
-		  						<a class="twitter-timeline" href="https://twitter.com/hashtag/avignon" data-widget-id="628465755189809152" data-chrome="noheader nofooter noborders">Tweets sur #avignon</a>
-		  						<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
-		  						</script>
-		  						<a href="#" class="btn">All Tweets</a>
+		  						<?php $hashtag = get_field('hashtag'); ?>
+		  						<h5><strong>#<?php echo $hashtag; ?></strong> <?php the_field('twitterTitle'); ?></h5>
+		  						<p><?php the_field('twitterText'); ?></p>
+		  						<a class="twitter-timeline" href="https://twitter.com/hashtag/<?php echo $hashtag; ?>" data-widget-id="628224535872077824" data-chrome="noheader nofooter noborders">
+		  							#<?php echo $hashtag; ?> tweets
+		  						</a>
+		  						<a href="https://twitter.com/hashtag/<?php echo $hashtag; ?>" target='_blank' class="btn"><?php the_field('twitterBtn'); ?></a>
+		  						<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';
+		  						if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";
+		  						fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 		  					</div>
 		  				</div>
 		  			</div>
 		  			
 		  			<div id="bloc-alumni">
-		  				<h3 class="h2">Avignon Institute Alumni</h3>
+		  				<h3 class="h2"><?php the_field('alumniTitle'); ?></h3>
 		  				<div id="bloc-alumni-stories">
-		  					<h4>Blog : Alumni's stories</h4>
-		  					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec pretium ante, sed ultrices eros. Etiam Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec pretium ante, sed ultrices eros.</p>
-		  					<a href="#" class="btn btn-grey btn-full-width">Share your experience</a>
-		  					<p>You wants to share your own experience ? <a class="btn-arrow btn-white" href="#">Get involved</a></p>
+		  					<h4><?php the_field('blogTitle'); ?></h4>
+		  					<p><?php the_field('blogText'); ?></p>
+		  					<a href="<?php the_field('blogUrl', 'options'); ?>" class="btn btn-grey btn-full-width"><?php the_field('blogBtn'); ?></a>
+		  					<p><?php the_field('blogText2'); ?>&nbsp;&nbsp;<a class="btn-arrow btn-white" href="<?php the_field('donateUrl', 'options'); ?>"><?php the_field('blogBtn2'); ?></a></p>
 		  				</div><div id="bloc-alumni-fb">
-		  					<h4>Join our community on Facebook</h4>
+		  					<?php $fbUrl = get_field('fbUrl'); ?>
+		  					<h4><?php the_field('fbTitle'); ?></h4>
 		  					<div class="imgLiquidFill" id="bg-img-facebook"><img src="<?php echo get_template_directory_uri(); ?>/img/bg-facebook.jpg"></div>
-		  					<div class="fb-page" data-href="https://www.facebook.com/pages/Bryn-Mawr-College-Institut-dEtudes-Fran%C3%A7aises-dAvignon/99327867676" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="true" data-show-posts="false"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/pages/Bryn-Mawr-College-Institut-dEtudes-Fran%C3%A7aises-dAvignon/99327867676"><a href="https://www.facebook.com/pages/Bryn-Mawr-College-Institut-dEtudes-Fran%C3%A7aises-dAvignon/99327867676">Bryn Mawr College/ Institut d&#039;Etudes Françaises d&#039;Avignon</a></blockquote></div></div>
+		  					<div class="fb-page" data-href="https://www.facebook.com/pages/Bryn-Mawr-College-Institut-dEtudes-Fran%C3%A7aises-dAvignon/99327867676" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="true" data-show-posts="false">
+		  						<div class="fb-xfbml-parse-ignore">
+		  							<blockquote cite="<?php echo $fbUrl; ?>">
+		  								<a href="<?php echo $fbUrl; ?>" target='_blank'>
+		  									<?php the_field('fbText'); ?>
+		  								</a>
+		  							</blockquote>
+		  						</div>
+		  					</div>
 		  				</div>
 		  				
-		  				<div id="bloc-contribute">
-		  					<div id="content-bloc-contribute">
-		  						<h3 class="h2">Contribute</h3>
-		  						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec pretium ante, sed ultrices eros. Etiam Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec pretium ante, sed ultrices eros. Etiam </p>
-		  						<a href="#" class="btn btn-grey-2">support the Institut</a>
-		  					</div>
-		  					
-		  					<div id="img-bloc-contribute">
-		  						<ul id="images-contribute">
-		  							<li class="imgLiquidFill">
-		  								<img src="<?php echo get_template_directory_uri(); ?>/img/contribute/contribute-1.jpg" alt="">
-		  							</li><li class="imgLiquidFill">
-		  								<img src="<?php echo get_template_directory_uri(); ?>/img/contribute/contribute-2.jpg" alt="">
-		  							</li><li class="imgLiquidFill">
-		  								<img src="<?php echo get_template_directory_uri(); ?>/img/contribute/contribute-3.jpg" alt="">
-		  							</li><li class="imgLiquidFill">
-		  								<img src="<?php echo get_template_directory_uri(); ?>/img/contribute/contribute-4.jpg" alt="">
-		  							</li><li class="imgLiquidFill">
-		  								<img src="<?php echo get_template_directory_uri(); ?>/img/contribute/contribute-5.jpg" alt="">
-		  							</li><li class="imgLiquidFill">
-		  								<img src="<?php echo get_template_directory_uri(); ?>/img/contribute/contribute-6.jpg" alt="">
-		  							</li>
-		  						</ul>
-		  					</div>
-		  				</div>
+		  				<?php get_template_part( 'includes/bloc-alumni' ); ?>
 		  				
 		  				<div id="bloc-facebook-responsive">
-		  					<h4>Join our community on Facebook</h4>
+		  					<h4><?php the_field('fbTitle'); ?></h4>
 		  					<div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button" data-action="like" data-show-faces="true" data-share="false"></div>
 		  				</div>
 		  			</div>
@@ -222,7 +221,11 @@ get_header(); ?>
 				
 		<?php else : ?>
 						
-			<h1>404</h1>
+			<h1>404 - Page not found</h1>
+			<p>
+				We are sorry, the page you're looking for doesn't exist or has been removed.<br/>
+				You can check the <a href='<?php echo site_url(); ?>/sitemap'>sitemap</a> if you're lost!
+			</p>
 
 		<?php endif; ?>
 
