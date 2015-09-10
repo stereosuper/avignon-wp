@@ -1,6 +1,6 @@
 <?php 
 /*
-Template Name: Alumni Pages
+Template Name: Alumni Forms
 */
 
 get_header(); ?>
@@ -17,12 +17,16 @@ get_header(); ?>
 
 		<div class='container default'>
 
-			<?php get_template_part( 'includes/sidebar-alumni' ); ?><section class='main live'>
+			<?php get_template_part( 'includes/sidebar-alumni' ); ?><section class='main'>
 
 				<?php if ( have_posts() ) : the_post(); ?>
 
 					<h1 class="h2 bordered"><?php the_title(); ?></h1>
 					<?php the_content(); ?>
+
+					<noscript>
+						<p>You need to enable javascript to fill the form!</p>
+					</noscript>
 
 				<?php else : ?>
 						

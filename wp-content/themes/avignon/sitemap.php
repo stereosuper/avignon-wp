@@ -30,8 +30,11 @@ get_header(); ?>
 					</ul>
 
 					<?php 
-						function listPosts($postType){
-							$posts = get_posts( array('post_type' => $postType, 'orderby' => 'title', 'posts_per_page' => -1, 'order' => 'ASC') );
+						function listPosts($postType, $tax){
+							if($tax) 
+								$options = array( array('taxonomy' => 'types', 'field' => 'slug', 'terms' => $tax) );
+
+							$posts = get_posts( array('post_type' => $postType, 'orderby' => 'title', 'posts_per_page' => -1, 'order' => 'ASC', 'tax_query' => $options) );
 
 							if(!$posts) 
 								echo '<p>Nothing was found</p>';
@@ -51,22 +54,29 @@ get_header(); ?>
 					?>
 
 					<h2 class='bordered'>Advisory Board Members</h2>
-					<?php listPosts('board-members'); ?>
+					<?php listPosts('board-members', ''); ?>
 
 					<h2 class='bordered'>Courses</h2>
-					<?php listPosts('courses'); ?>
+					<?php 
+						$cats = get_terms( 'types', array('order' => 'DESC') ); 
+
+						foreach($cats as $cat){ ?>
+							<h3><a href='<?php echo get_term_link( $cat ); ?>'><?php echo $cat->name; ?></a></h3>
+							<?php listPosts('courses', $cat->slug); 
+						}					
+					?>
 
 					<h2 class='bordered'>Teachers</h2>
-					<?php listPosts('teachers'); ?>
+					<?php listPosts('teachers', ''); ?>
 
 					<h2 class='bordered'>Alumni's Blog posts</h2>
-					<?php listPosts('post'); ?>
+					<?php listPosts('post', ''); ?>
 
 				<?php endwhile; ?>
 			
 			<?php else : ?>
 						
-				<h1>404</h1>
+				<?php get_template_part( 'includes/404' ); ?>
 
 			<?php endif; ?>
 

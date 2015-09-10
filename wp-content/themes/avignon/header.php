@@ -35,67 +35,32 @@
 		<meta name="theme-color" content="#ffffff">
 
 		<?php wp_head(); ?>
-		
-		<!-- Le Monde Livres -->
-		<script src="http://use.typekit.net/rwg3qyk.js"></script>
-		<script>try{Typekit.load();}catch(e){}</script>
 	</head>
 
 	<body <?php body_class(); ?>>
-		<?php if(is_front_page()){ ?>
-			<script>
-			  window.fbAsyncInit = function() {
-			    FB.init({
-			      appId      : '932551300139293',
-			      xfbml      : true,
-			      version    : 'v2.4'
-			    });
-			  };
 
-			  (function(d, s, id){
-			     var js, fjs = d.getElementsByTagName(s)[0];
-			     if (d.getElementById(id)) {return;}
-			     js = d.createElement(s); js.id = id;
-			     js.src = "http://connect.facebook.net/en_US/sdk.js";
-			     fjs.parentNode.insertBefore(js, fjs);
-			   }(document, 'script', 'facebook-jssdk'));
-			</script>
+		<div id='content'>
 
+			<header role="banner">
 
-			<div id="fb-root"></div>
-			<script>
-			(function(d, s, id) {
-			  var js, fjs = d.getElementsByTagName(s)[0];
-			  if (d.getElementById(id)) return;
-			  js = d.createElement(s); js.id = id;
-			  js.src = "http://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4&appId=932551300139293";
-			  fjs.parentNode.insertBefore(js, fjs);
-			}(document, 'script', 'facebook-jssdk'));
-			</script>
-		<?php } ?>
+				<div class="container big clearfix">
+					<a href="<?php echo site_url(); ?>" title="Home" rel="home" id="logo-institut-avignon">
+						<span class="visu-logo"><img src='<?php echo get_template_directory_uri(); ?>/layoutImg/logo.png' alt="Institut d'Avignon"/></span><span class="txt-logo">
+							<strong>Institut</strong> d'Avignon
+						</span>
+					</a>
+					
+					<a id="hamburger-menu" href="<?php echo site_url(); ?>" title="Open menu" rel='nofollow'>
+						<span class="txt-menu">Menu</span><span class="hamburger-icon">
+							<i id="b1"></i><i id="b2"></i><i id="b3"></i>
+						</span>
+					</a>
+				</div>
+					
+			</header>
 
-		<header role="banner">
+			<nav role="navigation">
+				<?php wp_nav_menu( array( 'theme_location' => 'primary', 'container' => false, 'menu_class' => 'first' ) ); ?>
+			</nav>
 
-			<div class="container big clearfix">
-				<a href="<?php echo site_url(); ?>" title="Home" rel="home" id="logo-institut-avignon">
-					<span class="visu-logo"><img src='<?php echo get_template_directory_uri(); ?>/layoutImg/logo.png' alt="Institut d'Avignon"/></span><span class="txt-logo">
-						<strong>Institut</strong> d'Avignon
-					</span>
-				</a>
-				
-				<a id="hamburger-menu" href="<?php echo site_url(); ?>" title="Open menu">
-					<span class="txt-menu">Menu</span><span class="hamburger-icon">
-						<i id="b1"></i><i id="b2"></i><i id="b3"></i>
-					</span>
-				</a>
-			</div>
-				
-		</header>
-
-		<nav role="navigation">
-			<?php wp_nav_menu( array( 'theme_location' => 'primary', 'container' => false, 'menu_class' => 'first' ) ); ?>
-		</nav>
-
-		<div id="wrapper">
-			
-			<div id="mask"></div>
+			<div id="wrapper">

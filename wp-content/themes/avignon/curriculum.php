@@ -70,11 +70,7 @@ get_header(); ?>
 
 				<?php else : ?>
 							
-					<h1 class="h2 bordered">404 - Page not found</h1>
-					<p>
-						We are sorry, the page you're looking for doesn't exist or has been removed.<br/>
-						You can check the <a href='<?php echo site_url(); ?>/sitemap'>sitemap</a> if you're lost!
-					</p>
+					<?php $border = true; get_template_part( 'includes/404' ); ?>
 
 				<?php endif; ?>
 

@@ -399,6 +399,9 @@ body.pushed {
 .container.big {
   width: 1024px;
 }
+.container.default h1 {
+  margin-top: 0;
+}
 .container.default img {
   display: block;
   width: 100%;
@@ -418,6 +421,12 @@ body.pushed {
   float: right;
   margin-left: 42px;
   margin-right: -76px;
+}
+.container.default .gform_footer {
+  padding-left: 120px;
+}
+.container.default .main .gform_footer {
+  padding-left: 0;
 }
 .bloc-content {
   position: relative;
@@ -859,6 +868,9 @@ legend .legend {
   padding: 0 0 0 5px;
   font-style: italic;
 }
+label.hidden_sub_label {
+  display: none;
+}
 .gform_wrapper {
   position: relative;
   margin-top: -20px;
@@ -940,6 +952,11 @@ legend .legend {
   max-width: 90%;
   vertical-align: top;
 }
+.gfield.checkbox .ginput_container li,
+.gfield.radio .ginput_container li {
+  display: inline-block;
+  margin: 0;
+}
 .gfield.browse {
   border-top: 1px dashed #dfdfdf;
   border-bottom: 1px dashed #dfdfdf;
@@ -972,7 +989,7 @@ legend .legend {
 .gfield.browse.marginDefault {
   margin: 0 20px 25px 0;
 }
-.gfield.hiddenLabel .gfield_label {
+.gfield.hidden_label .gfield_label {
   display: none;
 }
 .gfield.verySmall input {
@@ -1009,15 +1026,37 @@ legend .legend {
 .gfield.smallTextarea textarea {
   height: 80px;
 }
+.gfield .instruction {
+  display: none;
+}
+.gfield_date_day,
+.gfield_date_month {
+  width: 50px;
+  display: inline-block;
+  margin: 0 5px 0 0;
+}
+.gfield_date_year {
+  width: 65px;
+  display: inline-block;
+}
 .gfield_html {
   display: block;
   margin-right: 0;
 }
-.gform_page_footer {
+.gform_page_footer,
+.gform_footer {
   margin: 40px 0 0;
 }
-.gform_validation_error .gform_page_footer {
+.gform_validation_error .gform_page_footer,
+.gform_validation_error .gform_footer {
   margin: 70px 0 0;
+}
+.gfield_error .validation_message {
+  display: none;
+}
+.gfield_error .gfield_label,
+.gfield_error .gfield_required {
+  color: #ce2b0b;
 }
 .validation_error {
   position: absolute;
@@ -1258,6 +1297,11 @@ header.scrolled .txt-menu {
   -webkit-opacity: 0;
   -moz-opacity: 0;
   opacity: 0;
+}
+.no-js .home #logo-institut-avignon {
+  -webkit-opacity: 1;
+  -moz-opacity: 1;
+  opacity: 1;
 }
 #logo-institut-avignon span {
   display: inline-block;
@@ -1550,9 +1594,12 @@ nav ul li:before {
   vertical-align: middle;
   position: relative;
   text-align: center;
-  padding: 0;
   color: #ffffff;
-  margin: 0;
+}
+.no-js #bloc-txt-home {
+  -webkit-opacity: 1;
+  -moz-opacity: 1;
+  opacity: 1;
 }
 #bloc-txt-home h1 {
   font-family: 'klinic_slabbold', sans-serif;
@@ -1586,6 +1633,10 @@ nav ul li:before {
   -moz-osx-font-smoothing: grayscale;
   -webkit-transition: opacity 0.2s ease-in-out;
   transition: opacity 0.2s ease-in-out;
+}
+.no-js #bloc-txt-home h1 a:hover,
+.no-js #bloc-txt-home h1 a:focus {
+  opacity: .7;
 }
 #bloc-txt-home h1 .txt-h1 {
   -webkit-transition: opacity 0.2s ease-in-out;
@@ -1683,6 +1734,10 @@ nav ul li:before {
 }
 #bloc-img-zone-left-study .content-bloc-img-zone {
   background-position: 100% 50%!important;
+}
+#bloc-img-zone-left-study .content-bloc-img-zone img {
+  max-width: 100%;
+  height: auto;
 }
 #bloc-img-zone-right-study {
   padding: 0 0 0 460px;
@@ -2054,7 +2109,7 @@ nav ul li:before {
   display: none;
 }
 footer {
-  padding: 80px 0 0;
+  padding: 80px 0 35px;
   margin: 0;
   background: #ffffff;
   position: relative;
@@ -2144,7 +2199,8 @@ footer {
 }
 #menu-footer > li > ul > li,
 .second-menu .menu > li {
-  line-height: 1.5em;
+  line-height: 1.1em;
+  padding: 3px 0;
 }
 #menu-footer > li > ul > li a,
 .second-menu .menu > li a {
@@ -2269,9 +2325,6 @@ footer {
 }
 #bloc-contact .contact-content ul li.email a .txt-btn {
   text-decoration: underline;
-}
-#footer-bottom {
-  margin: 0 0 35px;
 }
 #footer-bottom #copy {
   font-family: "le-monde-livre-std", sans-serif;
@@ -3380,6 +3433,9 @@ p.address-teacher {
   .container {
     width: 90%;
   }
+  .container.default .gform_footer {
+    padding-left: 40px;
+  }
   .the-content {
     margin: 0;
   }
@@ -3501,6 +3557,12 @@ p.address-teacher {
   .arianne {
     background: #fff;
   }
+  .arianne a {
+    margin: 0;
+  }
+  .arianne a + a {
+    margin: 0 0 0 50px;
+  }
   .second-menu .menu,
   .second-menu .btn.small {
     display: none;
@@ -3542,6 +3604,9 @@ p.address-teacher {
 @media (max-width: 850px) {
   .main ul.teachersList li.first {
     margin-left: 13px;
+  }
+  .none850 {
+    display: none !important;
   }
 }
 @media (max-width: 767px) {
@@ -3593,6 +3658,9 @@ p.address-teacher {
   }
   blockquote:before {
     left: 0;
+  }
+  .container.default .gform_footer {
+    padding-left: 25px;
   }
   .gform_confirmation_message {
     margin: 20px 0 30px;
@@ -4011,6 +4079,14 @@ p.address-teacher {
     display: block;
     width: 100%;
   }
+  .arianne ul {
+    float: none;
+    display: block;
+    margin: 20px 0 0;
+  }
+  .arianne li:first-child {
+    margin: 0;
+  }
 }
 @media (max-width: 370px) {
   header {
@@ -4041,6 +4117,53 @@ p.address-teacher {
   .archive .courses-list .hasImg .txt,
   .page-template-alumni .courses-list .hasImg .txt {
     padding-left: 105px;
+  }
+}
+@media (max-height: 600px) {
+  header {
+    position: relative;
+  }
+  #hamburger-menu.on {
+    margin: 0;
+  }
+  #bloc-top {
+    height: 145px;
+  }
+  #bloc-top #bg-top {
+    height: 300px;
+  }
+  .home #bloc-top #bg-top {
+    height: 700px;
+  }
+  .arianne.fixed,
+  .second-menu.fixed {
+    position: relative;
+    top: 0;
+  }
+  .arianne.fixed + .container {
+    padding-top: 0;
+  }
+  .arianne.fixed ul {
+    display: inline-block;
+  }
+  .second-menu.fixed + .main {
+    margin-left: 0;
+  }
+  #wrapper-bloc-txt-home {
+    top: -45px;
+  }
+}
+@media (max-height: 920px) {
+  html,
+  body,
+  #content {
+    height: 100%;
+  }
+  body.pushed #content {
+    overflow: hidden;
+  }
+  nav.open {
+    overflow: auto;
   }
 }
 /* ==|== print styles =======================================================

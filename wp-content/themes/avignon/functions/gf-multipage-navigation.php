@@ -120,7 +120,7 @@ class GWMultipageNavigation {
                     }
 
                     this.createPageLink = function( stepNumber, HTML ) {
-                        return '<a href="#' + stepNumber + '" class="gwmpn-page-link gwmpn-default">' + HTML + '</a>';
+                        return '<a href="#' + stepNumber + '" class="gwmpn-page-link gwmpn-default" rel="nofollow">' + HTML + '</a>';
                     }
 
                     this.postToPage = function( page ) {

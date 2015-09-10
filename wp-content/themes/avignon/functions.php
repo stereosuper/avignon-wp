@@ -604,6 +604,32 @@ function hide_editor() {
 }
 add_action( 'admin_init', 'hide_editor' );
 
+// Remove some WP stuff Rudy doesn't need to see on main menu
+function remove_menu_items(){
+    $current_user = wp_get_current_user();
+
+    if( $current_user->user_login == 'rudy' ){
+        remove_menu_page( 'tools.php' );
+        remove_menu_page( 'edit.php?post_type=acf' );
+        remove_menu_page( 'edit-comments.php' );
+        remove_menu_page( 'wpseo_dashboard' );
+        remove_menu_page( 'WP-Optimize' );
+    }
+}
+add_action('admin_menu', 'remove_menu_items', 99);
+
+// Remove some WP stuff Rudy doesn't need to see on admin bar
+function remove_admin_bar_items( $wp_admin_bar ){
+    $current_user = wp_get_current_user();
+
+    if( $current_user->user_login == 'rudy' ){
+        $wp_admin_bar->remove_node( 'wp-logo' );
+        $wp_admin_bar->remove_node( 'comments' );
+        $wp_admin_bar->remove_node( 'wpseo-menu' );
+    }
+}
+add_action( 'admin_bar_menu', 'remove_admin_bar_items', 99 );
+
 /*-----------------------------------------------------------------------------------*/
 /* Calendar - Generate .ics file (events and activities)
 /*-----------------------------------------------------------------------------------*/

@@ -47,7 +47,7 @@ get_header(); ?>
 
 		  		<div id="bloc-img-zone-left-study">
 					<div class="content-bloc-img-zone imgLiquidFill">
-						<img src="<?php echo get_template_directory_uri(); ?>/img/img-study-left.jpg">
+						<?php echo wp_get_attachment_image( get_field('studyImg1'), 'large' ); ?>
 					</div>
 		  		</div>
 
@@ -62,7 +62,7 @@ get_header(); ?>
 		  		
 		  		<div id="bloc-img-zone-right-study">
 					<div class="content-bloc-img-zone imgLiquidFill">
-						<img src="<?php echo get_template_directory_uri(); ?>/img/img-study-right.jpg">
+						<?php echo wp_get_attachment_image( get_field('studyImg2'), 'large' ); ?>
 					</div>
 		  		</div>
 
@@ -99,25 +99,25 @@ get_header(); ?>
 		  		<div class="container">
 		  			<div id="bloc-img-left2-live" class="bloc-img-border" data-sr='move 0px'>
 		  				<div class="content-bloc-img imgLiquidFill">
-		  					<img src="<?php echo get_template_directory_uri(); ?>/img/img-live-left2.jpg">
+		  					<?php echo wp_get_attachment_image( get_field('liveImg1'), 'full' ); ?>
 		  				</div>
 		  			</div>
 
 		  			<div id="bloc-img-right1-live" class="bloc-img-border" data-sr>
 		  				<div class="content-bloc-img imgLiquidFill">
-		  					<img src="<?php echo get_template_directory_uri(); ?>/img/img-live-right1.jpg">
+		  					<?php echo wp_get_attachment_image( get_field('liveImg2'), 'large' ); ?>
 		  				</div>
 		  			</div>
 
 		  			<div id="bloc-img-right3-live" class="bloc-img-border" data-sr>
 		  				<div class="content-bloc-img imgLiquidFill">
-		  					<img src="<?php echo get_template_directory_uri(); ?>/img/img-live-right3.jpg">
+		  					<?php echo wp_get_attachment_image( get_field('liveImg3'), 'large' ); ?>
 		  				</div>
 		  			</div>
 
 		  			<div id="bloc-img-right2-live" class="bloc-img-border" data-sr>
 		  				<div class="content-bloc-img imgLiquidFill">
-		  					<img src="<?php echo get_template_directory_uri(); ?>/img/img-live-right2.jpg">
+		  					<?php echo wp_get_attachment_image( get_field('liveImg4'), 'medium' ); ?>
 		  				</div>
 		  			</div>
 		  			
@@ -167,7 +167,7 @@ get_header(); ?>
 		  					
 		  					<div id="bloc-img-left1-live" class="bloc-img-border" data-sr>
 		  						<div class="content-bloc-img imgLiquidFill">
-		  							<img src="<?php echo get_template_directory_uri(); ?>/img/img-live-left1.jpg">
+		  							<?php echo wp_get_attachment_image( get_field('liveImg5'), 'large' ); ?>
 		  						</div>
 		  					</div>
 		  					
@@ -179,9 +179,6 @@ get_header(); ?>
 		  							#<?php echo $hashtag; ?> tweets
 		  						</a>
 		  						<a href="https://twitter.com/hashtag/<?php echo $hashtag; ?>" target='_blank' class="btn"><?php the_field('twitterBtn'); ?></a>
-		  						<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';
-		  						if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";
-		  						fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 		  					</div>
 		  				</div>
 		  			</div>
@@ -196,7 +193,9 @@ get_header(); ?>
 		  				</div><div id="bloc-alumni-fb">
 		  					<?php $fbUrl = get_field('fbUrl'); ?>
 		  					<h4><?php the_field('fbTitle'); ?></h4>
-		  					<div class="imgLiquidFill" id="bg-img-facebook"><img src="<?php echo get_template_directory_uri(); ?>/img/bg-facebook.jpg"></div>
+		  					<div class="imgLiquidFill" id="bg-img-facebook">
+		  						<?php echo wp_get_attachment_image( get_field('fbImg'), 'large' ); ?>
+		  					</div>
 		  					<div class="fb-page" data-href="https://www.facebook.com/pages/Bryn-Mawr-College-Institut-dEtudes-Fran%C3%A7aises-dAvignon/99327867676" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="true" data-show-posts="false">
 		  						<div class="fb-xfbml-parse-ignore">
 		  							<blockquote cite="<?php echo $fbUrl; ?>">
@@ -221,11 +220,7 @@ get_header(); ?>
 				
 		<?php else : ?>
 						
-			<h1>404 - Page not found</h1>
-			<p>
-				We are sorry, the page you're looking for doesn't exist or has been removed.<br/>
-				You can check the <a href='<?php echo site_url(); ?>/sitemap'>sitemap</a> if you're lost!
-			</p>
+			<?php get_template_part( 'includes/404' ); ?>
 
 		<?php endif; ?>
 

@@ -8,10 +8,93 @@ define( 'AVIGNON_RECOMMENDATION_PAGE_ID', 316 );
 define( 'AVIGNON_HEALTH_EVALUATION_PAGE_ID', 349 );
 define( 'AVIGNON_HEALTH_EVALUATION_UPLOAD_PAGE_ID', 351 );
 
+define( 'AVIGNON_HOUSING_FORM_ID', 11 );
+
+// Remove gravity tabindex which are really really BAD
+add_filter( 'gform_tabindex', '__return_false' );
+
+/**
+ * Adjusting the HTML of the submit button to match design
+ *
+ * @param $button string  required  The text string of the button we're editing
+ * @param $form   array   required  The whole form object
+ * @return string The new HTML for the button
+ */
+function avignon_submit_button( $button, $form ){
+    return "<button class='btn' type='submit' id='gform_submit_button_".$form['id']."'>". $form["button"]["text"] ."</button>";
+}
+add_filter( 'gform_submit_button', 'avignon_submit_button', 10, 2 );
+
+/*function avignon_next_button( $button, $form ){
+    return "<button class='btn' type='button' id='gform_next_button_".$form['id']."'>". $form["button"]["text"] ."</button>";
+}
+add_filter( 'gform_next_button', 'avignon_next_button', 10, 2 );*/
+
 /**
  * Possibilité de cacher les labels des champs Gravity Forms
  */
 add_filter( 'gform_enable_field_label_visibility_settings', '__return_true' );
+
+/**
+ * Markup pour le formulaire "Housing".
+ *
+ * @param  string $field_container
+ * @return string
+ */
+function avignon_markup_housing1( $field_container )
+{
+    if ( ! is_admin() ) {
+        $field_container = '<li><ul class="m-top30">' . $field_container;
+    }
+    return $field_container;
+}
+add_filter( 'gform_field_container_' . AVIGNON_HOUSING_FORM_ID . '_19', 'avignon_markup_housing1' );
+
+function avignon_markup_housing2( $field_container )
+{
+    if ( ! is_admin() ) {
+        $field_container = $field_container . '</ul>';
+    }
+    return $field_container;
+}
+add_filter( 'gform_field_container_' . AVIGNON_HOUSING_FORM_ID . '_20', 'avignon_markup_housing2' );
+
+function avignon_markup_housing3( $field_container )
+{
+    if ( ! is_admin() ) {
+        $field_container = '<ul class="m-top30">' . $field_container;
+    }
+    return $field_container;
+}
+add_filter( 'gform_field_container_' . AVIGNON_HOUSING_FORM_ID . '_21', 'avignon_markup_housing3' );
+
+function avignon_markup_housing4( $field_container )
+{
+    if ( ! is_admin() ) {
+        $field_container = $field_container . '</ul></li>';
+    }
+    return $field_container;
+}
+add_filter( 'gform_field_container_' . AVIGNON_HOUSING_FORM_ID . '_22', 'avignon_markup_housing4' );
+
+function avignon_markup_housing5( $field_container )
+{
+    if ( ! is_admin() ) {
+        $field_container = '<li><ul>' . $field_container;
+    }
+    return $field_container;
+}
+add_filter( 'gform_field_container_' . AVIGNON_HOUSING_FORM_ID . '_48', 'avignon_markup_housing5' );
+
+function avignon_markup_housing6( $field_container )
+{
+    if ( ! is_admin() ) {
+        $field_container = $field_container . '</ul></li>';
+    }
+    return $field_container;
+}
+add_filter( 'gform_field_container_' . AVIGNON_HOUSING_FORM_ID . '_49', 'avignon_markup_housing6' );
+
 
 /**
  * Ajoute la mention "(encrypted)" au champs SS#.
@@ -237,7 +320,7 @@ function avignon_markup_reference_two( $field_container )
     }
     return $field_container;
 }
-add_filter( 'gform_field_container_' . AVIGNON_APPLY_FORM_ID . '_50', 'avignon_markup_reference_two' );
+add_filter( 'gform_field_container_' . AVIGNON_APPLY_FORM_ID . '_55', 'avignon_markup_reference_two' );
 
 /**
  * Markup pour le début de la partie "Reference mandatory".

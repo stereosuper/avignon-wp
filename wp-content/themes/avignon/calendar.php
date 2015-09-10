@@ -20,8 +20,8 @@ get_header(); ?>
 				<?php $url = str_replace('http://', '', get_site_url()); ?>
 				<ul>
 					<li><a href='<?php echo "webcal://" . $url . "?feed=avignon-".$postType; ?>' title='Suscribe to these <?php echo $postType; ?> in iCal' class='btn-arrow' rel='nofollow'>Add to iCal</a></li>
-					<li><a href='https://www.google.com/calendar/render?cid=<?php echo site_url() . "?feed=avignon-".$postType; ?>' title='Suscribe to these <?php echo $postType; ?> in Google Calendar' target='_blank' class='btn-arrow' rel='nofollow'>Add to Google Calendar</a></li>
-					<li><a href='<?php echo "webcal://" . $url . "?feed=avignon-".$postType; ?>' title='Suscribe to these <?php echo $postType; ?> in MS Outlook' class='btn-arrow' rel='nofollow'>Add to Outlook</a></li>
+					<li class='none850'><a href='https://www.google.com/calendar/render?cid=<?php echo site_url() . "?feed=avignon-".$postType; ?>' title='Suscribe to these <?php echo $postType; ?> in Google Calendar' target='_blank' class='btn-arrow' rel='nofollow'>Add to Google Calendar</a></li>
+					<li class='none850'><a href='<?php echo "webcal://" . $url . "?feed=avignon-".$postType; ?>' title='Suscribe to these <?php echo $postType; ?> in MS Outlook' class='btn-arrow' rel='nofollow'>Add to Outlook</a></li>
 					<li><a href='<?php echo site_url() . "?feed=avignon-".$postType; ?>' title='Download ICS file' class='btn-arrow' rel='nofollow'>Download .ics</a></li>
 				</ul>
 			</div>
@@ -113,11 +113,7 @@ get_header(); ?>
 
 		<section class='main'>
 				
-			<h1 class="h2 bordered">404 - Page not found</h1>
-			<p>
-				We are sorry, the page you're looking for doesn't exist or has been removed.<br/>
-				You can check the <a href='<?php echo site_url(); ?>/sitemap'>sitemap</a> if you're lost!
-			</p>
+			<?php $border = true; get_template_part( 'includes/404' ); ?>
 
 		</section>
 

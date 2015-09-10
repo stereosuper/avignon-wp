@@ -17,6 +17,8 @@
 
 			<?php get_template_part( 'includes/sidebar-study' ); ?><section class='main'>
 
+			<?php $term = get_term_by('slug', get_query_var( 'term' ), get_query_var( 'taxonomy' ) ); ?>
+
 				<?php if ( have_posts() ) : 
 				
 					global $paged;
@@ -28,7 +30,6 @@
 						$paged = 1;
 					} 
 
-					$term = get_term_by('slug', get_query_var( 'term' ), get_query_var( 'taxonomy' ) );
 					global $wp_post_types;
 
 					$count = 0;
@@ -63,8 +64,9 @@
 					<div class='pagination'><?php echo paginate_links( array('prev_text' => '<span class="icon-left"><span class="hidden">Previous</span></span>', 'next_text' => '<span class="icon-arrow"><span class="hidden">Next</span></span>', 'type' => 'list') ); ?></div>
 	
 				<?php else : ?>
-							
-					<h1 class='h2 bordered'>No courses in this category yet</h1>
+					
+					<h1 class='h2 bordered'><?php echo $term->name; ?></h1>
+					<div class='intro'><p>No courses in this category yet</p></div>
 
 				<?php endif; ?>
 
