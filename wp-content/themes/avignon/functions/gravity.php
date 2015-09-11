@@ -561,7 +561,7 @@ function avignon_apply_form_submitted( $entry )
     $data = array(
         'first_name'               => ucwords( $entry[3] ),
         'last_name'                => mb_strtoupper( $entry[4] ),
-        'birthday'                 => $entry[5],
+        'birthday'                 => $entry[79],
         'ss_number'                => $entry[6],
         'citizenship'              => $entry[7],
         'passport_number'          => $entry[8],
@@ -588,7 +588,7 @@ function avignon_apply_form_submitted( $entry )
         'status'                   => $entry[25],
         'secondary_school'         => $entry[26],
         'university'               => $entry[27],
-        'year_graduating'          => $entry[28],
+        'year_graduating'          => $entry[78],
         'major_subject'            => $entry[29],
         'previous_foreign_travel'  => $entry[30],
         'reasons'                  => $entry[31],
@@ -618,7 +618,7 @@ function avignon_apply_form_submitted( $entry )
     );
 
     $acf_mapping = array(
-        'application_status'       => 'field_55e86af1e004f',
+        'application_status'       => 'field_55f000bbd8b61',
         'refused_reason'           => 'field_55e86b22e0050',
 
         'last_name'                => 'field_55efe1d737bc3',
