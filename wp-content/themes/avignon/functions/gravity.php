@@ -32,7 +32,7 @@ function avignon_form_button( $button, $form = array()){
     $button = str_replace( $prev_markup, $next_markup, $button );
     return $button;
 }
-add_filter( 'gform_prev_button', '__return_false' );
+add_filter( 'gform_previous_button', '__return_false' );
 add_filter( 'gform_next_button', 'avignon_form_button' );
 add_filter( 'gform_submit_button', 'avignon_form_button' );
 
