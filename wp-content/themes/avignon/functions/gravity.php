@@ -873,6 +873,7 @@ function avignon_applicant_updated( $post_id )
     $next_status = $_POST['fields']['field_55f000bbd8b61'];
 
     if ( $prev_status != $next_status ) {
+        $token = get_post_meta( $post_id, 'token', true );
         switch ( $next_status ) {
             case 'accepted':
                 // Envoi de l'email d'acceptation
@@ -880,7 +881,7 @@ function avignon_applicant_updated( $post_id )
                 include get_stylesheet_directory() . '/email/accepted.php';
                 $message = ob_get_clean();
 
-                wp_mail( get_field( 'email' ), __( 'You are admitted', 'avignon' ), $message, array(
+                wp_mail( get_field( 'email', $post_id ), __( 'You are admitted', 'avignon' ), $message, array(
                     'Content-Type: text/html; charset=UTF-8'
                 ) );
                 break;
@@ -891,7 +892,7 @@ function avignon_applicant_updated( $post_id )
                 include get_stylesheet_directory() . '/email/refused.php';
                 $message = ob_get_clean();
 
-                wp_mail( get_field( 'email' ), __( 'Your application has been rejected', 'avignon' ), $message, array(
+                wp_mail( get_field( 'email', $post_id ), __( 'Your application has been rejected', 'avignon' ), $message, array(
                     'Content-Type: text/html; charset=UTF-8'
                 ) );
                 break;
@@ -900,7 +901,7 @@ function avignon_applicant_updated( $post_id )
                 include get_stylesheet_directory() . '/email/completed.php';
                 $message = ob_get_clean();
 
-                wp_mail( get_field( 'email' ), __( 'You are officially enrolled', 'avignon' ), $message, array(
+                wp_mail( get_field( 'email', $post_id ), __( 'You are officially enrolled', 'avignon' ), $message, array(
                     'Content-Type: text/html; charset=UTF-8'
                 ) );
                 break;
