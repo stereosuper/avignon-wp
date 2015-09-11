@@ -558,19 +558,27 @@ function avignon_apply_form_submitted( $entry )
         'birthday'                 => $entry[5],
         'ss_number'                => $entry[6],
         'citizenship'              => $entry[7],
-        'passport'                 => $entry[8],
+        'passport_number'          => $entry[8],
         'email'                    => $entry[9],
-        'email2'                   => $entry[10],
-        'phone'                    => $entry[11],
-        'mobile'                   => $entry[12],
-        'photo'                    => $entry[13],
-        'canal'                    => $entry[14],
-        'address'                  => $entry[17],
-        'address2'                 => $entry[18],
+        'email_2'                  => $entry[10],
+        'phone_number'             => $entry[11],
+        'cell_number'              => $entry[12],
+        'picture'                  => $entry[13],
+        'hear_about'               => $entry[14],
+        'street_address'           => $entry[17],
+        'address_line_2'           => $entry[18],
         'city'                     => $entry[19],
         'zip_code'                 => $entry[20],
         'state'                    => $entry[21],
         'country'                  => $entry[22],
+
+        'permanent_street_address' => $entry[71],
+        'permanent_address_line_2' => $entry[72],
+        'permanent_zip_code'       => $entry[76],
+        'permanent_city'           => $entry[73],
+        'permanent_state'          => $entry[75],
+        'permanent_country'        => $entry[74],
+
         'status'                   => $entry[25],
         'secondary_school'         => $entry[26],
         'university'               => $entry[27],
@@ -579,13 +587,13 @@ function avignon_apply_form_submitted( $entry )
         'previous_foreign_travel'  => $entry[30],
         'reasons'                  => $entry[31],
         'prize'                    => $entry[32],
-        'plan_after'               => $entry[33],
+        'plans_after'              => $entry[33],
         'emergency_first_name'     => ucwords( $entry[37] ),
         'emergency_last_name'      => mb_strtoupper( $entry[38] ),
         'emergency_relationship'   => $entry[39],
-        'emergency_phone'          => $entry[40],
-        'emergency_address'        => $entry[41],
-        'emergency_address2'       => $entry[42],
+        'emergency_phone_number'   => $entry[40],
+        'emergency_street_address' => $entry[41],
+        'emergency_address_line_2' => $entry[42],
         'emergency_city'           => $entry[43],
         'emergency_zip_code'       => $entry[44],
         'emergency_state'          => $entry[45],
@@ -601,49 +609,58 @@ function avignon_apply_form_submitted( $entry )
         'signature_first_name'     => ucwords( $entry[66] ),
         'signature_last_name'      => mb_strtoupper( $entry[67] ),
         'signature_date'           => $entry[68],
-        'token'                    => $entry[69]
     );
 
     $acf_mapping = array(
-        'applicant_status'         => 'field_55e86af1e004f',
-        'applicant_reason'         => 'field_55e86b22e0050',
-        'first_name'               => 'field_55e5afddbfc2f',
-        'last_name'                => 'field_55e5afeabfc30',
-        'birthday'                 => 'field_55e5aff3bfc31',
-        'ss_number'                => 'field_55e5affbbfc32',
-        'citizenship'              => 'field_55e5b002bfc33',
-        'passport'                 => 'field_55e5b009bfc34',
-        'email'                    => 'field_55e5b016bfc35',
-        'email2'                   => 'field_55e5b01dbfc36',
-        'phone'                    => 'field_55e5b026bfc37',
-        'mobile'                   => 'field_55e5b02fbfc38',
-        'photo'                    => 'field_55e5b039bfc39',
-        'canal'                    => 'field_55e5b05bbfc3a',
-        'address'                  => 'field_55e5b069bfc3b',
-        'address2'                 => 'field_55e5b073bfc3c',
-        'city'                     => 'field_55e5b07ebfc3d',
-        'zip_code'                 => 'field_55e5b082bfc3e',
-        'state'                    => 'field_55e5b0adbfc3f',
-        'country'                  => 'field_55e5b0b8bfc40',
-        'status'                   => 'field_55e5b0e4bfc43',
-        'secondary_school'         => 'field_55e5b0ebbfc44',
-        'university'               => 'field_55e5b0f6bfc45',
-        'year_graduating'          => 'field_55e5b100bfc46',
-        'major_subject'            => 'field_55e5b104bfc47',
-        'previous_foreign_travel'  => 'field_55e5b10fbfc48',
-        'reasons'                  => 'field_55e5b11abfc49',
-        'prize'                    => 'field_55e5b12cbfc4a',
-        'plan_after'               => 'field_55e5b13abfc4b',
-        'emergency_first_name'     => 'field_55e5b14fbfc4d',
-        'emergency_last_name'      => 'field_55e5b15cbfc4e',
-        'emergency_relationship'   => 'field_55e5b164bfc4f',
-        'emergency_phone'          => 'field_55e5b176bfc50',
-        'emergency_address'        => 'field_55e5b17dbfc51',
-        'emergency_address2'       => 'field_55e5b187bfc52',
-        'emergency_city'           => 'field_55e5b191bfc53',
-        'emergency_zip_code'       => 'field_55e5b19cbfc54',
-        'emergency_state'          => 'field_55e5b1acbfc55',
-        'emergency_country'        => 'field_55e5b1bcbfc57',
+        'application_status'       => 'field_55e86af1e004f',
+        'refused_reason'           => 'field_55e86b22e0050',
+
+        'last_name'                => 'field_55efe1d737bc3',
+        'first_name'               => 'field_55efe1e137bc4',
+        'birthday'                 => 'field_55efe20137bc5',
+        'ss_number'                => 'field_55efe20f37bc6',
+        'citizenship'              => 'field_55efe21637bc7',
+        'passport_number'          => 'field_55efe22037bc8',
+        'email'                    => 'field_55efe22e37bc9',
+        'email_2'                  => 'field_55efe23137bca',
+        'phone_number'             => 'field_55efe23737bcb',
+        'cell_number'              => 'field_55efe24237bcc',
+        'picture'                  => 'field_55efe25637bcd',
+        'hear_about'               => 'field_55efe25d37bce',
+        'street_address'           => 'field_55effaea37bd0',
+        'address_line_2'           => 'field_55effaf337bd1',
+        'zip_code'                 => 'field_55effaf937bd2',
+        'city'                     => 'field_55effb0037bd3',
+        'state'                    => 'field_55effb0437bd4',
+        'country'                  => 'field_55effb1f37bd5',
+        'permanent_street_address' => 'field_55effb3937bd7',
+        'permanent_address_line_2' => 'field_55effb4837bd8',
+        'permanent_zip_code'       => 'field_55effb5337bd9',
+        'permanent_city'           => 'field_55effb5c37bda',
+        'permanent_state'          => 'field_55effb6337bdb',
+        'permanent_country'        => 'field_55effb7237bdc',
+
+        'status'                  => 'field_55effbfcd27b9',
+        'secondary_school'        => 'field_55effc18d27ba',
+        'university'              => 'field_55effc27d27bb',
+        'year_graduating'         => 'field_55effc36d27bc',
+        'major_subject'           => 'field_55effc47d27bd',
+        'previous_foreign_travel' => 'field_55effc4ed27be',
+        'reasons'                 => 'field_55effc5dd27bf',
+        'prize'                   => 'field_55effc6ad27c0',
+        'plans_after'             => 'field_55effc8cd27c1',
+
+        'emergency_first_name'     => 'field_55efffdfddeda',
+        'emergency_last_name'      => 'field_55efffefddedb',
+        'emergency_relationship'   => 'field_55effff5ddedc',
+        'emergency_phone_number'   => 'field_55f00000ddedd',
+        'emergency_street_address' => 'field_55f0000bddede',
+        'emergency_address_line_2' => 'field_55f00014ddedf',
+        'emergency_city'           => 'field_55f0001cddee0',
+        'emergency_zip_code'       => 'field_55f00024ddee1',
+        'emergency_state'          => 'field_55f0002addee2',
+        'emergency_country'        => 'field_55f00039ddee3',
+
         'reference_1_first_name'   => 'field_55e5b1f4bfc5a',
         'reference_1_last_name'    => 'field_55e5b204bfc5b',
         'reference_1_affilitation' => 'field_55e5b20bbfc5c',
@@ -652,10 +669,10 @@ function avignon_apply_form_submitted( $entry )
         'reference_2_last_name'    => 'field_55e5b245bfc60',
         'reference_2_affilitation' => 'field_55e5b24cbfc61',
         'reference_2_email'        => 'field_55e5b259bfc62',
-        'signature_first_name'     => 'field_55e5b270bfc64',
-        'signature_last_name'      => 'field_55e5b278bfc65',
+
+        'signature_first_name'     => 'field_55f0011b4ff71',
+        'signature_last_name'      => 'field_55f0012a4ff72',
         'signature_date'           => 'field_55e5b282bfc66',
-        'token'                    => 'field_55e5d3339416b',
     );
 
     // On ajoute un nouveau post dans les "applicant"
@@ -670,9 +687,15 @@ function avignon_apply_form_submitted( $entry )
         foreach ( $data as $key => $value ) {
             update_field( $acf_mapping[$key], $value, $post_id );
         }
-    }
 
-    update_field( $acf_mapping['applicant_status'], 'submitted', $post_id );
+        // On indique le status de l'application
+        update_field( $acf_mapping['application_status'], 'submitted', $post_id );
+
+        // On ajoute le jeton
+        $bytes = openssl_random_pseudo_bytes( 32 );
+        $token = bin2hex( $bytes );
+        add_post_meta( $post_id, 'token', $token, true );
+    }
 
     // On envoi l'email de confirmation
     ob_start();
@@ -815,7 +838,7 @@ function avignon_health_evaluation_submitted( $entry )
     update_field( 'healt_form', $data['healt_form'], $applicant->ID );
 
     // Passage du dossier en "completed"
-    update_field( 'applicant_status', 'completed', $applicant->ID );
+    update_field( 'application_status', 'completed', $applicant->ID );
 
     // Envoi de l'email de confirmation
     ob_start();
@@ -840,8 +863,8 @@ add_action( 'gform_after_submission_' . AVIGNON_HEALTH_EVALUATION_UPLOAD_FORM_ID
  */
 function avignon_applicant_updated( $post_id )
 {
-    $prev_status = get_field( 'applicant_status' );
-    $next_status = $_POST['fields']['field_55e86af1e004f'];
+    $prev_status = get_field( 'application_status' );
+    $next_status = $_POST['fields']['field_55f000bbd8b61'];
 
     if ( $prev_status != $next_status ) {
         switch ( $next_status ) {
@@ -857,7 +880,7 @@ function avignon_applicant_updated( $post_id )
                 break;
             case 'refused':
                 // Envoi de l'email de refus
-                $refused_reasons = $_POST['fields']['field_55e86b22e0050'];
+                $refused_reasons = $_POST['fields']['field_55f000e4d8b62'];
                 ob_start();
                 include get_stylesheet_directory() . '/email/refused.php';
                 $message = ob_get_clean();
