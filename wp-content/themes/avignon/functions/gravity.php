@@ -20,15 +20,21 @@ add_filter( 'gform_tabindex', '__return_false' );
  * @param $form   array   required  The whole form object
  * @return string The new HTML for the button
  */
-function avignon_submit_button( $button, $form ){
-    return "<button class='btn' type='submit' id='gform_submit_button_".$form['id']."'>". $form["button"]["text"] ."</button>";
-}
-add_filter( 'gform_submit_button', 'avignon_submit_button', 10, 2 );
+function avignon_form_button( $button, $form = array()){
+    // On récupère la valeur de l'attribue "value="
+    $matches = array();
+    preg_match( "/value='([^']*)'/", $button, $matches );
+    $value = isset( $matches[1] ) ? $matches[1] : '';
 
-/*function avignon_next_button( $button, $form ){
-    return "<button class='btn' type='button' id='gform_next_button_".$form['id']."'>". $form["button"]["text"] ."</button>";
+    $prev_markup = array( '<input', '/>', "class='" );
+    $next_markup = array( '<button', "/>$value</button>", "class='btn " );
+
+    $button = str_replace( $prev_markup, $next_markup, $button );
+    return $button;
 }
-add_filter( 'gform_next_button', 'avignon_next_button', 10, 2 );*/
+add_filter( 'gform_prev_button', '__return_false' );
+add_filter( 'gform_next_button', 'avignon_form_button' );
+add_filter( 'gform_submit_button', 'avignon_form_button' );
 
 /**
  * Possibilité de cacher les labels des champs Gravity Forms
