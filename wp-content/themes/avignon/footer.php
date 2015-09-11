@@ -18,6 +18,10 @@
 								    <a href="<?php the_field('admissionsUrl', 'options'); ?>" class='btn'>
 								    	<?php the_field('admissionsBtn', 'options'); ?>
 								    </a>
+								<?php } if(get_field('admissionsImg', 'options')){ ?>
+									<div class="imgLiquidFill">
+										<?php echo wp_get_attachment_image( get_field('admissionsImg', 'options'), 'full' ); ?>
+									</div>
 								<?php } ?>
 							</div>
 						</div>
@@ -56,8 +60,8 @@
 			</div>
 
 			<!-- Le Monde Livres -->
-			<script defer src="http://use.typekit.net/rwg3qyk.js"></script>
-			<script defer>try{Typekit.load();}catch(e){}</script>
+			<script src="http://use.typekit.net/rwg3qyk.js"></script>
+			<script>try{Typekit.load();}catch(e){}</script>
 
 			<?php wp_footer(); ?>
 

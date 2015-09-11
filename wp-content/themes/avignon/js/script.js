@@ -13,8 +13,8 @@ var burger = $("#hamburger-menu"),
 	blocTxtHome = $("#bloc-txt-home"),
 	blocTopHeight = blocTop.height(),
 	headerHeight = header.innerHeight(),
-	arianne = $('[data-scroll="arianne"'),
-	secondMenu = $('[data-scroll="submenu"'),
+	arianne = $('[data-scroll="arianne"]'),
+	secondMenu = $('[data-scroll="submenu"]'),
 	myScroll;
 
 
@@ -77,12 +77,14 @@ function fixedElements(){
 
 function parallax(){
 	$('#bg-top').css('top', myScroll/10 - 100 + 'px');
+	//TweenMax.set($('#bg-top'), {y:myScroll/10 - 100 + 'px'});
 }
 
 function scrollPage(){
 	myScroll = $(document).scrollTop();
 
-	fixedElements();
+	if($(window).height() > 600)
+		fixedElements();
 	//scrollMenu();
 
 	if($('#bg-top').length)
@@ -160,6 +162,14 @@ $(function(){
 
 	/* SOUS PAGES */
 
+		$('[data-click="back"]').on('click', function(e){
+			e.preventDefault();
+			history.back();
+		});
+
+
+	/* GRAVITY */
+
 		if($('.gf_page_steps').length){
 			$('.gf_page_steps').wrap('<div id="wrapSteps"></div>');
 
@@ -170,10 +180,38 @@ $(function(){
 			}
 		}
 
-		$('[data-click="back"]').on('click', function(e){
-			e.preventDefault();
-			history.back();
-		});
+		if($('.browse').length){
+			var browse = $('.browse'), inputFile = browse.find('input[type=file]'), img, txt = 'Browse...';
+			
+			if(!browse.find('#upload').length){
+				if(browse.hasClass('fr')) txt = 'Parcourir...';
+				browse.find('.ginput_container').append('<input type="button" value="'+txt+'" id="upload">');
+
+				browse.prepend('<img src="" class="hidden" alt="Uploaded file" id="uploadImg" width="100">');
+				img = browse.find('#uploadImg');
+			}
+			
+			browse.on('click', '#upload', function(){
+				inputFile.click();
+			});
+
+			inputFile.on('change', function(e){
+				browse.find('label').html( inputFile.val() );
+
+				var i = 0;
+				for(i; i < e.originalEvent.srcElement.files.length; i++) {
+					var file = e.originalEvent.srcElement.files[i], 
+						reader = new FileReader();
+
+					reader.onloadend = function() {
+						img.attr('src', reader.result);
+					}
+					reader.readAsDataURL(file);
+
+					img.removeClass('hidden');
+				}
+			});
+		}
 
 });
 

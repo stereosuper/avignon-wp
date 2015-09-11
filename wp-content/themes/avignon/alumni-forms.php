@@ -25,7 +25,7 @@ get_header(); ?>
 					<?php the_content(); ?>
 
 					<noscript>
-						<p>You need to enable javascript to fill the form!</p>
+						<p>If the page is blank, you need to enable javascript to fill the form.</p>
 					</noscript>
 
 				<?php else : ?>

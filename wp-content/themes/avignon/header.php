@@ -35,6 +35,7 @@
 		<meta name="theme-color" content="#ffffff">
 
 		<?php wp_head(); ?>
+		
 	</head>
 
 	<body <?php body_class(); ?>>
@@ -50,7 +51,7 @@
 						</span>
 					</a>
 					
-					<a id="hamburger-menu" href="<?php echo site_url(); ?>" title="Open menu" rel='nofollow'>
+					<a id="hamburger-menu" href="<?php echo site_url(); ?>/sitemap/" title="Open menu" rel='nofollow'>
 						<span class="txt-menu">Menu</span><span class="hamburger-icon">
 							<i id="b1"></i><i id="b2"></i><i id="b3"></i>
 						</span>

@@ -461,7 +461,7 @@ function custom_wp_trim_excerpt($wpse_excerpt) {
         $wpse_excerpt = str_replace(']]>', ']]&gt;', $wpse_excerpt);
         $wpse_excerpt = strip_tags($wpse_excerpt, '<em>,<i>,<strong>,<b>');
 
-        $excerpt_length = apply_filters('excerpt_length', 14); 
+        $excerpt_length = apply_filters('excerpt_length', 13); 
         $tokens = array();
         $excerptOutput = '';
         $count = 0;

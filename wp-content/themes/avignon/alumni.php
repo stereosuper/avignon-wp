@@ -31,11 +31,13 @@ get_header(); ?>
 
 					<div class='nav-alumni'>
 						<a href='<?php the_field('blogUrl', 'options'); ?>' class='btn'>Alumni's blog</a>
-
-						<div class='block-xp'>
-							<em><?php the_field('getinvolvedText'); ?></em>
-							<a href='<?php the_field('getinvolved'); ?>' class='btn-arrow'>Get involved</a>
-						</div>
+						
+						<?php if(get_field('getinvolvedText')){ ?>
+							<div class='block-xp'>
+								<em><?php the_field('getinvolvedText'); ?></em>
+								<a href='<?php the_field('getinvolved'); ?>' class='btn-arrow'>Get involved</a>
+							</div>
+						<?php } ?>
 					</div>
 						
 					<?php $count = 0; $loop = new WP_Query( array('post_type' => 'post', 'posts_per_page' => 2) ); 

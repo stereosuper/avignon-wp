@@ -5,6 +5,7 @@ Template Name: Home
 
 get_header(); ?>
 	
+	<div id="mask"></div>
 	<div id="bloc-top" class="bloc-top-home">
 		<?php
 			$styleImg = '';
