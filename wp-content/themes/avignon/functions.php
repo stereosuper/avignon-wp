@@ -425,7 +425,7 @@ function avignon_content_applicant_column( $column, $post_id )
             }
             break;
         case 'status':
-            the_field( 'applicant_status', $post_id );
+            the_field( 'application_status', $post_id );
             break;
     }
 }
@@ -453,7 +453,7 @@ add_filter( 'image_size_names_choose', 'avignon_sizes_admin' );
 /*-----------------------------------------------------------------------------------*/
 function custom_wp_trim_excerpt($wpse_excerpt) {
     $raw_excerpt = $wpse_excerpt;
-    
+
     if( '' == $wpse_excerpt ){
         $wpse_excerpt = get_the_content('');
         $wpse_excerpt = strip_shortcodes( $wpse_excerpt );
@@ -468,7 +468,7 @@ function custom_wp_trim_excerpt($wpse_excerpt) {
 
         preg_match_all('/(<[^>]+>|[^<>\s]+)\s*/u', $wpse_excerpt, $tokens);
 
-        foreach($tokens[0] as $token){ 
+        foreach($tokens[0] as $token){
 
             if($count >= $excerpt_length /*&& preg_match('/[\,\;\?\.\!]\s*$/uS', $token)*/){ //pour arreter l'extrait a un point ou une virgule, etc
                 $excerptOutput .= trim($token);
@@ -482,13 +482,13 @@ function custom_wp_trim_excerpt($wpse_excerpt) {
         $wpse_excerpt = trim(force_balance_tags($excerptOutput));
         $wpse_excerpt .= '...';
 
-        return $wpse_excerpt;   
+        return $wpse_excerpt;
 
     }
     return apply_filters('custom_wp_trim_excerpt', $wpse_excerpt, $raw_excerpt);
 }
 remove_filter('get_the_excerpt', 'wp_trim_excerpt');
-add_filter('get_the_excerpt', 'custom_wp_trim_excerpt'); 
+add_filter('get_the_excerpt', 'custom_wp_trim_excerpt');
 
 /*-----------------------------------------------------------------------------------*/
 /* Admin
@@ -580,13 +580,13 @@ function add_right_now_custom_post() {
 add_action('dashboard_glance_items', 'add_right_now_custom_post');
 
 // Page d'options
-function custom_menu_order( $menu_ord ){  
-    if(!$menu_ord) return true;  
+function custom_menu_order( $menu_ord ){
+    if(!$menu_ord) return true;
     $menu = 'acf-options';
     $menu_ord = array_diff($menu_ord, array( $menu ));
     array_splice( $menu_ord, 1, 0, array( $menu ) );
     return $menu_ord;
-}  
+}
 add_filter('custom_menu_order', 'custom_menu_order');
 add_filter('menu_order', 'custom_menu_order');
 
@@ -597,7 +597,7 @@ function hide_editor() {
     }
     if( !isset( $post_id ) ) return;
     $template_file = get_post_meta($post_id, '_wp_page_template', true);
-    
+
     if($template_file == 'front-page.php'){
         remove_post_type_support('page', 'editor');
     }
