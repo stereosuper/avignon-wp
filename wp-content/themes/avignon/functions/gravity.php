@@ -854,7 +854,7 @@ function avignon_health_evaluation_submitted( $entry )
 
     // Sauvegarde du formulaire dans le dossier
     update_field( $acf_mapping['health_form_received'], true, $applicant->ID );
-    update_field( $acf_mapping['healt_form'], $data['healt_form'], $applicant->ID );
+    update_field( $acf_mapping['health_form'], $data['health_form'], $applicant->ID );
 
     // Passage du dossier en "completed"
     update_field( $acf_mapping['application_status'], 'completed', $applicant->ID );
