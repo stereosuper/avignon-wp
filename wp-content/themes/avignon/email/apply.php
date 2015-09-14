@@ -4,7 +4,7 @@
 
 <ol>
     <li>
-        <p>Your recommenders (French professor and dean, or graduate advisor) should have received a recommendation request by email. Please confirm that they have received a request from us. If not, they may access the information via this link:</strong></p>
+        <p><strong>Your recommenders (French professor and dean, or graduate advisor) should have received a recommendation request by email. Please confirm that they have received a request from us. If not, they may access the information via this link:</strong></p>
         <p><?php echo $data['reference_1_first_name'] ?> <?php echo $data['reference_1_last_name'] ?> : <?php echo add_query_arg( array( 'token' => $data['token'], 'reference' => 1 ), get_permalink( AVIGNON_RECOMMENDATION_PAGE_ID ) ) ?></p>
         <p><?php echo $data['reference_2_first_name'] ?> <?php echo $data['reference_2_last_name'] ?> : <?php echo add_query_arg( array( 'token' => $data['token'], 'reference' => 2 ), get_permalink( AVIGNON_RECOMMENDATION_PAGE_ID ) ) ?></p>
 
