@@ -12,7 +12,7 @@
 
 <p>Une fois ce document rempli, vous pouvez nous le faire parvenir via le formulaire prévu a cet effet : </p>
 
-<p><?php echo add_query_arg( 'token', $token, get_permalink( AVIGNON_HEALTH_EVALUATION_UPLOAD_PAGE_ID ) ) ?></p>
+<p><?php echo add_query_arg( 'token', $token, get_permalink( AVIGNON_HEALTH_EVALUATION_PAGE_ID ) ) ?></p>
 
 <h2>Information for admitted students</h2>
 
