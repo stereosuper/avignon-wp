@@ -615,6 +615,10 @@ function avignon_apply_form_submitted( $entry )
         'signature_first_name'     => ucwords( $entry[66] ),
         'signature_last_name'      => mb_strtoupper( $entry[67] ),
         'signature_date'           => $entry[68],
+        'reference_1_ok'           => false,
+        'reference_2_ok'           => false,
+        'health_form_received'     => false,
+        'application_status'       => 'submitted',
     );
 
     $acf_mapping = array(
@@ -667,10 +671,12 @@ function avignon_apply_form_submitted( $entry )
         'emergency_state'          => 'field_55f0002addee2',
         'emergency_country'        => 'field_55f00039ddee3',
 
+        'reference_1_ok'           => 'field_55e85a97e6ca0',
         'reference_1_first_name'   => 'field_55e5b1f4bfc5a',
         'reference_1_last_name'    => 'field_55e5b204bfc5b',
         'reference_1_affilitation' => 'field_55e5b20bbfc5c',
         'reference_1_email'        => 'field_55e5b214bfc5d',
+        'reference_2_ok'           => 'field_55e85b5e8afa6',
         'reference_2_first_name'   => 'field_55e5b237bfc5f',
         'reference_2_last_name'    => 'field_55e5b245bfc60',
         'reference_2_affilitation' => 'field_55e5b24cbfc61',
@@ -679,6 +685,8 @@ function avignon_apply_form_submitted( $entry )
         'signature_first_name'     => 'field_55f0011b4ff71',
         'signature_last_name'      => 'field_55f0012a4ff72',
         'signature_date'           => 'field_55e5b282bfc66',
+
+        'health_form_received'     => 'field_55f2e5ace86c9',
     );
 
     // On ajoute un nouveau post dans les "applicant"
@@ -693,9 +701,6 @@ function avignon_apply_form_submitted( $entry )
         foreach ( $data as $key => $value ) {
             update_field( $acf_mapping[$key], $value, $post_id );
         }
-
-        // On indique le status de l'application
-        update_field( $acf_mapping['application_status'], 'submitted', $post_id );
 
         // On ajoute le jeton
         $bytes = openssl_random_pseudo_bytes( 32 );
@@ -826,6 +831,13 @@ function avignon_health_evaluation_submitted( $entry )
         'health_form' => $entry[1],
     );
 
+    $acf_mapping = array(
+        'application_status'   => 'field_55f000bbd8b61',
+        'health_form_received' => 'field_55f2e5ace86c9',
+        'health_form'          => 'field_55f2e5c5e86ca',
+    );
+
+
     $token = $entry[2];
 
     // On récupère le dossier à partir du jeton
@@ -841,10 +853,11 @@ function avignon_health_evaluation_submitted( $entry )
     }
 
     // Sauvegarde du formulaire dans le dossier
-    update_field( 'healt_form', $data['healt_form'], $applicant->ID );
+    update_field( $acf_mapping['health_form_received'], true, $applicant->ID );
+    update_field( $acf_mapping['healt_form'], $data['healt_form'], $applicant->ID );
 
     // Passage du dossier en "completed"
-    update_field( 'application_status', 'completed', $applicant->ID );
+    update_field( $acf_mapping['application_status'], 'completed', $applicant->ID );
 
     // Envoi de l'email de confirmation
     ob_start();

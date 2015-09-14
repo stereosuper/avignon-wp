@@ -406,6 +406,7 @@ function avignon_add_applicant_column( $columns )
         'title'      => $columns['title'],
         'status'     => __( 'Status', 'avignon' ),
         'references' => __( 'References', 'avignon' ),
+        'health'     => __( 'Health form', 'avignon' ),
         'date'       => $columns['date']
     );
 }
@@ -423,6 +424,12 @@ function avignon_content_applicant_column( $column, $post_id )
                 $color = ( $status ) ? 'green' : 'red';
                 echo sprintf( '<p><span class="dashicons dashicons-%s" style="color:%s"></span> %s %s</p>', $class, $color, $first_name, $last_name );
             }
+            break;
+        case 'health':
+            $received = get_field( 'health_form_received', $post_id );
+            $class = ( $received ) ? 'yes' : 'no';
+            $color = ( $received ) ? 'green' : 'red';
+            echo sprintf( '<span class="dashicons dashicons-%s" style="color:%s"></span>', $class, $color );
             break;
         case 'status':
             the_field( 'application_status', $post_id );
@@ -461,7 +468,7 @@ function custom_wp_trim_excerpt($wpse_excerpt) {
         $wpse_excerpt = str_replace(']]>', ']]&gt;', $wpse_excerpt);
         $wpse_excerpt = strip_tags($wpse_excerpt, '<em>,<i>,<strong>,<b>');
 
-        $excerpt_length = apply_filters('excerpt_length', 13); 
+        $excerpt_length = apply_filters('excerpt_length', 13);
         $tokens = array();
         $excerptOutput = '';
         $count = 0;
