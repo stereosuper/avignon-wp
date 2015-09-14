@@ -4,7 +4,7 @@
 
 <h2>Informations for admitted students</h2>
 
-<p>Here are some helpful tips on the best way to prepare for your trip to France: [url page student info]</p>
+<p>Here are some helpful tips on the best way to prepare for your trip to France: <?php echo get_permalink( AVIGNON_INFORMATIONS_PAGE_ID ) ?></p>
 
 <h2>Housing</h2>
 
