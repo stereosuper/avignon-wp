@@ -15,6 +15,7 @@ var burger = $("#hamburger-menu"),
 	headerHeight = header.innerHeight(),
 	arianne = $('[data-scroll="arianne"]'),
 	secondMenu = $('[data-scroll="submenu"]'),
+	main = $('[data-scroll="submenu"] + .main'),
 	myScroll;
 
 
@@ -28,49 +29,42 @@ window.requestAnimFrame = (function(){
 })();
 
 
-/*function scrollMenu(){
-	if(window.matchMedia("(max-height: 920px)").matches){
-		var x = -($(window).scrollTop()/($(document).height()-$(window).height()))*(nav.outerHeight()-$(window).height());
-		console.log($(window).scrollTop()/($(document).height()-$(window).height()));
-		nav.css("top",x+"px");
-	} else {
-		nav.css("top","0");
-	}
-}*/
 
 function fixedElements(){
-	if(body.width() > 767){
+	var secondMenuHeight = secondMenu.height() + 70, 
+		mainHeight = main.height(), 
+		bodyWidth = body.width();
+
+	if(bodyWidth > 767){
 
 		if(myScroll > blocTopHeight - headerHeight){
-
 			header.addClass('scrolled');
-			if(arianne.length) arianne.addClass('fixed');
-			if(secondMenu.length && body.width() > 979) secondMenu.addClass('fixed');
 
+			if(!htmlTag.hasClass('lt-ie9')){
+				if(arianne.length && (mainHeight > secondMenuHeight || bodyWidth < 979)) arianne.addClass('fixed');
+				if(secondMenu.length && bodyWidth > 979 && mainHeight > secondMenuHeight) secondMenu.addClass('fixed');
+			}
 		}else{
-
 			header.removeClass('scrolled');
-			if(arianne.length) arianne.removeClass('fixed');
-			if(secondMenu.length) secondMenu.removeClass('fixed');
 
+			if(!htmlTag.hasClass('lt-ie9')){
+				if(arianne.length) arianne.removeClass('fixed');
+				if(secondMenu.length) secondMenu.removeClass('fixed');	
+			}
 		}
 
 	}else{
 
 		if(myScroll > 50){
-
 			header.addClass('scrolled');
-			if(arianne.length) arianne.addClass('fixed');
-
+			if(arianne.length && mainHeight > secondMenuHeight && !htmlTag.hasClass('lt-ie9')) arianne.addClass('fixed');
 		}else{
-
 			header.removeClass('scrolled');
-			if(arianne.length) arianne.removeClass('fixed');
-
+			if(arianne.length && !htmlTag.hasClass('lt-ie9')) arianne.removeClass('fixed');
 		} 
 	}
 
-	if(body.width() <= 979 && secondMenu.length){
+	if(bodyWidth <= 979 && secondMenu.length && !htmlTag.hasClass('lt-ie9')){
 		secondMenu.removeClass('fixed');
 	}
 }
@@ -83,33 +77,21 @@ function parallax(){
 function scrollPage(){
 	myScroll = $(document).scrollTop();
 
-	if($(window).height() > 600)
-		fixedElements();
-	//scrollMenu();
+	if($(window).height() > 600) fixedElements();
 
-	if($('#bg-top').length)
-		parallax();
+	if($('#bg-top').length) parallax();
 
 	requestAnimFrame(scrollPage);
 }
 
 
 function openCloseMenu(){
-	if(nav.hasClass("open")){
-		TweenMax.set(burger, {className:"-=on"});
-		TweenMax.set(nav, {className:"-=open"});
-		TweenMax.set(body, {className:"-=pushed"});
-		TweenMax.set(header, {className:"-=pushed"});
-		TweenMax.to(mask, 0.3, {display: "none", opacity: "0", ease:Cubic.easeInOut});
-		txtMenu.html('Menu');
-	}else{
-		TweenMax.set(burger, {className:"+=on"});
-		TweenMax.set(nav, {className:"+=open"});
-		TweenMax.set(body, {className:"+=pushed"});
-		TweenMax.set(header, {className:"+=pushed"});
-		TweenMax.to(mask, 0.3, {display: "block", opacity: "1", ease:Cubic.easeInOut});
-		txtMenu.html('Close');
-	}
+	burger.toggleClass('on');
+	nav.toggleClass('open');
+	body.toggleClass('pushed');
+	header.toggleClass('pushed');
+	mask.fadeToggle(300);
+	nav.hasClass("open") ? txtMenu.html('Close') : txtMenu.html('Menu');
 }
 
 
@@ -119,6 +101,8 @@ $(function(){
 	/* GENERAL */
 
 		isMobile.any ? htmlTag.addClass('mobile') : htmlTag.addClass('no-mobile');
+
+		try{Typekit.load();}catch(e){}
 
 		$(".imgLiquidFill").imgLiquid();
 
@@ -137,7 +121,7 @@ $(function(){
 
 	/* HOME */
 
-		$("#btn-study").click(function(e) {
+		$("#btn-study").click(function(e){
 			$("html, body").animate({ scrollTop: $("#zone-left-study").offset().top-headerHeight}, 500);
 			e.preventDefault();
 		}).hover(
@@ -220,29 +204,48 @@ $(window).load(function(){
 	/* HOME */
 
 		if(body.hasClass('home')){
-			var blocLogoHome = $("#bloc-logo-home"),
-				tw1 = TweenMax.to(blocLogoHome, 0.6, {opacity: "1", y: "20px", z: "1px"}),
-				tw2 = TweenMax.to(blocLogoHome, 1.2, {y: "-20px", z: "1px"}),
-				tw3 = TweenMax.to(blocLogoHome, 0.4, {opacity: "0", y: "-100px", z: "1px"}),
-				tlBlocTop = new TimelineMax({ease:Quad.easeInOut}).add(tw1).add(tw2).add(tw3);
+			
+			// Anim header
+			if(!htmlTag.hasClass('lt-ie9')){
+				var blocLogoHome = $("#bloc-logo-home"),
+					tw1 = TweenMax.to(blocLogoHome, 0.5, {opacity: "1", y: "30px", z: "1px"}),
+					tw2 = TweenMax.to(blocLogoHome, 1, {y: "-20px", z: "1px"}),
+					tw3 = TweenMax.to(blocLogoHome, 0.4, {opacity: "0", y: "-120px", z: "1px"}),
+					tlBlocTop = new TimelineMax({ease:Quad.easeInOut}).add(tw1).add(tw2).add(tw3);
 
-			tlBlocTop.to([blocTxtHome, $("#logo-institut-avignon")], 0.2, {opacity: "1", y: "0px", z: "1px", ease:Sine.easeOut, delay: 0.6});
+				tlBlocTop.to([blocTxtHome, $("#logo-institut-avignon")], 0.2, {opacity: "1", y: "0px", z: "1px", ease:Sine.easeOut, delay: 0.5});
+			}
+			
+			// Scroll Reveal
+			window.sr = new scrollReveal( {
+				easing: 'ease-in-out',
+				over: '0.5s',
+				move: '50px',
+				scale: { direction: 'up', power: '0%' },
+				reset: true,
+				vFactor: '0.50',
+				wait: '0.5s',
+				delay: 'onload',
+			} );
+
+			// Twitter
+			!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';
+			if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";
+			fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+
+			//Fb - Useless because loaded in fb comments plugin
+			/*(function(d, s, id){
+				var js, fjs = d.getElementsByTagName(s)[0];
+				if (d.getElementById(id)) return;
+				js = d.createElement(s); js.id = id;
+				js.src = "http://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4&appId=932551300139293";
+				fjs.parentNode.insertBefore(js, fjs);
+			}(document, 'script', 'facebook-jssdk'));*/
+			
 		}
 
 });
 
-
-////////////
-// scroll //
-////////////
-
-$(document).scroll(function() {
-
-});
-
-////////////
-// resize //
-////////////
 
 $(window).resize(function() {
 

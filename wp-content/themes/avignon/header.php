@@ -35,6 +35,10 @@
 		<meta name="theme-color" content="#ffffff">
 
 		<?php wp_head(); ?>
+
+		<!--[if (gte IE 6)&(lte IE 8)]>
+		  <script src="<?php echo get_template_directory_uri(); ?>/js/selectivizr-min.js"></script>
+		<![endif]-->
 		
 	</head>
 
@@ -46,7 +50,7 @@
 
 				<div class="container big clearfix">
 					<a href="<?php echo site_url(); ?>" title="Home" rel="home" id="logo-institut-avignon">
-						<span class="visu-logo"><img src='<?php echo get_template_directory_uri(); ?>/layoutImg/logo.png' alt="Institut d'Avignon"/></span><span class="txt-logo">
+						<span class="visu-logo"><img src='<?php echo get_template_directory_uri(); ?>/layoutImg/logo.png' alt="Institut d'Avignon" height="33" width="30"/></span><span class="txt-logo">
 							<strong>Institut</strong> d'Avignon
 						</span>
 					</a>

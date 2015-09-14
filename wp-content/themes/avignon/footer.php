@@ -61,58 +61,8 @@
 
 			<!-- Le Monde Livres -->
 			<script src="http://use.typekit.net/rwg3qyk.js"></script>
-			<script>try{Typekit.load();}catch(e){}</script>
 
 			<?php wp_footer(); ?>
-
-			<?php if(is_front_page()){ ?>
-				<script defer> 
-					var config = {
-						easing: 'ease-in-out',
-						over: '0.5s',
-						move: '50px',
-					    scale: { direction: 'up', power: '0%' },
-					    reset: true,
-					    vFactor: '0.50',
-					    wait: '0.5s',
-					    delay: 'onload',
-					}
-					window.sr = new scrollReveal( config );
-				</script>
-
-				<script defer>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';
-				if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";
-				fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-
-				<script defer>
-				  window.fbAsyncInit = function() {
-				    FB.init({
-				      appId      : '932551300139293',
-				      xfbml      : true,
-				      version    : 'v2.4'
-				    });
-				  };
-
-				  (function(d, s, id){
-				     var js, fjs = d.getElementsByTagName(s)[0];
-				     if (d.getElementById(id)) {return;}
-				     js = d.createElement(s); js.id = id;
-				     js.src = "http://connect.facebook.net/en_US/sdk.js";
-				     fjs.parentNode.insertBefore(js, fjs);
-				   }(document, 'script', 'facebook-jssdk'));
-				</script>
-
-				<div id="fb-root"></div>
-				<script defer>
-				(function(d, s, id) {
-				  var js, fjs = d.getElementsByTagName(s)[0];
-				  if (d.getElementById(id)) return;
-				  js = d.createElement(s); js.id = id;
-				  js.src = "http://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.4&appId=932551300139293";
-				  fjs.parentNode.insertBefore(js, fjs);
-				}(document, 'script', 'facebook-jssdk'));
-				</script>
-			<?php } ?>
 
 		</div>
 

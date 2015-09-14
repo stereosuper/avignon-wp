@@ -391,6 +391,9 @@ body {
 body.pushed {
   left: -200px;
 }
+.lt-ie9 body {
+  overflow-x: auto;
+}
 .container {
   width: 940px;
   position: relative;
@@ -883,6 +886,11 @@ textarea:focus {
   outline: none;
   border-color: #9ddf98;
 }
+.lt-ie9 input:not([type=button]),
+.lt-ie9 select,
+.lt-ie9 textarea {
+  max-width: none;
+}
 textarea {
   box-sizing: border-box;
   width: 100%;
@@ -992,13 +1000,20 @@ label.hidden_sub_label {
 .gfield.radio .ginput_container label {
   display: inline-block;
   padding: 0 10px 0 5px;
-  max-width: 90%;
+  max-width: 87%;
   vertical-align: top;
+}
+.lt-ie9 .gfield.checkbox .ginput_container label,
+.lt-ie9 .gfield.radio .ginput_container label {
+  max-width: none;
 }
 .gfield.checkbox .ginput_container li,
 .gfield.radio .ginput_container li {
   display: inline-block;
   margin: 0;
+}
+.lt-ie9 .gfield.checkbox .ginput_container label {
+  width: 70%;
 }
 .gfield.browse {
   border-top: 1px dashed #dfdfdf;
@@ -1285,9 +1300,6 @@ object {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.6);
-  -webkit-opacity: 0;
-  -moz-opacity: 0;
-  opacity: 0;
   display: none;
   cursor: pointer;
 }
@@ -1405,6 +1417,9 @@ header.scrolled .txt-menu {
   height: 4px;
   background: #942712;
   position: absolute;
+  -webkit-transform: translateZ(0px);
+  -ms-transform: translateZ(0px);
+  transform: translateZ(0px);
 }
 #hamburger-menu .hamburger-icon i#b1 {
   top: 0px;
@@ -1423,6 +1438,9 @@ header.scrolled .txt-menu {
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
   top: 10px;
+}
+.lt-ie9 #hamburger-menu.on .hamburger-icon i#b1 {
+  top: 0;
 }
 #hamburger-menu.on .hamburger-icon i#b2 {
   -webkit-transform: rotate(-45deg);
@@ -1453,9 +1471,15 @@ nav {
   background: #f2f2f2;
   position: fixed;
   box-sizing: border-box;
+  -webkit-transform: translateZ(0px);
+  -ms-transform: translateZ(0px);
+  transform: translateZ(0px);
 }
 nav.open {
   right: 0px;
+}
+.lt-ie9 nav.open {
+  overflow: auto;
 }
 nav a {
   text-decoration: none;
@@ -1506,7 +1530,7 @@ nav ul.sub-menu .sub-menu > li {
   padding: 4px 0;
 }
 nav ul.sub-menu .sub-menu > li a {
-  padding: 0 0 0 48px;
+  padding: 0 0 0 38px;
   font-family: 'klinic_slabmedium_italic', sans-serif;
   font-weight: normal;
   font-size: 0.813em;
@@ -1547,6 +1571,7 @@ nav ul li:before {
 }
 .mobile #bg-top {
   position: absolute;
+  max-height: 150%;
 }
 .home #bg-top {
   height: 700px;
@@ -1567,6 +1592,9 @@ nav ul li:before {
   position: absolute;
   top: 0;
   left: 0;
+}
+.lt-ie9 #wrapper-bloc-logo-home {
+  display: none;
 }
 #bloc-logo-home {
   -webkit-opacity: 0;
@@ -3159,6 +3187,11 @@ p.address-teacher {
   vertical-align: middle;
   max-width: 50%;
 }
+.lt-ie9 .encart p,
+.lt-ie9 .encart .encart-img {
+  max-width: none;
+  width: 50%;
+}
 .encart .encart-img {
   position: relative;
 }
@@ -3170,6 +3203,10 @@ p.address-teacher {
   -webkit-transform: translate(-50%, -54%);
   -ms-transform: translate(-50%, -54%);
   transform: translate(-50%, -54%);
+}
+.lt-ie9 .encart .encart-img a {
+  top: 32%;
+  left: 32%;
 }
 .encart .encart-img a:hover,
 .encart .encart-img a:focus {
@@ -3206,7 +3243,8 @@ p.address-teacher {
 .comments-title {
   margin-bottom: -20px;
 }
-.no-js .comments-title {
+.no-js .comments-title,
+.lt-ie9 .comments-title {
   display: none;
 }
 .blog .courses-list .date,
@@ -3224,6 +3262,12 @@ p.address-teacher {
   left: 15px;
   display: inline-block;
   margin: 0;
+}
+.lt-ie9 .blog .courses-list img,
+.lt-ie9 .archive .courses-list img,
+.lt-ie9 .page-template-alumni .courses-list img {
+  max-width: none;
+  width: 120px;
 }
 .blog .courses-list .hasImg .date,
 .archive .courses-list .hasImg .date,
@@ -3604,9 +3648,21 @@ p.address-teacher {
   .arianne a + a {
     margin: 0 0 0 50px;
   }
+  .second-menu {
+    width: 100%;
+    margin: 0;
+  }
   .second-menu .menu,
   .second-menu .btn.small {
     display: none;
+  }
+  .second-menu .h3 {
+    margin: 0 0 10px;
+    background: #f2f2f2;
+    border: 0;
+    padding: 5px 20px;
+    display: inline-block;
+    font-size: 1.2em;
   }
   .main aside:not(.aside-course) {
     margin-left: 0;
@@ -3717,6 +3773,7 @@ p.address-teacher {
   }
   #bg-top {
     height: 350px;
+    background-image: url(../layoutImg/mb-avignon.jpg);
   }
   #bloc-txt-home {
     padding: 40px 0 0 0;
@@ -3964,6 +4021,9 @@ p.address-teacher {
   .main ul.events-list + div {
     margin: 50px 0 0;
   }
+  .main .aside-course > div {
+    max-width: 300px;
+  }
   .info + .address {
     margin: 30px 0;
   }
@@ -4140,14 +4200,16 @@ p.address-teacher {
   .arianne li:first-child {
     margin: 0;
   }
+  .main .aside-course > div {
+    display: block;
+    max-width: 100%;
+    padding: 20px 0 0;
+  }
 }
 @media (max-width: 370px) {
   header {
     -webkit-transition: 0.3s ease;
     transition: 0.3s ease;
-  }
-  header.pushed {
-    left: -200px;
   }
   header.pushed #logo-institut-avignon .txt-logo {
     display: inline-block;
@@ -4172,6 +4234,11 @@ p.address-teacher {
     padding-left: 105px;
   }
 }
+@media (max-width: 320px) {
+  header .txt-menu {
+    display: none;
+  }
+}
 @media (max-height: 600px) {
   header {
     position: relative;
@@ -4180,13 +4247,19 @@ p.address-teacher {
     margin: 0;
   }
   #bloc-top {
-    height: 145px;
+    height: 70px;
   }
   #bloc-top #bg-top {
-    height: 300px;
+    height: 260px;
   }
   .home #bloc-top #bg-top {
-    height: 700px;
+    height: 500px;
+  }
+  #bloc-top.bloc-top-home {
+    height: 260px;
+  }
+  #bloc-txt-home {
+    padding: 90px 0 0 0;
   }
   .arianne.fixed,
   .second-menu.fixed {
@@ -4206,7 +4279,7 @@ p.address-teacher {
     top: -45px;
   }
 }
-@media (max-height: 920px) {
+@media (max-height: 950px) {
   html,
   body,
   #content {

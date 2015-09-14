@@ -678,9 +678,11 @@ function avignon_scripts()  {
 
         wp_enqueue_script( 'avignon-ismobile', get_template_directory_uri() . '/js/isMobile.min.js', array(), null, true );
 
-        wp_enqueue_script( 'avignon-tween', get_template_directory_uri() . '/js/TweenMax.min.js', array(), null, true );
-        if(is_front_page())
+        if(is_front_page()){
+            wp_enqueue_script( 'avignon-tween', get_template_directory_uri() . '/js/TweenMax.min.js', array(), null, true );
             wp_enqueue_script( 'avignon-scrollreveal', get_template_directory_uri() . '/js/scrollReveal.min.js', array(), null, true );
+        }
+            
         wp_enqueue_script( 'avignon-imgliquid', get_template_directory_uri() . '/js/imgLiquid.min.js', array(), null, true );
 
 
