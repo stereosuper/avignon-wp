@@ -6,7 +6,6 @@ define( 'AVIGNON_HEALTH_EVALUATION_UPLOAD_FORM_ID', 6 );
 
 define( 'AVIGNON_RECOMMENDATION_PAGE_ID', 316 );
 define( 'AVIGNON_HEALTH_EVALUATION_PAGE_ID', 349 );
-define( 'AVIGNON_HEALTH_EVALUATION_UPLOAD_PAGE_ID', 351 );
 
 define( 'AVIGNON_HOUSING_FORM_ID', 11 );
 
@@ -615,6 +614,7 @@ function avignon_apply_form_submitted( $entry )
         'signature_first_name'     => ucwords( $entry[66] ),
         'signature_last_name'      => mb_strtoupper( $entry[67] ),
         'signature_date'           => $entry[68],
+
         'reference_1_ok'           => false,
         'reference_2_ok'           => false,
         'health_form_received'     => false,
@@ -703,8 +703,7 @@ function avignon_apply_form_submitted( $entry )
         }
 
         // On ajoute le jeton
-        $bytes = openssl_random_pseudo_bytes( 32 );
-        $token = bin2hex( $bytes );
+        $token = $entry[81];
         add_post_meta( $post_id, 'token', $token, true );
     }
 
@@ -922,3 +921,37 @@ function avignon_applicant_updated( $post_id )
     }
 }
 add_action( 'acf/save_post', 'avignon_applicant_updated', 1 );
+
+/**
+ * Modifie le message de confirmation pour le formulaire de pré-inscription pour ajouter
+ * les URLs automatiques vers les différentes étapes à suivre.
+ *
+ * @param  string/array $message
+ * @param  array        $form
+ * @param  array        $entry
+ * @return string/Array
+ */
+function avignon_apply_confirmation( $message, $form, $entry )
+{
+    if ( ! is_string( $message ) ) {
+        return $message;
+    }
+
+    $token = $entry[81];
+
+    $keys = array(
+        'link_reference_1',
+        'link_reference_2',
+        'link_health'
+    );
+
+    $replace = array(
+        add_query_arg( array( 'token' => $token, 'reference' => 1 ), get_permalink( AVIGNON_RECOMMENDATION_PAGE_ID ) ),
+        add_query_arg( array( 'token' => $token, 'reference' => 2 ), get_permalink( AVIGNON_RECOMMENDATION_PAGE_ID ) ),
+        add_query_arg( array( 'token' => $token ), get_permalink( AVIGNON_HEALTH_EVALUATION_PAGE_ID ) )
+    );
+
+    $message = str_replace( $keys, $replace, $message );
+    return $message;
+}
+add_filter( 'gform_confirmation_' . AVIGNON_APPLY_FORM_ID, 'avignon_apply_confirmation', 10, 3 );
