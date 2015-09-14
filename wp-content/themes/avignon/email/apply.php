@@ -15,7 +15,7 @@
     </li>
     <li>
         <p>If your application has been accepted, you will still need to provide us with a signed health evaluation from your primary care doctor in order for you to be officially enrolled in the program.</p>
-        <p>Here is the Health Evaluation Form  (or health clearance form?) to be completed by you and your doctor: [ lien url généré automatiquement ]</p>
+        <p>Here is the Health Evaluation Form  (or health clearance form?) to be completed by you and your doctor: <?php echo add_query_arg( 'token', $token, get_permalink( AVIGNON_HEALTH_EVALUATION_PAGE_ID ) ) ?></p>
         <p>Once this form is submitted, you will receive a link to upload this document.</p>
     </li>
 </ol>
