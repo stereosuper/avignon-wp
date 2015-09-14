@@ -8,6 +8,6 @@
 
 <h2>Housing</h2>
 
-<p>Please complete the housing form ASAP. Some options have limited availability and students’ preferences are handled on a first-come, first-served basis: [url formulaire logement]</p>
+<p>Please complete the housing form ASAP. Some options have limited availability and students’ preferences are handled on a first-come, first-served basis: <?php echo get_permalink( AVIGNON_HOUSING_PAGE_ID ) ?></p>
 
 <p>Institut d’Avignon</p>
