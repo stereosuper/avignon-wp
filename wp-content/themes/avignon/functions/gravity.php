@@ -125,7 +125,7 @@ add_filter( 'gform_field_container_' . AVIGNON_HOUSING_FORM_ID . '_49', 'avignon
  */
 function avignon_ss_label( $field_content, $field )
 {
-    if ( $field->formId == AVIGNON_APPLY_FORM_ID && $field->id == 6 ) {
+    if ( $field->formId == AVIGNON_APPLY_FORM_ID && $field->id == 85 ) {
         $field_content = preg_replace("@(<label class='gfield_label')(.*)(<span class='gfield_required'>)@", "$1$2<span class='legend'>(encrypted)</span>$3", $field_content);
     }
     return $field_content;
@@ -559,7 +559,6 @@ function avignon_validate_email_applicant( $result, $value = '' )
     return $result;
 }
 add_action( 'gform_field_validation_' . AVIGNON_APPLY_FORM_ID . '_9',  'avignon_validate_email_applicant', 10, 2 );
-add_action( 'gform_field_validation_' . AVIGNON_APPLY_FORM_ID . '_10', 'avignon_validate_email_applicant', 10, 2 );
 
 /**
  * Soumission du formulaire d'inscription.
@@ -576,19 +575,19 @@ function avignon_apply_form_submitted( $entry )
         'first_name'               => ucwords( $entry[3] ),
         'last_name'                => mb_strtoupper( $entry[4] ),
         'birthday'                 => $entry[82],
-        'ss_number'                => $entry[6],
+        'ss_number'                => $entry[85],
         'citizenship'              => $entry[7],
         'passport_number'          => $entry[8],
         'email'                    => $entry[9],
         'email_2'                  => $entry[10],
-        'phone_number'             => $entry[11],
-        'cell_number'              => $entry[12],
+        'phone_number'             => $entry[83],
+        'cell_number'              => $entry[84],
         'picture'                  => $entry[13],
         'hear_about'               => $entry[14],
         'street_address'           => $entry[17],
         'address_line_2'           => $entry[18],
         'city'                     => $entry[19],
-        'zip_code'                 => $entry[20],
+        'zip_code'                 => $entry[86],
         'state'                    => $entry[21],
         'country'                  => $entry[22],
 
@@ -602,7 +601,7 @@ function avignon_apply_form_submitted( $entry )
         'status'                   => $entry[25],
         'secondary_school'         => $entry[26],
         'university'               => $entry[27],
-        'year_graduating'          => $entry[78],
+        'year_graduating'          => $entry[87],
         'major_subject'            => $entry[29],
         'previous_foreign_travel'  => $entry[30],
         'reasons'                  => $entry[31],
@@ -611,11 +610,11 @@ function avignon_apply_form_submitted( $entry )
         'emergency_first_name'     => ucwords( $entry[37] ),
         'emergency_last_name'      => mb_strtoupper( $entry[38] ),
         'emergency_relationship'   => $entry[39],
-        'emergency_phone_number'   => $entry[40],
+        'emergency_phone_number'   => $entry[88],
         'emergency_street_address' => $entry[41],
         'emergency_address_line_2' => $entry[42],
         'emergency_city'           => $entry[43],
-        'emergency_zip_code'       => $entry[44],
+        'emergency_zip_code'       => $entry[89],
         'emergency_state'          => $entry[45],
         'emergency_country'        => $entry[46],
         'reference_1_first_name'   => ucwords( $entry[51] ),
