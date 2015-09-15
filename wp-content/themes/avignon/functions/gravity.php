@@ -28,6 +28,19 @@ function avignon_gravity_error_message( $message )
 add_filter( 'gform_validation_message', 'avignon_gravity_error_message' );
 
 /**
+ * Ajoute la dernière étape dans le formulaire d'application.
+ *
+ * @param  string $form
+ * @return string
+ */
+function avignon_gravity_step_final( $form )
+{
+    $form = str_replace( "<div class='gf_step_clear'></div>", "<span class='gf_step_label step_indication'>Validation by the Institute</span><div class='gf_step_clear'></div>", $form );
+    return $form;
+}
+add_filter( 'gform_get_form_filter_' . AVIGNON_APPLY_FORM_ID, 'avignon_gravity_step_final' );
+
+/**
  * Adjusting the HTML of the submit button to match design
  *
  * @param $button string  required  The text string of the button we're editing
