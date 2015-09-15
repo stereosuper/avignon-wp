@@ -1097,6 +1097,10 @@ label.hidden_sub_label {
 .gfield .instruction {
   display: none;
 }
+.gform_validation_container,
+.gform_hidden {
+  display: none;
+}
 .gfield_date_day,
 .gfield_date_month {
   width: 50px;
