@@ -15,6 +15,19 @@ define( 'AVIGNON_HOUSING_FORM_ID', 11 );
 add_filter( 'gform_tabindex', '__return_false' );
 
 /**
+ * Modifie le message d'erreur pour Gravity.
+ *
+ * @param  string $message
+ * @return string
+ */
+function avignon_gravity_error_message( $message )
+{
+    $message = '<div class="validation_error">' . __( 'Please check fields filled in red!', 'avignon' ) .  '</div>';
+    return $message;
+}
+add_filter( 'gform_validation_message', 'avignon_gravity_error_message' );
+
+/**
  * Adjusting the HTML of the submit button to match design
  *
  * @param $button string  required  The text string of the button we're editing
