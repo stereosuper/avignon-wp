@@ -617,17 +617,15 @@ function avignon_apply_form_submitted( $entry )
         'emergency_zip_code'       => $entry[89],
         'emergency_state'          => $entry[45],
         'emergency_country'        => $entry[46],
-        'reference_1_first_name'   => ucwords( $entry[51] ),
-        'reference_1_last_name'    => mb_strtoupper( $entry[52] ),
+        'reference_1_complete_name'=> $entry[51],
         'reference_1_affilitation' => $entry[53],
         'reference_1_email'        => $entry[54],
-        'reference_2_first_name'   => ucwords( $entry[56] ),
-        'reference_2_last_name'    => mb_strtoupper( $entry[57] ),
+        'reference_2_complete_name'=> $entry[56],
         'reference_2_affilitation' => $entry[58],
         'reference_2_email'        => $entry[59],
         'signature_first_name'     => ucwords( $entry[66] ),
         'signature_last_name'      => mb_strtoupper( $entry[67] ),
-        'signature_date'           => $entry[68],
+        'signature_date'           => $entry[90],
 
         'reference_1_ok'           => false,
         'reference_2_ok'           => false,
@@ -686,13 +684,11 @@ function avignon_apply_form_submitted( $entry )
         'emergency_country'        => 'field_55f00039ddee3',
 
         'reference_1_ok'           => 'field_55e85a97e6ca0',
-        'reference_1_first_name'   => 'field_55e5b1f4bfc5a',
-        'reference_1_last_name'    => 'field_55e5b204bfc5b',
+        'reference_1_complete_name'=> 'field_55e5b1f4bfc5a',
         'reference_1_affilitation' => 'field_55e5b20bbfc5c',
         'reference_1_email'        => 'field_55e5b214bfc5d',
         'reference_2_ok'           => 'field_55e85b5e8afa6',
-        'reference_2_first_name'   => 'field_55e5b237bfc5f',
-        'reference_2_last_name'    => 'field_55e5b245bfc60',
+        'reference_2_complete_name'=> 'field_55e5b237bfc5f',
         'reference_2_affilitation' => 'field_55e5b24cbfc61',
         'reference_2_email'        => 'field_55e5b259bfc62',
 
@@ -756,19 +752,18 @@ function avignon_recommendation_form_submitted( $entry )
         'first_name'           => $entry[5],
         'last_name'            => $entry[6],
         'affiliation'          => $entry[7],
-        'email'                => $entry[8],
+        'email'                => $entry[26],
         'address'              => $entry[10],
         'address2'             => $entry[11],
-        'zip_code'             => $entry[12],
+        'zip_code'             => $entry[28],
         'city'                 => $entry[13],
         'state'                => $entry[14],
         'country'              => $entry[15],
-        'phone'                => $entry[16],
+        'phone'                => $entry[27],
         'recommendation'       => $entry[18],
         'signature_first_name' => $entry[20],
         'signature_last_name'  => $entry[21],
-        'signature_email'      => $entry[22],
-        'signature_date'       => $entry[23]
+        'signature_date'       => $entry[29]
     );
 
     $acf_mapping = array(
@@ -787,7 +782,6 @@ function avignon_recommendation_form_submitted( $entry )
         'reference_1_data_recommendation'       => 'field_55e85b15e6ca8',
         'reference_1_data_signature_first_name' => 'field_55e85b2de6caa',
         'reference_1_data_signature_last_name'  => 'field_55e85b38e6cab',
-        'reference_1_data_signature_email'      => 'field_55e85b1fe6ca9',
         'reference_1_data_signature_date'       => 'field_55e85b40e6cac',
         'reference_2_ok'                        => 'field_55e85b5e8afa6',
         'reference_2_data_first_name'           => 'field_55e85b718afa7',
@@ -804,7 +798,6 @@ function avignon_recommendation_form_submitted( $entry )
         'reference_2_data_recommendation'       => 'field_55e85be58afb2',
         'reference_2_data_signature_first_name' => 'field_55e85c048afb4',
         'reference_2_data_signature_last_name'  => 'field_55e85c0f8afb5',
-        'reference_2_data_signature_email'      => 'field_55e85bf68afb3',
         'reference_2_data_signature_date'       => 'field_55e85c188afb6',
     );
 
