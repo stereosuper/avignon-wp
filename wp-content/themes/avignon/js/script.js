@@ -71,7 +71,7 @@ function fixedElements(){
 
 function parallax(){
 	$('#bg-top').css('top', myScroll/10 - 100 + 'px');
-	//TweenMax.set($('#bg-top'), {y:myScroll/10 - 100 + 'px'});
+	if(blocTop.find('.college').length) blocTop.find('.college').find('img').css('opacity', 1-myScroll/100);
 }
 
 function scrollPage(){

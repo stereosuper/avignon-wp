@@ -1557,7 +1557,18 @@ nav ul li:before {
   position: relative;
 }
 #bloc-top.bloc-top-home {
-  height: 600px;
+  height: 80vh;
+}
+#bloc-top .college {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+#bloc-top .college .container {
+  width: 90%;
+}
+#bloc-top .college img {
+  margin: 0 0 15px 30px;
 }
 #bg-top {
   position: fixed;
@@ -1574,7 +1585,7 @@ nav ul li:before {
   max-height: 150%;
 }
 .home #bg-top {
-  height: 700px;
+  height: 95vh;
 }
 #container-bloc-txt-home {
   display: block;
@@ -3215,6 +3226,9 @@ p.address-teacher {
 .encart .encart-img img {
   max-width: 100%;
   height: auto;
+  width: auto !important;
+  float: none !important;
+  margin: 0 !important;
 }
 .encart .encart-img + p {
   padding-left: 20px;
@@ -3770,8 +3784,8 @@ p.address-teacher {
   header .txt-menu {
     margin: 4px 8px 0 0;
   }
-  #bloc-top.bloc-top-home {
-    height: 350px;
+  #bloc-top .college img {
+    margin: 0 0 15px;
   }
   #bg-top {
     height: 350px;
@@ -4241,6 +4255,24 @@ p.address-teacher {
     display: none;
   }
 }
+@media (max-height: 950px) {
+  html,
+  body,
+  #content {
+    height: 100%;
+  }
+  body.pushed #content {
+    overflow: hidden;
+  }
+  nav.open {
+    overflow: auto;
+  }
+}
+@media (max-height: 780px) {
+  #bloc-top.bloc-top-home {
+    height: 75vh;
+  }
+}
 @media (max-height: 600px) {
   header {
     position: relative;
@@ -4259,6 +4291,10 @@ p.address-teacher {
   }
   #bloc-top.bloc-top-home {
     height: 260px;
+  }
+  #bloc-top .college img {
+    width: 80px;
+    height: auto;
   }
   #bloc-txt-home {
     padding: 90px 0 0 0;
@@ -4279,19 +4315,6 @@ p.address-teacher {
   }
   #wrapper-bloc-txt-home {
     top: -45px;
-  }
-}
-@media (max-height: 950px) {
-  html,
-  body,
-  #content {
-    height: 100%;
-  }
-  body.pushed #content {
-    overflow: hidden;
-  }
-  nav.open {
-    overflow: auto;
   }
 }
 /* ==|== print styles =======================================================
