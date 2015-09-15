@@ -575,7 +575,7 @@ function avignon_apply_form_submitted( $entry )
     $data = array(
         'first_name'               => ucwords( $entry[3] ),
         'last_name'                => mb_strtoupper( $entry[4] ),
-        'birthday'                 => $entry[79],
+        'birthday'                 => $entry[82],
         'ss_number'                => $entry[6],
         'citizenship'              => $entry[7],
         'passport_number'          => $entry[8],
