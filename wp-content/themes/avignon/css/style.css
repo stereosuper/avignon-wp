@@ -936,9 +936,6 @@ label.hidden_sub_label {
 .gform_confirmation_wrapper + aside + section > h2:first-child {
   margin: 0 0 40px;
 }
-.gform_confirmation_wrapper + aside + section p {
-  line-height: 2em !important;
-}
 .gform_confirmation_message {
   border: 1px solid #a09ca0;
   padding: 15px 15px 15px 80px;
@@ -2585,7 +2582,8 @@ footer {
   width: 220px;
   margin: 0px 20px 0 60px;
 }
-.page-template-apply .main aside:not(.aside-course) {
+.page-template-apply .main aside:not(.aside-course),
+.page-template-apply-success .main aside:not(.aside-course) {
   width: 200px;
   margin: 0 40px 0 0;
 }
@@ -2597,17 +2595,20 @@ footer {
   width: 460px;
   display: inline-block;
 }
-.page-template-apply .main section {
+.page-template-apply .main section,
+.page-template-apply-success .main section {
   width: 470px;
   max-width: 100%;
 }
-.page-template-apply .main section h2 {
+.page-template-apply .main section h2,
+.page-template-apply-success .main section h2 {
   margin: 40px 0 25px;
 }
 .main section p:first-child {
   margin-top: 0;
 }
-.page-template-apply .main section p {
+.page-template-apply .main section p,
+.page-template-apply-success .main section p {
   line-height: 1.56em;
   margin-top: 1em;
 }
@@ -3688,7 +3689,8 @@ p.address-teacher {
     margin-left: 0;
     width: 200px;
   }
-  .page-template-apply .main section {
+  .page-template-apply .main section,
+  .page-template-apply-success .main section {
     width: 450px;
   }
   .main form {
@@ -4004,6 +4006,9 @@ p.address-teacher {
             max-wdith: 140px;
         }
     }*/
+  .gform_confirmation_wrapper + aside + section > h2:first-child {
+    margin-top: 40px;
+  }
   .gform_body {
     padding: 0;
   }
