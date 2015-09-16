@@ -21,7 +21,7 @@ add_filter( 'gform_tabindex', '__return_false' );
  * @return string
  */
 function avignon_email_html_content_type( $content_type ) {
-    return 'text/html';
+    return $content_type;
 }
 
 /**
