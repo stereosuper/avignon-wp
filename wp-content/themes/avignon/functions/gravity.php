@@ -15,6 +15,16 @@ define( 'AVIGNON_HOUSING_FORM_ID', 11 );
 add_filter( 'gform_tabindex', '__return_false' );
 
 /**
+ * Filtre spécifiant le Content-Type des emails envoyés.
+ *
+ * @param  string $content_type
+ * @return string
+ */
+function avignon_email_html_content_type( $content_type ) {
+    return 'text/html';
+}
+
+/**
  * Modifie le message d'erreur pour Gravity.
  *
  * @param  string $message
@@ -735,9 +745,8 @@ function avignon_apply_form_submitted( $entry )
     include get_stylesheet_directory() . '/email/apply.php';
     $message = ob_get_clean();
 
-    wp_mail( $data['email'], __( 'Application submitted!', 'avignon' ), $message, array(
-        'Content-Type: text/html; charset=UTF-8'
-    ) );
+    add_filter( 'wp_mail_content_type', 'avignon_email_html_content_type' );
+    wp_mail( $data['email'], __( 'Application submitted!', 'avignon' ), $message );
 
     // On envoi l'email de références
     for ( $reference = 1 ; $reference <= 2 ; $reference++ ) {
@@ -745,10 +754,9 @@ function avignon_apply_form_submitted( $entry )
         include get_stylesheet_directory() . '/email/reference.php';
         $message = ob_get_clean();
 
-        wp_mail( $data['reference_' . $reference . '_email'], sprintf( __( 'Your recommendation for %s %s', 'avignon' ), $data['first_name'], $data['last_name'] ), $message, array(
-            'Content-Type: text/html; charset=UTF-8'
-        ) );
+        wp_mail( $data['reference_' . $reference . '_email'], sprintf( __( 'Your recommendation for %s %s', 'avignon' ), $data['first_name'], $data['last_name'] ), $message );
     }
+    remove_filter( 'wp_mail_content_type', 'avignon_email_html_content_type' );
 }
 add_action( 'gform_after_submission_' . AVIGNON_APPLY_FORM_ID, 'avignon_apply_form_submitted' );
 
@@ -883,9 +891,9 @@ function avignon_health_evaluation_submitted( $entry )
     include get_stylesheet_directory() . '/email/completed.php';
     $message = ob_get_clean();
 
-    wp_mail( get_field( 'email', $applicant->ID ), __( 'You are officially enrolled', 'avignon' ), $message, array(
-        'Content-Type: text/html; charset=UTF-8'
-    ) );
+    add_filter( 'wp_mail_content_type', 'avignon_email_html_content_type' );
+    wp_mail( get_field( 'email', $applicant->ID ), __( 'You are officially enrolled', 'avignon' ), $message );
+    remove_filter( 'wp_mail_content_type', 'avignon_email_html_content_type' );
 
 }
 add_action( 'gform_after_submission_' . AVIGNON_HEALTH_EVALUATION_UPLOAD_FORM_ID, 'avignon_health_evaluation_submitted' );
@@ -906,6 +914,8 @@ function avignon_applicant_updated( $post_id )
 
     if ( $prev_status != $next_status ) {
         $token = get_post_meta( $post_id, 'token', true );
+
+        add_filter( 'wp_mail_content_type', 'avignon_email_html_content_type' );
         switch ( $next_status ) {
             case 'accepted':
                 // Envoi de l'email d'acceptation
@@ -913,9 +923,7 @@ function avignon_applicant_updated( $post_id )
                 include get_stylesheet_directory() . '/email/accepted.php';
                 $message = ob_get_clean();
 
-                wp_mail( get_field( 'email', $post_id ), __( 'You are admitted', 'avignon' ), $message, array(
-                    'Content-Type: text/html; charset=UTF-8'
-                ) );
+                wp_mail( get_field( 'email', $post_id ), __( 'You are admitted', 'avignon' ), $message );
                 break;
             case 'refused':
                 // Envoi de l'email de refus
@@ -924,20 +932,17 @@ function avignon_applicant_updated( $post_id )
                 include get_stylesheet_directory() . '/email/refused.php';
                 $message = ob_get_clean();
 
-                wp_mail( get_field( 'email', $post_id ), __( 'Your application has been rejected', 'avignon' ), $message, array(
-                    'Content-Type: text/html; charset=UTF-8'
-                ) );
+                wp_mail( get_field( 'email', $post_id ), __( 'Your application has been rejected', 'avignon' ), $message );
                 break;
             case 'completed':
                 ob_start();
                 include get_stylesheet_directory() . '/email/completed.php';
                 $message = ob_get_clean();
 
-                wp_mail( get_field( 'email', $post_id ), __( 'You are officially enrolled', 'avignon' ), $message, array(
-                    'Content-Type: text/html; charset=UTF-8'
-                ) );
+                wp_mail( get_field( 'email', $post_id ), __( 'You are officially enrolled', 'avignon' ), $message );
                 break;
         }
+        remove_filter( 'wp_mail_content_type', 'avignon_email_html_content_type' );
     }
 }
 add_action( 'acf/save_post', 'avignon_applicant_updated', 1 );
