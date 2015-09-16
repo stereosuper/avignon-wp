@@ -723,7 +723,7 @@ function avignon_apply_form_submitted( $entry )
     );
 
     // On ajoute un nouveau post dans les "applicant"
-    $post_id = wp_insert_post(array(
+    $post_id = wp_insert_post( array(
         'post_title'  => sprintf('%s %s', $data['first_name'], $data['last_name']),
         'post_type'   => 'applicant',
         'post_status' => 'publish'
@@ -738,25 +738,25 @@ function avignon_apply_form_submitted( $entry )
         // On ajoute le jeton
         $token = $entry[81];
         add_post_meta( $post_id, 'token', $token, true );
-    }
 
-    // On envoi l'email de confirmation
-    ob_start();
-    include get_stylesheet_directory() . '/email/apply.php';
-    $message = ob_get_clean();
-
-    add_filter( 'wp_mail_content_type', 'avignon_email_html_content_type' );
-    wp_mail( $data['email'], __( 'Application submitted!', 'avignon' ), $message );
-
-    // On envoi l'email de références
-    for ( $reference = 1 ; $reference <= 2 ; $reference++ ) {
+        // On envoi l'email de confirmation
         ob_start();
-        include get_stylesheet_directory() . '/email/reference.php';
+        include get_stylesheet_directory() . '/email/apply.php';
         $message = ob_get_clean();
 
-        wp_mail( $data['reference_' . $reference . '_email'], sprintf( __( 'Your recommendation for %s %s', 'avignon' ), $data['first_name'], $data['last_name'] ), $message );
+        add_filter( 'wp_mail_content_type', 'avignon_email_html_content_type' );
+        wp_mail( $data['email'], __( 'Application submitted!', 'avignon' ), $message );
+
+        // On envoi l'email de références
+        for ( $reference = 1 ; $reference <= 2 ; $reference++ ) {
+            ob_start();
+            include get_stylesheet_directory() . '/email/reference.php';
+            $message = ob_get_clean();
+
+            wp_mail( $data['reference_' . $reference . '_email'], sprintf( __( 'Your recommendation for %s %s', 'avignon' ), $data['first_name'], $data['last_name'] ), $message );
+        }
+        remove_filter( 'wp_mail_content_type', 'avignon_email_html_content_type' );
     }
-    remove_filter( 'wp_mail_content_type', 'avignon_email_html_content_type' );
 }
 add_action( 'gform_after_submission_' . AVIGNON_APPLY_FORM_ID, 'avignon_apply_form_submitted' );
 
