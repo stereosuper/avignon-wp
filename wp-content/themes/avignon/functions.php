@@ -417,12 +417,11 @@ function avignon_content_applicant_column( $column, $post_id )
     switch ($column) {
         case 'references':
             for ( $reference = 1; $reference <= 2; $reference++ ) {
-                $first_name = get_field( 'reference_' . $reference . '_first_name', $post_id );
-                $last_name  = get_field( 'reference_' . $reference . '_last_name', $post_id );
+                $name = get_field( 'reference_' . $reference . '_complete_name', $post_id );
                 $status  = get_field( 'reference_' . $reference . '_ok', $post_id );
                 $class = ( $status ) ? 'yes' : 'no';
                 $color = ( $status ) ? 'green' : 'red';
-                echo sprintf( '<p><span class="dashicons dashicons-%s" style="color:%s"></span> %s %s</p>', $class, $color, $first_name, $last_name );
+                echo sprintf( '<p><span class="dashicons dashicons-%s" style="color:%s"></span> %s</p>', $class, $color, $name );
             }
             break;
         case 'health':
@@ -682,7 +681,7 @@ function avignon_scripts()  {
             wp_enqueue_script( 'avignon-tween', get_template_directory_uri() . '/js/TweenMax.min.js', array(), null, true );
             wp_enqueue_script( 'avignon-scrollreveal', get_template_directory_uri() . '/js/scrollReveal.min.js', array(), null, true );
         }
-            
+
         wp_enqueue_script( 'avignon-imgliquid', get_template_directory_uri() . '/js/imgLiquid.min.js', array(), null, true );
 
 
