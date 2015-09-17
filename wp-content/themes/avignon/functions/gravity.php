@@ -380,6 +380,51 @@ function avignon_markup_reference_mandatory( $field_container )
 }
 add_filter( 'gform_field_container_' . AVIGNON_APPLY_FORM_ID . '_61', 'avignon_markup_reference_mandatory' );
 
+/**
+ * Markup pour le début de la partie "Health form download".
+ *
+ * @param  string $field_container
+ * @return string
+ */
+function avignon_markup_health_upload( $field_container )
+{
+    if ( ! is_admin() ) {
+        $field_container = '<li><ul class="inlineBlock first">' . $field_container;
+    }
+    return $field_container;
+}
+add_filter( 'gform_field_container_' . AVIGNON_HEALTH_EVALUATION_UPLOAD_FORM_ID . '_1', 'avignon_markup_health_upload' );
+
+/**
+ * Markup pour le début de la partie "Health form mailed".
+ *
+ * @param  string $field_container
+ * @return string
+ */
+function avignon_markup_health_mailed( $field_container )
+{
+    if ( ! is_admin() ) {
+        $field_container = '</ul><ul class="inlineBlock">' . $field_container;
+    }
+    return $field_container;
+}
+add_filter( 'gform_field_container_' . AVIGNON_HEALTH_EVALUATION_UPLOAD_FORM_ID . '_6', 'avignon_markup_health_mailed' );
+
+/**
+ * Markup pour le début de la partie "Health form notification".
+ *
+ * @param  string $field_container
+ * @return string
+ */
+function avignon_markup_health_notification( $field_container )
+{
+    if ( ! is_admin() ) {
+        $field_container = '</ul></li>' . $field_container;
+    }
+    return $field_container;
+}
+add_filter( 'gform_field_container_' . AVIGNON_HEALTH_EVALUATION_UPLOAD_FORM_ID . '_5', 'avignon_markup_health_notification' );
+
 
 
 
