@@ -30,7 +30,7 @@ get_header(); ?>
 
 					foreach($cats as $cat) : 
 
-						$loop = new WP_Query( array( 'post_type' => 'courses', 'posts_per_page' => 4, 'order' => 'ASC', 'tax_query' => array( array('taxonomy' => 'types', 'field' => 'slug', 'terms' => $cat->slug) ) ));
+						$loop = new WP_Query( array( 'post_type' => 'courses', 'posts_per_page' => -1, 'tax_query' => array( array('taxonomy' => 'types', 'field' => 'slug', 'terms' => $cat->slug) ) ));
 
 						if( $loop->have_posts() ) : $count = 0; ?>
 

@@ -36,7 +36,14 @@ get_header(); ?>
 					<p><?php the_field('sub-title'); ?></p>
 				</div>
 	  		</div>
-
+			
+			<a href='#zone-left-study' id='btn-down-study' class='icon-down'><span>Down</span></a>
+  		</div>
+		
+		<div class='college'>
+  			<div class='container big'>
+  				<img src="<?php echo get_template_directory_uri(); ?>/layoutImg/logo-bryn-mawr.png" width="144" height="29" alt="Bryn Mawr College">
+  			</div>
   		</div>
   	</div>
 
@@ -197,7 +204,7 @@ get_header(); ?>
 		  					<div class="imgLiquidFill" id="bg-img-facebook">
 		  						<?php echo wp_get_attachment_image( get_field('fbImg'), 'large' ); ?>
 		  					</div>
-		  					<div class="fb-page" data-href="https://www.facebook.com/pages/Bryn-Mawr-College-Institut-dEtudes-Fran%C3%A7aises-dAvignon/99327867676" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="true" data-show-posts="false">
+		  					<div class="fb-page" data-href="https://www.facebook.com/institutdavignon/" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="true" data-show-posts="false">
 		  						<div class="fb-xfbml-parse-ignore">
 		  							<blockquote cite="<?php echo $fbUrl; ?>">
 		  								<a href="<?php echo $fbUrl; ?>" target='_blank'>

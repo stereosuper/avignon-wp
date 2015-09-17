@@ -25,7 +25,13 @@
 							<?php $authors = get_field('author'); 
 								if($authors) :
 									foreach( $authors as $a ): ?>
-										<?php echo get_the_post_thumbnail($a->ID, 'teacher-small-thumb'); ?>
+										<?php
+											if(get_the_post_thumbnail($a->ID, 'teacher-small-thumb')){
+												echo get_the_post_thumbnail($a->ID, 'teacher-small-thumb');
+											}else{ ?>
+												<img src='<?php echo get_template_directory_uri(); ?>/layoutImg/no-photo.png' alt='<?php the_title(); ?>' height='60' width='60'/>
+										<?php } ?>
+
 										<div>
 											<span>
 												By 

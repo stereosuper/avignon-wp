@@ -16,7 +16,8 @@ var burger = $("#hamburger-menu"),
 	arianne = $('[data-scroll="arianne"]'),
 	secondMenu = $('[data-scroll="submenu"]'),
 	main = $('[data-scroll="submenu"] + .main'),
-	myScroll;
+	myScroll,
+	scrollMenu = false;
 
 
 window.requestAnimFrame = (function(){
@@ -27,6 +28,11 @@ window.requestAnimFrame = (function(){
 			window.msRequestAnimationFrame     || 
 			function(callback){ window.setTimeout(callback, 1000/60); };
 })();
+
+filterInt = function(value){
+  if(/^(\-|\+)?([0-9]+|Infinity)$/.test(value)) return Number(value);
+  return 0;
+}
 
 
 
@@ -45,7 +51,7 @@ function fixedElements(){
 				if(secondMenu.length && bodyWidth > 979 && mainHeight > secondMenuHeight) secondMenu.addClass('fixed');
 			}
 		}else{
-			header.removeClass('scrolled');
+			if(!scrollMenu) header.removeClass('scrolled');
 
 			if(!htmlTag.hasClass('lt-ie9')){
 				if(arianne.length) arianne.removeClass('fixed');
@@ -59,7 +65,7 @@ function fixedElements(){
 			header.addClass('scrolled');
 			if(arianne.length && mainHeight > secondMenuHeight && !htmlTag.hasClass('lt-ie9')) arianne.addClass('fixed');
 		}else{
-			header.removeClass('scrolled');
+			if(!scrollMenu) header.removeClass('scrolled');
 			if(arianne.length && !htmlTag.hasClass('lt-ie9')) arianne.removeClass('fixed');
 		} 
 	}
@@ -71,7 +77,8 @@ function fixedElements(){
 
 function parallax(){
 	$('#bg-top').css('top', myScroll/10 - 100 + 'px');
-	if(blocTop.find('.college').length) blocTop.find('.college').find('img').css('opacity', 1-myScroll/100);
+	if(blocTop.find('.college').length) blocTop.find('.college').find('img').css('opacity', 1-myScroll/150);
+	if($('#btn-down-study.on').length) $('#btn-down-study.on').css('opacity', 1-myScroll/150);
 }
 
 function scrollPage(){
@@ -85,13 +92,47 @@ function scrollPage(){
 }
 
 
+function setScrollMenu(){
+	var containers = $('html, body, #content'), 
+		content = $('body').find('#content'),
+		wrapper = $('#wrapper'),
+		scrollTopW = $(window).scrollTop();
+
+	function bodyVisible(){
+		containers.css('height', 'auto');
+		content.css('overflow', 'auto');
+		nav.css('overflow', 'hidden');
+	}
+
+	if($(window).height() <= $('#menu-main').height()){
+		if(nav.hasClass('open')){
+			scrollMenu = true;
+			containers.css('height', '100%');
+			wrapper.css('margin-top', '-' + scrollTopW + 'px');
+			content.css('overflow', 'hidden');
+			nav.css('overflow', 'auto');
+		}else{
+			bodyVisible();
+			scrollMenu = false;
+			scrollTopW = filterInt(wrapper.css('margin-top').replace('-', '').replace('px', ''));
+			wrapper.css('margin-top', 0);
+			$("html, body").animate({ scrollTop: scrollTopW }, 0);
+		}
+	}else{
+		bodyVisible();
+	}
+}
+
 function openCloseMenu(){
 	burger.toggleClass('on');
 	nav.toggleClass('open');
 	body.toggleClass('pushed');
 	header.toggleClass('pushed');
-	mask.fadeToggle(300);
 	nav.hasClass("open") ? txtMenu.html('Close') : txtMenu.html('Menu');
+
+	setScrollMenu();
+
+	mask.fadeToggle(300);
 }
 
 
@@ -142,6 +183,11 @@ $(function(){
 				blocTxtHome.removeClass("hover-btn-live");
 			}
 		);
+
+		$('#btn-down-study').on('click', function(e){
+			$("html, body").animate({ scrollTop: $("#zone-left-study").offset().top-headerHeight}, 500);
+			e.preventDefault();
+		});
 
 
 	/* SOUS PAGES */
@@ -199,6 +245,7 @@ $(function(){
 
 });
 
+
 $(window).load(function(){ 
 
 	/* HOME */
@@ -207,13 +254,17 @@ $(window).load(function(){
 			
 			// Anim header
 			if(!htmlTag.hasClass('lt-ie9')){
+				function appearBtn(){
+					$('#btn-down-study').addClass('on');
+				}
+
 				var blocLogoHome = $("#bloc-logo-home"),
 					tw1 = TweenMax.to(blocLogoHome, 0.5, {opacity: "1", y: "30px", z: "1px"}),
 					tw2 = TweenMax.to(blocLogoHome, 1, {y: "-20px", z: "1px"}),
 					tw3 = TweenMax.to(blocLogoHome, 0.4, {opacity: "0", y: "-120px", z: "1px"}),
 					tlBlocTop = new TimelineMax({ease:Quad.easeInOut}).add(tw1).add(tw2).add(tw3);
 
-				tlBlocTop.to([blocTxtHome, $("#logo-institut-avignon")], 0.2, {opacity: "1", y: "0px", z: "1px", ease:Sine.easeOut, delay: 0.5});
+				tlBlocTop.to([blocTxtHome, $("#logo-institut-avignon")], 0.2, {opacity: "1", y: "0px", z: "1px", ease:Sine.easeOut, delay: 0.5, onComplete: appearBtn});
 			}
 			
 			// Scroll Reveal
@@ -248,5 +299,5 @@ $(window).load(function(){
 
 
 $(window).resize(function() {
-
+	setScrollMenu();
 });
