@@ -900,11 +900,13 @@ add_action( 'gform_after_submission_' . AVIGNON_RECOMMENDATION_FORM_ID, 'avignon
 function avignon_health_evaluation_submitted( $entry )
 {
     $data = array(
-        'health_form' => $entry[1],
+        'health_form'        => $entry[1],
+        'health_form_mailed' => $entry[6],
     );
 
     $acf_mapping = array(
         'application_status'   => 'field_55f000bbd8b61',
+        'health_form_mailed'   => 'field_55fae7404fc3a',
         'health_form_received' => 'field_55f2e5ace86c9',
         'health_form'          => 'field_55f2e5c5e86ca',
     );
@@ -912,34 +914,30 @@ function avignon_health_evaluation_submitted( $entry )
 
     $token = $entry[2];
 
-    // On récupère le dossier à partir du jeton
-    $applicants = get_posts( array(
-        'post_type'  => 'applicant',
-        'meta_key'   => 'token',
-        'meta_value' => $token
-    ) );
-    if ( count( $applicants ) > 0 ) {
-        $applicant =  array_shift( $applicants );
-    } else {
-        return;
+    if ( $token ) {
+        // On récupère le dossier à partir du jeton
+        $applicants = get_posts( array(
+            'post_type'  => 'applicant',
+            'meta_key'   => 'token',
+            'meta_value' => $token
+        ) );
+        if ( count( $applicants ) > 0 ) {
+            $applicant =  array_shift( $applicants );
+        } else {
+            return;
+        }
+
+        // Dossier envoyé par courrier
+        if ( $data['health_form_mailed'] ) {
+            update_field( $acf_mapping['health_form_mailed'], true, $applicant->ID );
+        }
+
+        // Sauvegarde du formulaire dans le dossier
+        if ( $data['health_form'] ) {
+            update_field( $acf_mapping['health_form_received'], true, $applicant->ID );
+            update_field( $acf_mapping['health_form'], $data['health_form'], $applicant->ID );
+        }
     }
-
-    // Sauvegarde du formulaire dans le dossier
-    update_field( $acf_mapping['health_form_received'], true, $applicant->ID );
-    update_field( $acf_mapping['health_form'], $data['health_form'], $applicant->ID );
-
-    // Passage du dossier en "completed"
-    update_field( $acf_mapping['application_status'], 'completed', $applicant->ID );
-
-    // Envoi de l'email de confirmation
-    ob_start();
-    include get_stylesheet_directory() . '/email/completed.php';
-    $message = ob_get_clean();
-
-    add_filter( 'wp_mail_content_type', 'avignon_email_html_content_type' );
-    wp_mail( get_field( 'email', $applicant->ID ), __( 'You are officially enrolled', 'avignon' ), $message );
-    remove_filter( 'wp_mail_content_type', 'avignon_email_html_content_type' );
-
 }
 add_action( 'gform_after_submission_' . AVIGNON_HEALTH_EVALUATION_UPLOAD_FORM_ID, 'avignon_health_evaluation_submitted' );
 
