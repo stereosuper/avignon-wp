@@ -762,7 +762,7 @@ function avignon_apply_form_submitted( $entry )
 
         'signature_first_name'     => 'field_55f0011b4ff71',
         'signature_last_name'      => 'field_55f0012a4ff72',
-        'signature_date'           => 'field_55e5b282bfc66',
+        'signature_date'           => 'field_55f001304ff73',
 
         'health_form_received'     => 'field_55f2e5ace86c9',
     );
