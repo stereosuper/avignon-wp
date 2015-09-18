@@ -183,7 +183,7 @@ get_header(); ?>
 		  						<?php $hashtag = get_field('hashtag'); ?>
 		  						<h5><strong>#<?php echo $hashtag; ?></strong> <?php the_field('twitterTitle'); ?></h5>
 		  						<p><?php the_field('twitterText'); ?></p>
-		  						<a class="twitter-timeline" href="https://twitter.com/hashtag/<?php echo $hashtag; ?>" data-widget-id="628224535872077824" data-chrome="noheader nofooter noborders">
+		  						<a class="twitter-timeline" href="https://twitter.com/hashtag/<?php echo $hashtag; ?>" data-widget-id="644869486735196160" data-chrome="noheader nofooter noborders">
 		  							#<?php echo $hashtag; ?> tweets
 		  						</a>
 		  						<a href="https://twitter.com/hashtag/<?php echo $hashtag; ?>" target='_blank' class="btn"><?php the_field('twitterBtn'); ?></a>

@@ -377,6 +377,11 @@ textarea {
 }
 /* @end */
 /* @group Global */
+html,
+body,
+#content {
+  height: 100%;
+}
 body {
   font-family: "le-monde-livre-std", sans-serif;
   font-style: normal;
@@ -393,6 +398,12 @@ body.pushed {
 }
 .lt-ie9 body {
   overflow-x: auto;
+}
+#content {
+  overflow: visible;
+}
+#content.oHidden {
+  overflow: hidden;
 }
 .container {
   width: 940px;
@@ -1157,6 +1168,9 @@ label.hidden_sub_label {
   top: 5px;
   font-size: 28px;
 }
+#gform_12 .validation_error {
+  left: 110px;
+}
 iframe,
 embed,
 object {
@@ -1476,11 +1490,11 @@ nav {
   -ms-transform: translateZ(0px);
   transform: translateZ(0px);
 }
+nav.oAuto {
+  overflow: auto;
+}
 nav.open {
   right: 0px;
-}
-.lt-ie9 nav.open {
-  overflow: auto;
 }
 nav a {
   text-decoration: none;
@@ -1558,6 +1572,7 @@ nav ul li:before {
   position: relative;
 }
 #bloc-top.bloc-top-home {
+  height: 850px;
   height: 100vh;
 }
 #bloc-top .college {
@@ -1586,6 +1601,7 @@ nav ul li:before {
   max-height: 150%;
 }
 .home #bg-top {
+  height: 950px;
   height: 120vh;
 }
 #container-bloc-txt-home {
@@ -2492,6 +2508,10 @@ footer {
 .arianne.fixed ul {
   display: none;
 }
+.arianne.fixed.bottom {
+  position: absolute;
+  top: auto;
+}
 .second-menu {
   width: 160px;
   display: inline-block;
@@ -2506,6 +2526,11 @@ footer {
 }
 .second-menu.fixed + .main {
   margin-left: 180px;
+}
+.second-menu.fixed.bottom {
+  position: absolute;
+  bottom: -10px;
+  top: auto;
 }
 .second-menu .h3 {
   padding: 0 0 2px 30px;
@@ -3643,6 +3668,9 @@ p.address-teacher {
   .gform_confirmation_message {
     padding: 15px;
   }
+  #gform_12 .validation_error {
+    left: 30px;
+  }
   ul#menu-footer {
     display: block;
     width: 100%;
@@ -3824,6 +3852,9 @@ p.address-teacher {
   }
   .gform_confirmation_message {
     margin: 20px 0 30px;
+  }
+  #gform_12 .validation_error {
+    left: 15px;
   }
   header .txt-menu {
     margin: 4px 8px 0 0;

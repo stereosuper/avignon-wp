@@ -26,26 +26,22 @@ get_header(); ?>
 
                     <div class="gform_confirmation_wrapper">
                         <div class="gform_confirmation_message">
-                            <h2 class="small">Your informations have been successfully sended</h2>
+                            <h2 class="small"><?php the_field('success'); ?></h2>
                         </div>
                     </div>
 
                     <aside>
                         <div class="address">
-                            <h3>Address all correspondence to :</h3>
-                            <p><em>Institut d'Etudes Françaises d'Avignon</em>
-                                Bryan Mawr College, 101 North<br>
-                                Merion Avenue<br>
-                                Bryn Mawr, PA 19010-2899
+                            <h3><?php the_field('addressTitle', 'options'); ?></h3>
+                            <p>
+                                <em><?php the_field('placeName', 'options'); ?></em>
+                                <?php the_field('address', 'options'); ?>
                             </p>
                         </div>
                     </aside><section>
-                        <h2>Your application has been submitted. Please complete these steps in order to be officially enrolled:</h2>
+                        <h2><?php the_field('subtitle'); ?></h2>
                         
-                        <p>
-                            Your recommenders (French professor and dean, or graduate advisor) should have received a recommendation request by email. 
-                            Please confirm that they have received a request from us. If not, they may access the information via this link:
-                        </p>
+                        <p><?php the_field('recommenders'); ?></p>
                         
                         <ul>
                             <li>
@@ -60,19 +56,7 @@ get_header(); ?>
                             </li>
                         </ul>
                         
-                        <p>NB: please don’t forget to have your official transcripts mailed to us! (mailing address: see below)</p>
-
-                        <p>
-                            Once you have provided all required materials, including your recommendations and transcripts, 
-                            your application will be considered for enrollment. 
-                            You will be notified by email whether your application has been accepted or rejected.
-                        </p>
-
-                        <p>
-                            If your application has been accepted, you will still need to provide us with a signed health evaluation 
-                            from your primary care doctor in order for you to be officially enrolled in the program. 
-                            Here is the form to be completed by you and your doctor: 
-                        </p>
+                        <?php the_field('text'); ?>
 
                         <ul>
                             <li>
@@ -82,12 +66,8 @@ get_header(); ?>
                             </li>
                         </ul>
                          
-                        <p>
-                            Once this form is submitted, you will receive a link to upload this document.
-                        </p>
+                        <p><?php the_field('last'); ?></p>
                     </section>
-
-					<?php the_content(); ?>
 
 				<?php else : ?>
 

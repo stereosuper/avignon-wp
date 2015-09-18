@@ -31,10 +31,10 @@ get_header(); ?>
 						</div>
 
 						<div class="address">
-							<h3><?php the_field('addressTitle'); ?></h3>
+							<h3><?php the_field('addressTitle', 'options'); ?></h3>
 							<p>
-								<em><?php the_field('placeName'); ?></em>
-								<?php the_field('address'); ?>
+								<em><?php the_field('placeName', 'options'); ?></em>
+								<?php the_field('address', 'options'); ?>
 							</p>
 						</div>
 

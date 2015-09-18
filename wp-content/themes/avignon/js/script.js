@@ -46,16 +46,24 @@ function fixedElements(){
 		if(myScroll > blocTopHeight - headerHeight){
 			header.addClass('scrolled');
 
-			if(!htmlTag.hasClass('lt-ie9')){
-				if(arianne.length && (mainHeight > secondMenuHeight || bodyWidth < 979)) arianne.addClass('fixed');
-				if(secondMenu.length && bodyWidth > 979 && mainHeight > secondMenuHeight) secondMenu.addClass('fixed');
+			if(arianne.length && secondMenu.length &&!htmlTag.hasClass('lt-ie9')){
+				if(mainHeight > secondMenuHeight || bodyWidth < 979) arianne.addClass('fixed');
+				if(bodyWidth > 979 && mainHeight > secondMenuHeight) secondMenu.addClass('fixed');
+
+				if(myScroll + arianne.outerHeight() + secondMenu.outerHeight() + header.outerHeight() >= $('footer').offset().top){
+					arianne.addClass('bottom').css('bottom', secondMenu.outerHeight());
+					secondMenu.addClass('bottom');
+				}else{
+					arianne.removeClass('bottom').css('bottom', 'auto');
+					secondMenu.removeClass('bottom');
+				}
 			}
 		}else{
 			if(!scrollMenu) header.removeClass('scrolled');
 
-			if(!htmlTag.hasClass('lt-ie9')){
-				if(arianne.length) arianne.removeClass('fixed');
-				if(secondMenu.length) secondMenu.removeClass('fixed');	
+			if(arianne.length && secondMenu.length &&!htmlTag.hasClass('lt-ie9')){
+				arianne.removeClass('fixed');
+				secondMenu.removeClass('fixed');	
 			}
 		}
 
@@ -93,29 +101,26 @@ function scrollPage(){
 
 
 function setScrollMenu(){
-	var containers = $('html, body, #content'), 
-		content = $('body').find('#content'),
+	var content = $('body').find('#content'),
 		wrapper = $('#wrapper'),
 		scrollTopW = $(window).scrollTop();
 
 	function bodyVisible(){
-		containers.css('height', 'auto');
-		content.css('overflow', 'auto');
-		nav.css('overflow', 'hidden');
+		content.removeClass('oHidden');
+		nav.removeClass('oAuto');
 	}
 
 	if($(window).height() <= $('#menu-main').height()){
 		if(nav.hasClass('open')){
 			scrollMenu = true;
-			containers.css('height', '100%');
 			wrapper.css('margin-top', '-' + scrollTopW + 'px');
-			content.css('overflow', 'hidden');
-			nav.css('overflow', 'auto');
+			content.addClass('oHidden');
+			nav.addClass('oAuto');
 		}else{
-			bodyVisible();
 			scrollMenu = false;
 			scrollTopW = filterInt(wrapper.css('margin-top').replace('-', '').replace('px', ''));
 			wrapper.css('margin-top', 0);
+			bodyVisible();
 			$("html, body").animate({ scrollTop: scrollTopW }, 0);
 		}
 	}else{
@@ -129,10 +134,9 @@ function openCloseMenu(){
 	body.toggleClass('pushed');
 	header.toggleClass('pushed');
 	nav.hasClass("open") ? txtMenu.html('Close') : txtMenu.html('Menu');
+	mask.fadeToggle(300);
 
 	setScrollMenu();
-
-	mask.fadeToggle(300);
 }
 
 
@@ -298,6 +302,6 @@ $(window).load(function(){
 });
 
 
-$(window).resize(function() {
+/*$(window).resize(function() {
 	setScrollMenu();
-});
+});*/
