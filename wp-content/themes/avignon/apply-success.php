@@ -76,7 +76,7 @@ get_header(); ?>
 
                         <ul>
                             <li>
-                                <a href="<?php echo add_query_arg( 'token', $_GET['token'], get_permalink( AVIGNON_HEALTH_EVALUATION_PAGE_ID ) ) ?>">
+                                <a href="<?php the_field( 'health_evaluation_file', 'options' ) ?>">
                                     Health evaluation form
                                 </a>
                             </li>

@@ -8,7 +8,7 @@
 
 <p>Here is the health evaluation form to be completed by you and your doctor:</p>
 
-<p><?php echo get_permalink( AVIGNON_HEALTH_EVALUATION_PAGE_ID ) ?></p>
+<p><?php the_field( 'health_evaluation_file', 'options' ) ?></p>
 
 <p>Une fois ce document rempli, vous pouvez nous le faire parvenir via le formulaire prévu a cet effet : </p>
 
