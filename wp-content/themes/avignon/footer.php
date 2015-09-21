@@ -1,6 +1,6 @@
 				<footer role="contentinfo">
 					<?php if(get_field('displayFooterTop')){ ?>
-					<?php $alumni = new WP_Query(array( 'post_type' => 'page', 'meta_key' => '_wp_page_template', 'meta_value' => 'alumni.php')); ?>
+					<?php $alumni = new WP_Query(array( 'post_type' => 'page', 'meta_key' => '_wp_page_template', 'meta_value' => 'alumni.php', 'post_parent' => 0)); ?>
 						<?php if(is_page_template('alumni.php') || $post->post_parent == $alumni->post->ID || is_home() || is_singular('post')){ ?>
 							<div class='footer-alumni'>
 								<div class='container'>

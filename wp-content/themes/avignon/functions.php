@@ -1,6 +1,6 @@
-<?php
+<?php define( 'AVIGNON_VERSION', 1.0 );
 
-define( 'AVIGNON_VERSION', 1.0 );
+add_filter( 'auto_update_plugin', '__return_true' );
 
 /*-----------------------------------------------------------------------------------*/
 /* General
