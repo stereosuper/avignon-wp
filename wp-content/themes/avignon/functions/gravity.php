@@ -1027,6 +1027,29 @@ function avignon_apply_confirmation( $message, $form, $entry )
 add_filter( 'gform_confirmation_' . AVIGNON_APPLY_FORM_ID, 'avignon_apply_confirmation', 10, 3 );
 
 /**
+ * Modifie l'email de notification pour la fonctionnalité Save and Continue.
+ *
+ * @param  array $notification
+ * @return array
+ */
+function avignon_save_email_notification( $notification )
+{
+    if ( 'form_save_email_requested' == $notification['event'] ) {
+        $result = preg_match( '/<span id="save-link">(.*)<\/span>/', $notification['message'] ) ;
+        $save_url = ( isset( $result[1] ) ) ? $result[1] : '';
+
+        $email = $notification['to'];
+
+        // Envoi de l'email de confirmation
+        ob_start();
+        include get_stylesheet_directory() . '/email/save.php';
+        $notification['message'] = ob_get_clean();
+    }
+    return $notification;
+}
+add_filter( 'gform_notification_' . AVIGNON_APPLY_FORM_ID, 'avignon_save_email_notification' );
+
+/**
  * Définition du Cron Job pour les emails à envoyer 7 jours après la sauvegarde d'un formulaire.
  *
  * Cron job executé une fois par jour.
