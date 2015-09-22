@@ -1035,16 +1035,18 @@ add_filter( 'gform_confirmation_' . AVIGNON_APPLY_FORM_ID, 'avignon_apply_confir
 function avignon_save_email_notification( $notification )
 {
     if ( 'form_save_email_requested' == $notification['event'] ) {
-        $result = preg_match( '/<span id="save-link">(.*)<\/span>/', $notification['message'] ) ;
-        $save_url = ( isset( $result[1] ) ) ? $result[1] : '';
+        $result = array();
+        if ( preg_match( '/<span id="save-link">(.*)<\/span>/', $notification['message'], $result ) ) {
+            $save_url = ( isset( $result[1] ) ) ? $result[1] : '';
 
-        $email = $notification['to'];
+            $email = $notification['to'];
 
-        // Envoi de l'email de confirmation
-        ob_start();
-        include get_stylesheet_directory() . '/email/save.php';
-        $notification['message'] = ob_get_clean();
-        $notification['disableAutoformat'] = true;
+            // Envoi de l'email de confirmation
+            ob_start();
+            include get_stylesheet_directory() . '/email/save.php';
+            $notification['message'] = ob_get_clean();
+            $notification['disableAutoformat'] = true;
+        }
     }
     return $notification;
 }
