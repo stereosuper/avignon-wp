@@ -1044,6 +1044,7 @@ function avignon_save_email_notification( $notification )
         ob_start();
         include get_stylesheet_directory() . '/email/save.php';
         $notification['message'] = ob_get_clean();
+        $notification['disableAutoformat'] = true;
     }
     return $notification;
 }
