@@ -1023,3 +1023,82 @@ function avignon_apply_confirmation( $message, $form, $entry )
     return $message;
 }
 add_filter( 'gform_confirmation_' . AVIGNON_APPLY_FORM_ID, 'avignon_apply_confirmation', 10, 3 );
+
+/**
+ * Modifie l'email de notification pour la fonctionnalité Save and Continue.
+ *
+ * @param  array $notification
+ * @return array
+ */
+function avignon_save_email_notification( $notification )
+{
+    if ( 'form_save_email_requested' == $notification['event'] ) {
+        $result = array();
+        if ( preg_match( '/<span id="save-link">(.*)<\/span>/', $notification['message'], $result ) ) {
+            $save_url = ( isset( $result[1] ) ) ? $result[1] : '';
+
+            $email = $notification['to'];
+
+            // Envoi de l'email de confirmation
+            ob_start();
+            include get_stylesheet_directory() . '/email/save.php';
+            $notification['message'] = ob_get_clean();
+            $notification['disableAutoformat'] = true;
+        }
+    }
+    return $notification;
+}
+add_filter( 'gform_notification_' . AVIGNON_APPLY_FORM_ID, 'avignon_save_email_notification' );
+
+/**
+ * Définition du Cron Job pour les emails à envoyer 7 jours après la sauvegarde d'un formulaire.
+ *
+ * Cron job executé une fois par jour.
+ *
+ * @return void
+ */
+function avignon_daily_event_activation() {
+    if ( ! wp_next_scheduled( 'avignon_daily_event' ) ) {
+        wp_schedule_event( time(), 'daily', 'avignon_daily_event' );
+    }
+}
+add_action( 'wp', 'avignon_daily_event_activation' );
+
+/**
+ * Envoi de l'email de notification pour les entrées Gravity Forms en "save & continue" qui n'ont pas donnée
+ * de résultat dans les 7 derniers jours.
+ *
+ * @return void
+ */
+function avignon_send_reminder_email() {
+    global $wpdb;
+
+    // On veux les formulaires pré-rempli il y a 7 jours
+    $days = 1;
+    $start = new DateTime( "-{$days} days midnight", new DateTimeZone( 'GMT' ) );
+    $end   = new DateTime( "-{$days} days 23:59:59", new DateTimeZone( 'GMT' ) );
+
+    // On supprime les soumissions périmées
+    GFFormsModel::purge_expired_incomplete_submissions();
+
+    // On récupère les adresses email, l'URL de base et le jeton
+    $table = GFFormsModel::get_incomplete_submissions_table_name();
+    $sql = $wpdb->prepare("SELECT email, source_url, uuid FROM {$table} WHERE date_created BETWEEN %s AND %s", $start->format( 'Y-m-d H:i:s' ), $end->format( 'Y-m-d H:i:s' ) );
+    $reminders = $wpdb->get_results( $sql, ARRAY_A );
+
+    add_filter( 'wp_mail_content_type', 'avignon_email_html_content_type' );
+    foreach ( $reminders as $reminder ) {
+        $resume_url  = add_query_arg( array( 'gf_token' => $reminder['uuid'] ), $reminder['source_url'] );
+        $resume_url  = esc_url( $resume_url );
+
+        ob_start();
+        include get_stylesheet_directory() . '/email/reminder.php';
+        $message = ob_get_clean();
+
+        wp_mail( $reminder['email'], __( "Friendly reminder (Institut d'Avignon application)", 'avignon' ), $message );
+    }
+    remove_filter( 'wp_mail_content_type', 'avignon_email_html_content_type' );
+
+    return $row;
+}
+add_action( 'avignon_daily_event', 'avignon_send_reminder_email' );
