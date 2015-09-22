@@ -1033,12 +1033,12 @@ add_filter( 'gform_confirmation_' . AVIGNON_APPLY_FORM_ID, 'avignon_apply_confir
  *
  * @return void
  */
-function symbiocards_activation() {
+function avignon_daily_event_activation() {
     if ( ! wp_next_scheduled( 'avignon_daily_event' ) ) {
         wp_schedule_event( time(), 'daily', 'avignon_daily_event' );
     }
 }
-add_action( 'wp', 'symbiocards_activation' );
+add_action( 'wp', 'avignon_daily_event_activation' );
 
 /**
  * Envoi de l'email de notification pour les entrées Gravity Forms en "save & continue" qui n'ont pas donnée
