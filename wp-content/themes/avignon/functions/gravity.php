@@ -762,7 +762,7 @@ function avignon_apply_form_submitted( $entry )
 
         'signature_first_name'     => 'field_55f0011b4ff71',
         'signature_last_name'      => 'field_55f0012a4ff72',
-        'signature_date'           => 'field_55f001304ff73',
+        'signature_date'           => 'field_55e5b282bfc66',
 
         'health_form_received'     => 'field_55f2e5ace86c9',
     );
@@ -900,13 +900,11 @@ add_action( 'gform_after_submission_' . AVIGNON_RECOMMENDATION_FORM_ID, 'avignon
 function avignon_health_evaluation_submitted( $entry )
 {
     $data = array(
-        'health_form'        => $entry[1],
-        'health_form_mailed' => $entry[6],
+        'health_form' => $entry[1],
     );
 
     $acf_mapping = array(
         'application_status'   => 'field_55f000bbd8b61',
-        'health_form_mailed'   => 'field_55fae7404fc3a',
         'health_form_received' => 'field_55f2e5ace86c9',
         'health_form'          => 'field_55f2e5c5e86ca',
     );
@@ -914,30 +912,34 @@ function avignon_health_evaluation_submitted( $entry )
 
     $token = $entry[2];
 
-    if ( $token ) {
-        // On récupère le dossier à partir du jeton
-        $applicants = get_posts( array(
-            'post_type'  => 'applicant',
-            'meta_key'   => 'token',
-            'meta_value' => $token
-        ) );
-        if ( count( $applicants ) > 0 ) {
-            $applicant =  array_shift( $applicants );
-        } else {
-            return;
-        }
-
-        // Dossier envoyé par courrier
-        if ( $data['health_form_mailed'] ) {
-            update_field( $acf_mapping['health_form_mailed'], true, $applicant->ID );
-        }
-
-        // Sauvegarde du formulaire dans le dossier
-        if ( $data['health_form'] ) {
-            update_field( $acf_mapping['health_form_received'], true, $applicant->ID );
-            update_field( $acf_mapping['health_form'], $data['health_form'], $applicant->ID );
-        }
+    // On récupère le dossier à partir du jeton
+    $applicants = get_posts( array(
+        'post_type'  => 'applicant',
+        'meta_key'   => 'token',
+        'meta_value' => $token
+    ) );
+    if ( count( $applicants ) > 0 ) {
+        $applicant =  array_shift( $applicants );
+    } else {
+        return;
     }
+
+    // Sauvegarde du formulaire dans le dossier
+    update_field( $acf_mapping['health_form_received'], true, $applicant->ID );
+    update_field( $acf_mapping['health_form'], $data['health_form'], $applicant->ID );
+
+    // Passage du dossier en "completed"
+    update_field( $acf_mapping['application_status'], 'completed', $applicant->ID );
+
+    // Envoi de l'email de confirmation
+    ob_start();
+    include get_stylesheet_directory() . '/email/completed.php';
+    $message = ob_get_clean();
+
+    add_filter( 'wp_mail_content_type', 'avignon_email_html_content_type' );
+    wp_mail( get_field( 'email', $applicant->ID ), __( 'You are officially enrolled', 'avignon' ), $message );
+    remove_filter( 'wp_mail_content_type', 'avignon_email_html_content_type' );
+
 }
 add_action( 'gform_after_submission_' . AVIGNON_HEALTH_EVALUATION_UPLOAD_FORM_ID, 'avignon_health_evaluation_submitted' );
 
@@ -1033,18 +1035,16 @@ add_filter( 'gform_confirmation_' . AVIGNON_APPLY_FORM_ID, 'avignon_apply_confir
 function avignon_save_email_notification( $notification )
 {
     if ( 'form_save_email_requested' == $notification['event'] ) {
-        $result = array();
-        if ( preg_match( '/<span id="save-link">(.*)<\/span>/', $notification['message'], $result ) ) {
-            $save_url = ( isset( $result[1] ) ) ? $result[1] : '';
+        $result = preg_match( '/<span id="save-link">(.*)<\/span>/', $notification['message'] ) ;
+        $save_url = ( isset( $result[1] ) ) ? $result[1] : '';
 
-            $email = $notification['to'];
+        $email = $notification['to'];
 
-            // Envoi de l'email de confirmation
-            ob_start();
-            include get_stylesheet_directory() . '/email/save.php';
-            $notification['message'] = ob_get_clean();
-            $notification['disableAutoformat'] = true;
-        }
+        // Envoi de l'email de confirmation
+        ob_start();
+        include get_stylesheet_directory() . '/email/save.php';
+        $notification['message'] = ob_get_clean();
+        $notification['disableAutoformat'] = true;
     }
     return $notification;
 }
