@@ -11,3 +11,4 @@ Disallow: */trackback
 Disallow: */feed
 Disallow: */comments
 Disallow: */tag
+Disallow: /readme.html

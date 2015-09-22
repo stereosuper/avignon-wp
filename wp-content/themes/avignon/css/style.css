@@ -77,6 +77,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.icon-down2:before {
+  content: "\e60b";
+}
 .icon-left:before {
   content: "\e60a";
 }
@@ -125,8 +128,6 @@ audio,
 canvas,
 video {
   display: inline-block;
-  *display: inline;
-  *zoom: 1;
 }
 audio:not([controls]) {
   display: none;
@@ -167,12 +168,12 @@ input {
 }
 h1 {
   font-size: 2em;
-  margin: 0.67em 0;
+  margin: .67em 0;
 }
 h2,
 .comments-title {
   font-size: 1.5em;
-  margin: 0.83em 0;
+  margin: .83em 0;
 }
 h3 {
   font-size: 1.17em;
@@ -183,11 +184,11 @@ h4 {
   margin: 1.33em 0;
 }
 h5 {
-  font-size: 0.83em;
+  font-size: .83em;
   margin: 1.67em 0;
 }
 h6 {
-  font-size: 0.75em;
+  font-size: .75em;
   margin: 2.33em 0;
 }
 abbr[title] {
@@ -215,8 +216,7 @@ code,
 kbd,
 pre,
 samp {
-  font-family: monospace, serif;
-  _font-family: 'courier new', monospace;
+  font-family: 'courier new', monospace, serif;
   font-size: 1em;
 }
 pre {
@@ -644,7 +644,8 @@ a:active {
   margin: 16px 0 0 15px;
 }
 .btn,
-.button {
+.button,
+.form_saved_message_emailform input[type=submit] {
   display: inline-block;
   vertical-align: top;
   font-family: 'klinic_slabbold', sans-serif;
@@ -661,7 +662,8 @@ a:active {
   border: 2px solid #942712;
 }
 .btn:before,
-.button:before {
+.button:before,
+.form_saved_message_emailform input[type=submit]:before {
   content: "\203A";
   position: absolute;
   top: 50%;
@@ -674,16 +676,20 @@ a:active {
 }
 .btn:hover,
 .button:hover,
+.form_saved_message_emailform input[type=submit]:hover,
 .btn:focus,
-.button:focus {
+.button:focus,
+.form_saved_message_emailform input[type=submit]:focus {
   background: #942712;
   color: #ffffff;
   outline: none;
 }
 .btn:hover:before,
 .button:hover:before,
+.form_saved_message_emailform input[type=submit]:hover:before,
 .btn:focus:before,
-.button:focus:before {
+.button:focus:before,
+.form_saved_message_emailform input[type=submit]:focus:before {
   color: #ffffff;
   -webkit-transform: translateX(8px);
   -ms-transform: translateX(8px);
@@ -691,51 +697,67 @@ a:active {
 }
 .btn.btn-grey,
 .button.btn-grey,
+.form_saved_message_emailform input[type=submit].btn-grey,
 .btn.btn-grey-2,
-.button.btn-grey-2 {
+.button.btn-grey-2,
+.form_saved_message_emailform input[type=submit].btn-grey-2 {
   color: #ffffff;
   background: #323132;
 }
 .btn.btn-grey:before,
 .button.btn-grey:before,
+.form_saved_message_emailform input[type=submit].btn-grey:before,
 .btn.btn-grey-2:before,
-.button.btn-grey-2:before {
+.button.btn-grey-2:before,
+.form_saved_message_emailform input[type=submit].btn-grey-2:before {
   color: #ffffff;
 }
 .btn.btn-grey:hover,
 .button.btn-grey:hover,
+.form_saved_message_emailform input[type=submit].btn-grey:hover,
 .btn.btn-grey-2:hover,
 .button.btn-grey-2:hover,
+.form_saved_message_emailform input[type=submit].btn-grey-2:hover,
 .btn.btn-grey:focus,
 .button.btn-grey:focus,
+.form_saved_message_emailform input[type=submit].btn-grey:focus,
 .btn.btn-grey-2:focus,
-.button.btn-grey-2:focus {
+.button.btn-grey-2:focus,
+.form_saved_message_emailform input[type=submit].btn-grey-2:focus {
   background: #942712;
   color: #ffffff;
 }
 .btn.btn-grey:hover:before,
 .button.btn-grey:hover:before,
+.form_saved_message_emailform input[type=submit].btn-grey:hover:before,
 .btn.btn-grey-2:hover:before,
 .button.btn-grey-2:hover:before,
+.form_saved_message_emailform input[type=submit].btn-grey-2:hover:before,
 .btn.btn-grey:focus:before,
 .button.btn-grey:focus:before,
+.form_saved_message_emailform input[type=submit].btn-grey:focus:before,
 .btn.btn-grey-2:focus:before,
-.button.btn-grey-2:focus:before {
+.button.btn-grey-2:focus:before,
+.form_saved_message_emailform input[type=submit].btn-grey-2:focus:before {
   color: #ffffff;
 }
 .btn.btn-grey-2:hover,
 .button.btn-grey-2:hover,
+.form_saved_message_emailform input[type=submit].btn-grey-2:hover,
 .btn.btn-grey-2:focus,
-.button.btn-grey-2:focus {
+.button.btn-grey-2:focus,
+.form_saved_message_emailform input[type=submit].btn-grey-2:focus {
   border: 2px solid #ffffff;
 }
 .btn.btn-full-width,
-.button.btn-full-width {
+.button.btn-full-width,
+.form_saved_message_emailform input[type=submit].btn-full-width {
   display: block;
   width: 100%;
 }
 .btn.small,
-.button.small {
+.button.small,
+.form_saved_message_emailform input[type=submit].small {
   padding: 5px 5px 5px 15px;
   font-size: .77em;
   color: #fff;
@@ -744,22 +766,27 @@ a:active {
   width: 136px;
 }
 .btn.small:before,
-.button.small:before {
+.button.small:before,
+.form_saved_message_emailform input[type=submit].small:before {
   left: 8px;
   font-size: .8em;
   color: #fff;
 }
 .btn.small:hover,
 .button.small:hover,
+.form_saved_message_emailform input[type=submit].small:hover,
 .btn.small:focus,
-.button.small:focus {
+.button.small:focus,
+.form_saved_message_emailform input[type=submit].small:focus {
   color: #942712;
   background: #fff;
 }
 .btn.small:hover:before,
 .button.small:hover:before,
+.form_saved_message_emailform input[type=submit].small:hover:before,
 .btn.small:focus:before,
-.button.small:focus:before {
+.button.small:focus:before,
+.form_saved_message_emailform input[type=submit].small:focus:before {
   color: #942712;
   -webkit-transform: none;
   -ms-transform: none;
@@ -1217,7 +1244,7 @@ object {
 }
 #bloc-alumni-stories {
   padding: 0 40px 0 0;
-  margin: 12px 0 0;
+  margin: 12px 0 50px;
 }
 #bloc-alumni-stories a.btn {
   margin: 30px 0;
@@ -1572,7 +1599,7 @@ nav ul li:before {
   position: relative;
 }
 #bloc-top.bloc-top-home {
-  height: 850px;
+  height: 600px;
   height: 100vh;
 }
 #bloc-top .college {
@@ -1601,7 +1628,7 @@ nav ul li:before {
   max-height: 150%;
 }
 .home #bg-top {
-  height: 950px;
+  height: 700px;
   height: 120vh;
 }
 #container-bloc-txt-home {
@@ -1792,8 +1819,8 @@ nav ul li:before {
   right: 0;
   left: 0;
   margin: auto;
-  width: 25px;
-  font-size: 25px;
+  width: 20px;
+  font-size: 20px;
   color: #fff;
   text-decoration: none;
   -webkit-transition: 0.2s ease-in-out;
@@ -3260,6 +3287,20 @@ p.address-teacher {
   display: inline-block;
   padding: 0 0 0 5px;
 }
+.form_saved_message_emailform input[type=submit] {
+  background: #fff;
+  padding: 0;
+  line-height: 1em;
+}
+.form_saved_message_emailform input[type=submit]:hover,
+.form_saved_message_emailform input[type=submit]:focus {
+  background: #942712;
+  border-color: #942712;
+}
+.form_saved_message_emailform .validation_message {
+  color: #ce2b0b;
+  padding: 5px 0 0;
+}
 .encart p,
 .encart .encart-img {
   display: inline-block;
@@ -3381,6 +3422,9 @@ p.address-teacher {
 .single img {
   max-width: 100%;
   height: auto;
+}
+.single .main .btn {
+  margin: 20px 0;
 }
 .pagination {
   margin: 30px 0 0;

@@ -1035,6 +1035,7 @@ add_filter( 'gform_confirmation_' . AVIGNON_APPLY_FORM_ID, 'avignon_apply_confir
 function avignon_save_email_notification( $notification )
 {
     if ( 'form_save_email_requested' == $notification['event'] ) {
+
         $result = array();
         if ( preg_match( '/<span id="save-url">(.*)<\/span>/', $notification['message'], $result ) ) {
             $save_url = ( isset( $result[1] ) ) ? $result[1] : '';
