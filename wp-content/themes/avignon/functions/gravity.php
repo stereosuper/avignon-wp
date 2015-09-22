@@ -1036,7 +1036,7 @@ function avignon_save_email_notification( $notification )
 {
     if ( 'form_save_email_requested' == $notification['event'] ) {
         $result = array();
-        if ( preg_match( '/<span id="save-link">(.*)<\/span>/', $notification['message'], $result ) ) {
+        if ( preg_match( '/<span id="save-url">(.*)<\/span>/', $notification['message'], $result ) ) {
             $save_url = ( isset( $result[1] ) ) ? $result[1] : '';
 
             $email = $notification['to'];
