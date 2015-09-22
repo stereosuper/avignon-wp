@@ -36,11 +36,11 @@
                         <tr width="540">
                             <td width="540" valign="top" style="font-family: TimesNewRoman, 'Times New Roman', Times, Baskerville, Georgia, serif; font-weight: normal; font-size: 14px;">
                                 <p style="color: #000; font-family: TimesNewRoman, 'Times New Roman', Times, Baskerville, Georgia, serif; font-weight: normal; font-size: 14px; line-height: 16px;">
-                                    Your application is incomplete. You may complete the form at any time by using this link:<br/><br/>
-                                    <a href="<?php echo $resume_url ?>" style="font-family: TimesNewRoman, 'Times New Roman', Times, Baskerville, Georgia, serif; font-weight: normal; color: #942814; text-decoration: none;"><?php echo $resume_url ?></a><br/><br/>
+                                    Your application is incomplete. You may complete the form at any time by using this link: 
+                                    <a href="<?php echo $resume_url ?>" style="font-family: TimesNewRoman, 'Times New Roman', Times, Baskerville, Georgia, serif; font-weight: normal; color: #942814; text-decoration: none;"><?php echo $resume_url ?></a>
                                 </p>
                                 <p style="color: #000; font-family: TimesNewRoman, 'Times New Roman', Times, Baskerville, Georgia, serif; font-weight: normal; font-size: 14px; line-height: 16px;">
-                                    Your email address <?php echo $reminder['email'] ?> is linked to this application. You may not submit another application associated with the same email address.
+                                    <em style="font-style: italic;line-height: 16px;">Your email address <?php echo $reminder['email'] ?> is linked to this application. You may not submit another application associated with the same email address.</em>
                                 </p>
                             </td>
                         </tr>
