@@ -101,27 +101,17 @@ function scrollPage(){
 
 
 function setScrollMenu(){
-	var content = $('body').find('#content'),
-		wrapper = $('#wrapper'),
-		scrollTopW = $(window).scrollTop();
-
 	function bodyVisible(){
-		content.removeClass('oHidden');
 		nav.removeClass('oAuto');
+		htmlTag.removeClass('oHidden');
 	}
 
 	if($(window).height() <= $('#menu-main').height()){
 		if(nav.hasClass('open')){
-			scrollMenu = true;
-			wrapper.css('margin-top', '-' + scrollTopW + 'px');
-			content.addClass('oHidden');
 			nav.addClass('oAuto');
+			htmlTag.addClass('oHidden');
 		}else{
-			scrollMenu = false;
-			scrollTopW = filterInt(wrapper.css('margin-top').replace('-', '').replace('px', ''));
-			wrapper.css('margin-top', 0);
 			bodyVisible();
-			$("html, body").animate({ scrollTop: scrollTopW }, 0);
 		}
 	}else{
 		bodyVisible();
@@ -154,20 +144,20 @@ $(function(){
 		scrollPage();
 
 		burger.on("click", function(e){
-			openCloseMenu();
 			e.preventDefault();
+			openCloseMenu();
 		});
 
 		mask.on("click", function(e){
-			openCloseMenu();
 			e.preventDefault();
+			openCloseMenu();
 		});
 
 
 	/* HOME */
 
 		$("#btn-study").click(function(e){
-			$("html, body").animate({ scrollTop: $("#zone-left-study").offset().top-headerHeight}, 500);
+			$("html, body").animate({ scrollTop: $(".bloc-content").offset().top-headerHeight}, 500);
 			e.preventDefault();
 		}).hover(
 			function(){
@@ -189,7 +179,7 @@ $(function(){
 		);
 
 		$('#btn-down-study').on('click', function(e){
-			$("html, body").animate({ scrollTop: $("#zone-left-study").offset().top-headerHeight}, 500);
+			$("html, body").animate({ scrollTop: $(".bloc-content").offset().top-headerHeight}, 500);
 			e.preventDefault();
 		});
 
@@ -272,16 +262,18 @@ $(window).load(function(){
 			}
 			
 			// Scroll Reveal
-			window.sr = new scrollReveal( {
-				easing: 'ease-in-out',
-				over: '0.5s',
-				move: '50px',
-				scale: { direction: 'up', power: '0%' },
-				reset: true,
-				vFactor: '0.50',
-				wait: '0.5s',
-				delay: 'onload',
-			} );
+			if(!htmlTag.hasClass('lt-ie9')){
+				window.sr = new scrollReveal( {
+					easing: 'ease-in-out',
+					over: '0.5s',
+					move: '50px',
+					scale: { direction: 'up', power: '0%' },
+					reset: true,
+					vFactor: '0.50',
+					wait: '0.5s',
+					delay: 'onload',
+				} );
+			}
 
 			// Twitter
 			!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';

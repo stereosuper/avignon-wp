@@ -377,10 +377,8 @@ textarea {
 }
 /* @end */
 /* @group Global */
-html,
-body,
-#content {
-  height: 100%;
+html.oHidden {
+  overflow: hidden;
 }
 body {
   font-family: "le-monde-livre-std", sans-serif;
@@ -389,21 +387,16 @@ body {
   font-size: 1em;
   overflow-x: hidden;
   position: relative;
-  left: 0;
-  -webkit-transition: 0.3s ease;
-  transition: 0.3s ease;
+  margin: 0;
+  -webkit-transition: margin 0.3s ease;
+  transition: margin 0.3s ease;
 }
 body.pushed {
-  left: -200px;
+  margin: 0 200px 0 -200px;
+  position: static;
 }
 .lt-ie9 body {
   overflow-x: auto;
-}
-#content {
-  overflow: visible;
-}
-#content.oHidden {
-  overflow: hidden;
 }
 .container {
   width: 940px;
@@ -1622,6 +1615,10 @@ nav ul li:before {
   background: url(../layoutImg/bg-avignon.jpg) no-repeat 50% 50%;
   background-size: 100% auto;
   background-size: cover;
+  -webkit-backface-visibility: hidden;
+  -o-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 .mobile #bg-top {
   position: absolute;
@@ -2550,6 +2547,10 @@ footer {
 .second-menu.fixed {
   position: fixed;
   top: 124px;
+  -webkit-backface-visibility: hidden;
+  -o-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 .second-menu.fixed + .main {
   margin-left: 180px;
@@ -4108,17 +4109,6 @@ p.address-teacher {
     width: 30%;
   }
   /* @end */
-  /*.second-menu{
-        .btn-arrow-back{
-            margin: 0;
-        }
-        .h3, .menu{
-            padding-left: 0;
-        }
-        .menu{
-            max-wdith: 140px;
-        }
-    }*/
   .gform_confirmation_wrapper + aside + section > h2:first-child {
     margin-top: 40px;
   }
@@ -4270,18 +4260,15 @@ p.address-teacher {
     left: 50%;
     margin-left: -110px;
   }
-  #bloc-contact .adress {
-    display: block;
-    width: 100%;
-    padding: 0;
-    text-align: center;
-    margin: 0 0 20px;
-  }
+  #bloc-contact .adress,
   #bloc-contact .contact-content {
     display: block;
     width: 100%;
     padding: 0;
     text-align: center;
+  }
+  #bloc-contact .adress {
+    margin: 0 0 20px;
   }
   #bloc-contact .contact-content ul li {
     padding: 0;
@@ -4377,25 +4364,6 @@ p.address-teacher {
     display: none;
   }
 }
-/*@media (max-height: 950px){
-    html, body, #content{
-        height: 100%;
-    }
-
-    body{
-        &.pushed{
-            #content{
-                overflow: hidden;
-            }
-        }
-    }
-
-    nav{
-        &.open{
-            overflow: auto;
-        }
-    }
-}*/
 @media (max-height: 600px) {
   header {
     position: relative;
