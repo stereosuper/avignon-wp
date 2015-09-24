@@ -1077,7 +1077,7 @@ function avignon_send_reminder_email() {
     global $wpdb;
 
     // On veux les formulaires pré-rempli il y a 7 jours
-    $days = 1;
+    $days = 7;
     $start = new DateTime( "-{$days} days midnight", new DateTimeZone( 'GMT' ) );
     $end   = new DateTime( "-{$days} days 23:59:59", new DateTimeZone( 'GMT' ) );
 
