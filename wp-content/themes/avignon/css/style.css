@@ -392,7 +392,7 @@ body {
   transition: margin 0.3s ease;
 }
 body.pushed {
-  margin: 0 200px 0 -200px;
+  margin: 0 180px 0 -180px;
   position: static;
 }
 .lt-ie9 body {
