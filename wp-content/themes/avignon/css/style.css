@@ -1400,13 +1400,9 @@ header.scrolled .txt-menu {
   transform: translateZ(1px);
 }
 .home #logo-institut-avignon {
-  -webkit-opacity: 0;
-  -moz-opacity: 0;
   opacity: 0;
 }
 .no-js .home #logo-institut-avignon {
-  -webkit-opacity: 1;
-  -moz-opacity: 1;
   opacity: 1;
 }
 #logo-institut-avignon span {
@@ -1483,8 +1479,6 @@ header.scrolled .txt-menu {
   transform: rotate(-45deg);
 }
 #hamburger-menu.on .hamburger-icon i#b3 {
-  -webkit-opacity: 0;
-  -moz-opacity: 0;
   opacity: 0;
 }
 #hamburger-menu:hover i {
@@ -1531,7 +1525,7 @@ nav > ul > li > a {
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.1em;
   margin: 10px 0 0 0;
-  padding: 2px 28px;
+  padding: 2px 22px;
   border-bottom: 1px solid #979797;
 }
 nav ul {
@@ -1542,7 +1536,7 @@ nav ul.sub-menu > li {
   padding: 6px 0;
 }
 nav ul.sub-menu > li a {
-  padding: 0 28px;
+  padding: 0 22px;
   font-family: 'klinic_slabmedium', sans-serif;
   font-weight: normal;
   font-size: 0.875em;
@@ -1565,10 +1559,10 @@ nav ul.sub-menu .sub-menu > li {
   padding: 4px 0;
 }
 nav ul.sub-menu .sub-menu > li a {
-  padding: 0 0 0 38px;
+  padding: 0 0 0 30px;
   font-family: 'klinic_slabmedium_italic', sans-serif;
   font-weight: normal;
-  font-size: 0.813em;
+  font-size: 0.8em;
   /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -1599,12 +1593,20 @@ nav ul li:before {
   position: absolute;
   bottom: 0;
   width: 100%;
+  -webkit-transition: opacity 0.2s ease-in-out;
+  transition: opacity 0.2s ease-in-out;
 }
 #bloc-top .college .container {
   width: 90%;
 }
 #bloc-top .college img {
-  margin: 0 0 15px 30px;
+  margin: 0 0 30px 30px;
+}
+.js #bloc-top .college {
+  opacity: 0;
+}
+#bloc-top .college.on {
+  opacity: 1;
 }
 #bg-top {
   position: fixed;
@@ -1649,8 +1651,6 @@ nav ul li:before {
   display: none;
 }
 #bloc-logo-home {
-  -webkit-opacity: 0;
-  -moz-opacity: 0;
   opacity: 0;
   -webkit-transform: translateY(100px) translateZ(1px);
   -ms-transform: translateY(100px) translateZ(1px);
@@ -1706,8 +1706,6 @@ nav ul li:before {
   left: 0;
 }
 #bloc-txt-home {
-  -webkit-opacity: 0;
-  -moz-opacity: 0;
   opacity: 0;
   -webkit-transform: translateY(100px);
   -ms-transform: translateY(100px);
@@ -1727,8 +1725,6 @@ nav ul li:before {
   color: #ffffff;
 }
 .no-js #bloc-txt-home {
-  -webkit-opacity: 1;
-  -moz-opacity: 1;
   opacity: 1;
 }
 #bloc-txt-home h1 {
@@ -1790,24 +1786,16 @@ nav ul li:before {
 #bloc-txt-home.hover-btn-live h1 .txt-h1,
 #bloc-txt-home.hover-btn-study h1 a,
 #bloc-txt-home.hover-btn-live h1 a {
-  -webkit-opacity: 0.5;
-  -moz-opacity: 0.5;
-  opacity: 0.5;
+  opacity: .5;
 }
 #bloc-txt-home.hover-btn-study p,
 #bloc-txt-home.hover-btn-live p {
-  -webkit-opacity: 0.5;
-  -moz-opacity: 0.5;
-  opacity: 0.5;
+  opacity: .5;
 }
 #bloc-txt-home.hover-btn-study h1 #btn-study {
-  -webkit-opacity: 1;
-  -moz-opacity: 1;
   opacity: 1;
 }
 #bloc-txt-home.hover-btn-live h1 #btn-live {
-  -webkit-opacity: 1;
-  -moz-opacity: 1;
   opacity: 1;
 }
 #btn-down-study {
@@ -1820,12 +1808,10 @@ nav ul li:before {
   font-size: 20px;
   color: #fff;
   text-decoration: none;
-  -webkit-transition: 0.2s ease-in-out;
-  transition: 0.2s ease-in-out;
+  -webkit-transition: opacity 0.2s ease-in-out;
+  transition: opacity 0.2s ease-in-out;
 }
 .js #btn-down-study {
-  -webkit-opacity: 0;
-  -moz-opacity: 0;
   opacity: 0;
   bottom: 25%;
 }
@@ -1842,8 +1828,6 @@ nav ul li:before {
   bottom: 19.5%;
 }
 #btn-down-study.on {
-  -webkit-opacity: 1;
-  -moz-opacity: 1;
   opacity: 1;
   bottom: 20%;
 }
@@ -2576,7 +2560,7 @@ footer {
   display: none;
 }
 .second-menu .menu > li ul li {
-  line-height: 1.2em;
+  margin: 0 0 5px;
 }
 .second-menu .menu > li ul li:not(.current-menu-item) a {
   font-family: 'klinic_slabmedium', sans-serif;
@@ -4369,7 +4353,7 @@ p.address-teacher {
     position: relative;
   }
   #hamburger-menu.on {
-    margin: 0;
+    margin: 0 20px 0 0;
   }
   #bloc-top {
     height: 70px;
@@ -4378,8 +4362,9 @@ p.address-teacher {
     margin-top: -65px;
   }
   #bloc-top .college img {
-    width: 80px;
+    width: 120px;
     height: auto;
+    margin-bottom: 15px;
   }
   #bg-top {
     height: 260px;
@@ -4388,21 +4373,21 @@ p.address-teacher {
     height: 135vh;
   }
   #btn-down-study {
-    bottom: 10%;
+    bottom: 20%;
   }
   .js #btn-down-study {
+    bottom: 20%;
+  }
+  #btn-down-study.on {
     bottom: 15%;
   }
   #btn-down-study:hover,
   #btn-down-study:focus {
-    bottom: 9.5%;
+    bottom: 14.5%;
   }
   #btn-down-study:hover.on,
   #btn-down-study:focus.on {
-    bottom: 9.5%;
-  }
-  #btn-down-study.on {
-    bottom: 10%;
+    bottom: 14.5%;
   }
   .arianne.fixed,
   .second-menu.fixed {

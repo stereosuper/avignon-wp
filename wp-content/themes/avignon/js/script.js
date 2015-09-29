@@ -250,6 +250,7 @@ $(window).load(function(){
 			if(!htmlTag.hasClass('lt-ie9')){
 				function appearBtn(){
 					$('#btn-down-study').addClass('on');
+					blocTop.find('.college').addClass('on');
 				}
 
 				var blocLogoHome = $("#bloc-logo-home"),

@@ -37,12 +37,12 @@ get_header(); ?>
 				</div>
 	  		</div>
 			
-			<a href='#zone-left-study' id='btn-down-study' class='icon-down'><span>Down</span></a>
+			<a href='#zone-left-study' id='btn-down-study' class='icon-down2'><span>Down</span></a>
   		</div>
 		
 		<div class='college'>
   			<div class='container big'>
-  				<img src="<?php echo get_template_directory_uri(); ?>/layoutImg/logo-bryn-mawr.png" width="144" height="29" alt="Bryn Mawr College">
+  				<img src="<?php echo get_template_directory_uri(); ?>/layoutImg/logo-bryn-mawr.png" width="207" height="68" alt="Under the auspices of Bryn Mawr College">
   			</div>
   		</div>
   	</div>
@@ -215,7 +215,7 @@ get_header(); ?>
 		  					</div>
 		  				</div>
 		  				
-		  				<?php get_template_part( 'includes/bloc-alumni' ); ?>
+		  				<!--<?php get_template_part( 'includes/bloc-alumni' ); ?>-->
 		  				
 		  				<div id="bloc-facebook-responsive">
 		  					<h4><?php the_field('fbTitle'); ?></h4>
