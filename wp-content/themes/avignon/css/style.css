@@ -2468,8 +2468,8 @@ footer {
 }
 #footer-bottom #logo-bryn-mawr {
   display: block;
-  width: 144px;
-  height: 30px;
+  width: 240px;
+  height: 48px;
   float: right;
 }
 #footer-bottom #logo-bryn-mawr img {
@@ -2899,7 +2899,7 @@ footer {
   color: #942712;
 }
 .info + .address {
-  margin: 80px 0 0;
+  margin: 50px 0 0;
 }
 .address {
   font-size: .88em;
@@ -3351,7 +3351,7 @@ p.address-teacher {
   width: auto;
 }
 .comments-title {
-  margin-bottom: -20px;
+  margin: 70px 0 0 !important;
 }
 .no-js .comments-title,
 .lt-ie9 .comments-title {
@@ -3766,7 +3766,7 @@ p.address-teacher {
   }
   .second-menu {
     width: 100%;
-    margin: 0;
+    margin: 10px 0 0;
   }
   .second-menu .menu,
   .second-menu .btn.small {

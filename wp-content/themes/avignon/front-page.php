@@ -197,7 +197,7 @@ get_header(); ?>
 		  					<h4><?php the_field('blogTitle'); ?></h4>
 		  					<p><?php the_field('blogText'); ?></p>
 		  					<a href="<?php the_field('blogUrl', 'options'); ?>" class="btn btn-grey btn-full-width"><?php the_field('blogBtn'); ?></a>
-		  					<p><?php the_field('blogText2'); ?>&nbsp;&nbsp;<a class="btn-arrow btn-white" href="<?php the_field('donateUrl', 'options'); ?>"><?php the_field('blogBtn2'); ?></a></p>
+		  					<p><?php the_field('blogText2'); ?>&nbsp;&nbsp;<a class="btn-arrow btn-white" href="<?php the_field('contributeUrl', 'options'); ?>"><?php the_field('blogBtn2'); ?></a></p>
 		  				</div><div id="bloc-alumni-fb">
 		  					<?php $fbUrl = get_field('fbUrl'); ?>
 		  					<h4><?php the_field('fbTitle'); ?></h4>
