@@ -1256,7 +1256,10 @@ object {
   top: -159px;
   bottom: -100px;
 }
-.fb_iframe_widget iframe {
+.fb-page {
+  position: relative;
+}
+.fb-page iframe {
   margin: 10px 0;
 }
 .no-js .fb-page {

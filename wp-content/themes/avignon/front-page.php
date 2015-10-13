@@ -199,12 +199,12 @@ get_header(); ?>
 		  					<a href="<?php the_field('blogUrl', 'options'); ?>" class="btn btn-grey btn-full-width"><?php the_field('blogBtn'); ?></a>
 		  					<p><?php the_field('blogText2'); ?>&nbsp;&nbsp;<a class="btn-arrow btn-white" href="<?php the_field('contributeUrl', 'options'); ?>"><?php the_field('blogBtn2'); ?></a></p>
 		  				</div><div id="bloc-alumni-fb">
-		  					<?php $fbUrl = get_field('fbUrl'); ?>
+		  					<?php $fbUrl = get_field('fbLink'); ?>
 		  					<h4><?php the_field('fbTitle'); ?></h4>
 		  					<div class="imgLiquidFill" id="bg-img-facebook">
 		  						<?php echo wp_get_attachment_image( get_field('fbImg'), 'large' ); ?>
 		  					</div>
-		  					<div class="fb-page" data-href="https://www.facebook.com/institutdavignon/" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="true" data-show-posts="false">
+		  					<div class="fb-page" data-href="<?php echo $fbUrl; ?>" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="true" data-show-posts="false">
 		  						<div class="fb-xfbml-parse-ignore">
 		  							<blockquote cite="<?php echo $fbUrl; ?>">
 		  								<a href="<?php echo $fbUrl; ?>" target='_blank'>

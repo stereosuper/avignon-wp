@@ -39,7 +39,7 @@
 						<?php if( $courses ): $count = 0; ?>
 
 							<div class='written-by'>
-								<h2 class='medium bordered'>Courses written by this teacher</h2>
+								<h2 class='medium bordered'>Courses taught</h2>
 								<ul class='courses-list'>
 									<?php foreach( $courses as $course ): ?><li <?php if($count % 2 == 0) echo 'class="first"'; ?>>
 										
