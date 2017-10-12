@@ -26,7 +26,7 @@ get_header(); ?>
 
 					<?php
 
-					$loop = new WP_Query( array( 'post_type' => 'teachers', 'posts_per_page' => -1, 'orderby' => 'title', 'order' => 'ASC' ) );
+					$loop = new WP_Query( array( 'post_type' => 'teachers', 'posts_per_page' => -1, 'order' => 'ASC' ) );
 
 					get_template_part( 'includes/teachers-list' );	
 

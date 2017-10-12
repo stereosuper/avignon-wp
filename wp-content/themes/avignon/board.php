@@ -34,7 +34,7 @@ get_header(); ?>
 						$countCats ++;
 
 						echo '<h2 class="medium bordered">'. $cat->name . '</h2>';
-						$loop = new WP_Query( array( 'post_type' => 'board-members', 'posts_per_page' => -1, 'orderby' => 'title', 'order' => 'ASC', 'board-category' => $cat->slug ) );
+						$loop = new WP_Query( array( 'post_type' => 'board-members', 'posts_per_page' => -1, 'order' => 'ASC', 'board-category' => $cat->slug ) );
 
 						get_template_part( 'includes/teachers-list' );
 					}
