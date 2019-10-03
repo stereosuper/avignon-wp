@@ -30,10 +30,6 @@
 wp-content/*
 !wp-content/themes/
 
-# ignore all mu-plugins, plugins, and themes
-# unless explicitly whitelisted at the end of this file
-wp-content/themes/*
-
 # ignore all files starting with . or ~
 .*
 ~*
@@ -79,7 +75,3 @@ Thumbs.db
 
 # track these files, if they exist
 !.gitignore
-
-# track these mu-plugins, plugins, and themes
-# add your own entries here
-!wp-content/themes/avignon/
