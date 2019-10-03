@@ -31,8 +31,7 @@ get_header(); ?>
 
 					<?php 
 						function listPosts($postType, $tax){
-							if($tax) 
-								$options = array( array('taxonomy' => 'types', 'field' => 'slug', 'terms' => $tax) );
+							$options = $tax ? array( array('taxonomy' => 'types', 'field' => 'slug', 'terms' => $tax) ) : array();
 
 							$posts = get_posts( array('post_type' => $postType, 'orderby' => 'title', 'posts_per_page' => -1, 'order' => 'ASC', 'tax_query' => $options) );
 
