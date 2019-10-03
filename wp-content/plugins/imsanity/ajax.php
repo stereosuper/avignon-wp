@@ -1,25 +1,37 @@
 <?php
 /**
-* ################################################################################
-* IMSANITY AJAX FUNCTIONS
-* ################################################################################
-*/
+ * Imsanity AJAX functions.
+ *
+ * @package Imsanity
+ */
 
-add_action('wp_ajax_imsanity_get_images', 'imsanity_get_images');
-add_action('wp_ajax_imsanity_resize_image', 'imsanity_resize_image');
-add_action('admin_head', 'imsanity_admin_javascript');
+add_action( 'wp_ajax_imsanity_get_images', 'imsanity_get_images' );
+add_action( 'wp_ajax_imsanity_resize_image', 'imsanity_resize_image' );
 
 /**
  * Verifies that the current user has administrator permission and, if not,
  * renders a json warning and dies
  */
-function imsanity_verify_permission()
-{
-	if (!current_user_can('administrator'))
-	{
-		$results = array('success'=>false,'message' => 'Administrator permission is required');
-		echo json_encode($results);
-		die();
+function imsanity_verify_permission() {
+	if ( ! current_user_can( 'activate_plugins' ) ) { // this isn't a real capability, but super admins can do anything, so it works.
+		die(
+			json_encode(
+				array(
+					'success' => false,
+					'message' => esc_html__( 'Administrator permission is required', 'imsanity' ),
+				)
+			)
+		);
+	}
+	if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'imsanity-bulk' ) ) {
+		die(
+			json_encode(
+				array(
+					'success' => false,
+					'message' => esc_html__( 'Access token has expired, please reload the page.', 'imsanity' ),
+				)
+			)
+		);
 	}
 }
 
@@ -28,176 +40,209 @@ function imsanity_verify_permission()
  * Searches for up to 250 images that are candidates for resize and renders them
  * to the browser as a json array, then dies
  */
-function imsanity_get_images()
-{
+function imsanity_get_images() {
 	imsanity_verify_permission();
 
 	global $wpdb;
-
-	$query = $wpdb->prepare(
-		"select
-			$wpdb->posts.ID as ID,
-			$wpdb->posts.guid as guid,
-			$wpdb->postmeta.meta_value as file_meta
-			from $wpdb->posts
-			inner join $wpdb->postmeta on $wpdb->posts.ID = $wpdb->postmeta.post_id and $wpdb->postmeta.meta_key = %s
-			where $wpdb->posts.post_type = %s
-			and $wpdb->posts.post_mime_type like %s
-			and $wpdb->posts.post_mime_type != %s",
-		array('_wp_attachment_metadata', 'attachment', 'image%','image/bmp')
-	);
-
-	$images = $wpdb->get_results($query);
+	$offset  = 0;
+	$limit   = apply_filters( 'imsanity_attachment_query_limit', 3000 );
 	$results = array();
+	$maxw    = imsanity_get_option( 'imsanity_max_width', IMSANITY_DEFAULT_MAX_WIDTH );
+	$maxh    = imsanity_get_option( 'imsanity_max_height', IMSANITY_DEFAULT_MAX_HEIGHT );
+	$count   = 0;
 
-	if ($images)
-	{
-		$maxW = imsanity_get_option('imsanity_max_width',IMSANITY_DEFAULT_MAX_WIDTH);
-		$maxH = imsanity_get_option('imsanity_max_height',IMSANITY_DEFAULT_MAX_HEIGHT);
-		$count = 0;
+	$images = $wpdb->get_results( $wpdb->prepare( "SELECT metas.meta_value as file_meta,metas.post_id as ID FROM $wpdb->postmeta metas INNER JOIN $wpdb->posts posts ON posts.ID = metas.post_id WHERE posts.post_type = 'attachment' AND posts.post_mime_type LIKE %s AND posts.post_mime_type != 'image/bmp' AND metas.meta_key = '_wp_attachment_metadata' ORDER BY ID DESC LIMIT %d,%d", '%image%', $offset, $limit ) );
+	/* $images = $wpdb->get_results( "SELECT metas.meta_value as file_meta,metas.post_id as ID FROM $wpdb->postmeta metas INNER JOIN $wpdb->posts posts ON posts.ID = metas.post_id WHERE posts.post_type LIKE 'attachment' AND posts.post_mime_type LIKE 'image%%' AND posts.post_mime_type NOT LIKE 'image/bmp' AND metas.meta_key = '_wp_attachment_metadata' LIMIT $offset,$limit" ); */
+	while ( $images ) {
 
-		foreach ($images as $image)
-		{
-			$meta = unserialize($image->file_meta);
+		foreach ( $images as $image ) {
+			$imagew = false;
+			$imageh = false;
 
-			if ($meta['width'] > $maxW || $meta['height'] > $maxH)
-			{
+			$meta = unserialize( $image->file_meta );
+
+			// If "noresize" is included in the filename then we will bypass imsanity scaling.
+			if ( ! empty( $meta['file'] ) && strpos( $meta['file'], 'noresize' ) !== false ) {
+				continue;
+			}
+
+			if ( imsanity_get_option( 'imsanity_deep_scan', false ) ) {
+				$file_path = imsanity_attachment_path( $meta, $image->ID, '', false );
+				if ( $file_path ) {
+					list( $imagew, $imageh ) = getimagesize( $file_path );
+				}
+			}
+			if ( empty( $imagew ) || empty( $imageh ) ) {
+				$imagew = $meta['width'];
+				$imageh = $meta['height'];
+			}
+
+			if ( $imagew > $maxw || $imageh > $maxh ) {
 				$count++;
 
 				$results[] = array(
-					'id'=>$image->ID,
-					'width'=>$meta['width'],
-					'height'=>$meta['height'],
-					'file'=>$meta['file']
+					'id'     => $image->ID,
+					'width'  => $imagew,
+					'height' => $imageh,
+					'file'   => $meta['file'],
 				);
 			}
 
-			// make sure we only return a limited number of records so we don't overload the ajax features
-			if ($count >= IMSANITY_AJAX_MAX_RECORDS) break;
+			// Make sure we only return a limited number of records so we don't overload the ajax features.
+			if ( $count >= IMSANITY_AJAX_MAX_RECORDS ) {
+				break 2;
+			}
 		}
-	}
-
-	echo json_encode($results);
-	die(); // required by wordpress
+		$offset += $limit;
+		$images  = $wpdb->get_results( $wpdb->prepare( "SELECT metas.meta_value as file_meta,metas.post_id as ID FROM $wpdb->postmeta metas INNER JOIN $wpdb->posts posts ON posts.ID = metas.post_id WHERE posts.post_type = 'attachment' AND posts.post_mime_type LIKE %s AND posts.post_mime_type != 'image/bmp' AND metas.meta_key = '_wp_attachment_metadata' ORDER BY ID DESC LIMIT %d,%d", '%image%', $offset, $limit ) );
+	} // endwhile
+	die( json_encode( $results ) );
 }
 
 /**
-* Resizes the image with the given id according to the configured max width and height settings
-* renders a json response indicating success/failure and dies
-*/
-function imsanity_resize_image()
-{
+ * Resizes the image with the given id according to the configured max width and height settings
+ * renders a json response indicating success/failure and dies
+ */
+function imsanity_resize_image() {
 	imsanity_verify_permission();
 
 	global $wpdb;
 
-	$id = intval( $_POST['id'] );
+	$id = (int) $_POST['id'];
 
-	if (!$id)
-	{
-		$results = array('success'=>false,'message' => __('Missing ID Parameter','imsanity'));
-		echo json_encode($results);
-		die();
+	if ( ! $id ) {
+		die(
+			json_encode(
+				array(
+					'success' => false,
+					'message' => esc_html__( 'Missing ID Parameter', 'imsanity' ),
+				)
+			)
+		);
 	}
 
-	// @TODO: probably doesn't need the join...?
-	$query = $wpdb->prepare(
-	"select
-				$wpdb->posts.ID as ID,
-				$wpdb->posts.guid as guid,
-				$wpdb->postmeta.meta_value as file_meta
-				from $wpdb->posts
-				inner join $wpdb->postmeta on $wpdb->posts.ID = $wpdb->postmeta.post_id and $wpdb->postmeta.meta_key = %s
-				where  $wpdb->posts.ID = %d
-				and $wpdb->posts.post_type = %s
-				and $wpdb->posts.post_mime_type like %s",
-	array('_wp_attachment_metadata', $id, 'attachment', 'image%')
-	);
+	$meta = wp_get_attachment_metadata( $id );
 
-	$images = $wpdb->get_results($query);
-
-	if ($images)
-	{
-		$image = $images[0];
-		$meta = unserialize($image->file_meta);
+	if ( $meta && is_array( $meta ) ) {
 		$uploads = wp_upload_dir();
-		$oldPath = $uploads['basedir'] . "/" . $meta['file'];
+		$oldpath = imsanity_attachment_path( $meta['file'], $id, '', false );
+		if ( empty( $oldpath ) || ! is_writable( $oldpath ) ) {
+			/* translators: %s: File-name of the image */
+			$msg = sprintf( esc_html__( '%s is not writable', 'imsanity' ), $meta['file'] );
+			die(
+				json_encode(
+					array(
+						'success' => false,
+						'message' => $msg,
+					)
+				)
+			);
+		}
 
-		$maxW = imsanity_get_option('imsanity_max_width',IMSANITY_DEFAULT_MAX_WIDTH);
-		$maxH = imsanity_get_option('imsanity_max_height',IMSANITY_DEFAULT_MAX_HEIGHT);
+		$maxw = imsanity_get_option( 'imsanity_max_width', IMSANITY_DEFAULT_MAX_WIDTH );
+		$maxh = imsanity_get_option( 'imsanity_max_height', IMSANITY_DEFAULT_MAX_HEIGHT );
 
-		// method one - slow but accurate, get file size from file itself
-		// list($oldW, $oldH) = getimagesize( $oldPath );
-		// method two - get file size from meta, fast but resize will fail if meta is out of sync
-		$oldW = $meta['width'];
-		$oldH = $meta['height'];
+		// method one - slow but accurate, get file size from file itself.
+		list( $oldw, $oldh ) = getimagesize( $oldpath );
+		// method two - get file size from meta, fast but resize will fail if meta is out of sync.
+		if ( ! $oldw || ! $oldh ) {
+			$oldw = $meta['width'];
+			$oldh = $meta['height'];
+		}
 
+		if ( ( $oldw > $maxw && $maxw > 0 ) || ( $oldh > $maxh && $maxh > 0 ) ) {
+			$quality = imsanity_get_option( 'imsanity_quality', IMSANITY_DEFAULT_QUALITY );
 
-		if (($oldW > $maxW && $maxW > 0) || ($oldH > $maxH && $maxH > 0))
-		{
-			$quality = imsanity_get_option('imsanity_quality',IMSANITY_DEFAULT_QUALITY);
+			if ( $oldw > $maxw && $maxw > 0 && $oldh > $maxh && $maxh > 0 && apply_filters( 'imsanity_crop_image', false ) ) {
+				$neww = $maxw;
+				$newh = $maxh;
+			} else {
+				list( $neww, $newh ) = wp_constrain_dimensions( $oldw, $oldh, $maxw, $maxh );
+			}
 
-			list($newW, $newH) = wp_constrain_dimensions($oldW, $oldH, $maxW, $maxH);
+			$resizeresult = imsanity_image_resize( $oldpath, $neww, $newh, apply_filters( 'imsanity_crop_image', false ), null, null, $quality );
 
-			$resizeResult = imsanity_image_resize( $oldPath, $newW, $newH, false, null, null, $quality);
-			// $resizeResult = new WP_Error('invalid_image', __('Could not read image size'), $oldPath);  // uncommend to debug fail condition
+			if ( $resizeresult && ! is_wp_error( $resizeresult ) ) {
+				$newpath = $resizeresult;
 
-			if (!is_wp_error($resizeResult))
-			{
-				$newPath = $resizeResult;
+				if ( $newpath !== $oldpath && is_file( $newpath ) && filesize( $newpath ) < filesize( $oldpath ) ) {
+					// we saved some file space. remove original and replace with resized image.
+					unlink( $oldpath );
+					rename( $newpath, $oldpath );
+					$meta['width']  = $neww;
+					$meta['height'] = $newh;
 
-				if ($newPath != $oldPath)
-				{
-					// remove original and replace with re-sized image
-					unlink($oldPath);
-					rename($newPath, $oldPath);
+					wp_update_attachment_metadata( $id, $meta );
+
+					$results = array(
+						'success' => true,
+						'id'      => $id,
+						/* translators: %s: File-name of the image */
+						'message' => sprintf( esc_html__( 'OK: %s', 'imsanity' ), $oldpath ),
+					);
+				} elseif ( $newpath !== $oldpath ) {
+					// the resized image is actually bigger in filesize (most likely due to jpg quality).
+					// keep the old one and just get rid of the resized image.
+					if ( is_file( $newpath ) ) {
+						unlink( $newpath );
+					}
+					$results = array(
+						'success' => false,
+						'id'      => $id,
+						/* translators: 1: File-name of the image 2: the error message, translated elsewhere */
+						'message' => sprintf( esc_html__( 'ERROR: %1$s (%2$s)', 'imsanity' ), $oldpath, esc_html__( 'Resized image was larger than the original', 'imsanity' ) ),
+					);
+				} else {
+					$results = array(
+						'success' => false,
+						'id'      => $id,
+						/* translators: 1: File-name of the image 2: the error message, translated elsewhere */
+						'message' => sprintf( esc_html__( 'ERROR: %1$s (%2$s)', 'imsanity' ), $oldpath, esc_html__( 'Unknown error, resizing function returned the same filename', 'imsanity' ) ),
+					);
 				}
-
-				$meta['width'] = $newW;
-				$meta['height'] = $newH;
-
-				// @TODO replace custom query with update_post_meta
-				$update_query = $wpdb->prepare(
-					"update $wpdb->postmeta
-						set $wpdb->postmeta.meta_value = %s
-						where  $wpdb->postmeta.post_id = %d
-						and $wpdb->postmeta.meta_key = %s",
-					array(maybe_serialize($meta), $image->ID, '_wp_attachment_metadata')
+			} elseif ( false === $resizeresult ) {
+				$results = array(
+					'success' => false,
+					'id'      => $id,
+					/* translators: 1: File-name of the image 2: the error message, translated elsewhere */
+					'message' => sprintf( esc_html__( 'ERROR: %1$s (%2$s)', 'imsanity' ), $oldpath, esc_html__( 'wp_get_image_editor missing', 'imsanity' ) ),
 				);
-
-				$wpdb->query($update_query);
-
-				$results = array('success'=>true,'id'=> $id, 'message' => sprintf(__('OK: %s','imsanity') , $oldPath) );
+			} else {
+				$results = array(
+					'success' => false,
+					'id'      => $id,
+					/* translators: 1: File-name of the image 2: the error message, translated elsewhere */
+					'message' => sprintf( esc_html__( 'ERROR: %1$s (%2$s)', 'imsanity' ), $oldpath, htmlentities( $resizeresult->get_error_message() ) ),
+				);
 			}
-			else
-			{
-				$results = array('success'=>false,'id'=> $id, 'message' => sprintf(__('ERROR: %s (%s)','imsanity'),$oldPath,htmlentities($resizeResult->get_error_message()) ) );
+		} else {
+			$results = array(
+				'success' => true,
+				'id'      => $id,
+				/* translators: %s: File-name of the image */
+				'message' => sprintf( esc_html__( 'SKIPPED: %s (Resize not required)', 'imsanity' ), $oldpath ) . " -- $oldw x $oldh",
+			);
+			if ( empty( $meta['width'] ) || empty( $meta['height'] ) ) {
+				if ( empty( $meta['width'] ) || $meta['width'] > $oldw ) {
+					$meta['width'] = $oldw;
+				}
+				if ( empty( $meta['height'] ) || $meta['height'] > $oldh ) {
+					$meta['height'] = $oldh;
+				}
+				wp_update_attachment_metadata( $id, $meta );
 			}
 		}
-		else
-		{
-			$results = array('success'=>true,'id'=> $id, 'message' => sprintf(__('SKIPPED: %s (Resize not required)','imsanity') , $oldPath ) );
-		}
-
-	}
-	else
-	{
-		$results = array('success'=>false,'id'=> $id, 'message' => sprintf(__('ERROR: (Attachment with ID of %s not found) ','imsanity') , htmlentities($id) ) );
+	} else {
+		$results = array(
+			'success' => false,
+			'id'      => $id,
+			/* translators: %s: ID number of the image */
+			'message' => sprintf( esc_html__( 'ERROR: Attachment with ID of %d not found', 'imsanity' ), intval( $id ) ),
+		);
 	}
 
-	// if there is a quota we need to reset the directory size cache so it will re-calculate
-	delete_transient('dirsize_cache');
-	
-	echo json_encode($results);
-	die(); // required by wordpress
-}
+	// If there is a quota we need to reset the directory size cache so it will re-calculate.
+	delete_transient( 'dirsize_cache' );
 
-/**
- * Output the javascript needed for making ajax calls into the header
- */
-function imsanity_admin_javascript()
-{
-	// javascript is queued in settings.php imsanity_settings_banner()
+	die( json_encode( $results ) );
 }
-
-?>

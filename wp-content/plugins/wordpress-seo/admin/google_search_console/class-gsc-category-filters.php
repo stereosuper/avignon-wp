@@ -1,10 +1,12 @@
 <?php
 /**
- * @package WPSEO\Admin|Google_Search_Console
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Admin\Google_Search_Console
  */
 
 /**
- * Class WPSEO_GSC_Category_Filters
+ * Class WPSEO_GSC_Category_Filters.
  *
  * This class will get all category counts from the options and will parse the filter links that are displayed above
  * the crawl issue tables.
@@ -12,32 +14,32 @@
 class WPSEO_GSC_Category_Filters {
 
 	/**
-	 * The counts per category
+	 * The counts per category.
 	 *
 	 * @var array
 	 */
 	private $category_counts = array();
 
 	/**
-	 * All the possible filters
+	 * All the possible filters.
 	 *
 	 * @var array
 	 */
-	private $filter_values   = array();
+	private $filter_values = array();
 
 	/**
-	 * The current category
+	 * The current category.
 	 *
 	 * @var string
 	 */
 	private $category;
 
 	/**
-	 * Constructing this object
+	 * Constructing this object.
 	 *
-	 * Setting the hook to create the issues categories as the links
+	 * Setting the hook to create the issues categories as the links.
 	 *
-	 * @param array $platform_counts
+	 * @param array $platform_counts Set of issue counts by platform.
 	 */
 	public function __construct( array $platform_counts ) {
 		if ( ! empty( $platform_counts ) ) {
@@ -51,7 +53,7 @@ class WPSEO_GSC_Category_Filters {
 	}
 
 	/**
-	 * Returns the value of the current category
+	 * Returns the value of the current category.
 	 *
 	 * @return mixed|string
 	 */
@@ -60,9 +62,9 @@ class WPSEO_GSC_Category_Filters {
 	}
 
 	/**
-	 * Returns the current filters as an array
+	 * Returns the current filters as an array.
 	 *
-	 * Only return categories with more than 0 issues
+	 * Only return categories with more than 0 issues.
 	 *
 	 * @return array
 	 */
@@ -77,10 +79,11 @@ class WPSEO_GSC_Category_Filters {
 	}
 
 	/**
-	 * Getting the current view
+	 * Getting the current view.
 	 */
 	private function get_current_category() {
-		if ( $current_category = filter_input( INPUT_GET, 'category' ) ) {
+		$current_category = filter_input( INPUT_GET, 'category' );
+		if ( ! empty( $current_category ) ) {
 			return $current_category;
 		}
 
@@ -98,79 +101,153 @@ class WPSEO_GSC_Category_Filters {
 	}
 
 	/**
-	 * Setting the view counts based on the saved data. The info will be used to display the category filters
+	 * Setting the view counts based on the saved data. The info will be used to display the category filters.
 	 *
-	 * @param array $platform_counts
+	 * @param array $platform_counts Set of counts by platform.
 	 */
 	private function set_counts( array $platform_counts ) {
 		$this->category_counts = $this->parse_counts( $platform_counts );
 	}
 
 	/**
-	 * Setting the values for the filter
+	 * Setting the values for the filter.
 	 */
 	private function set_filter_values() {
-		$this->set_filter_value( 'access_denied', __( 'Access denied', 'wordpress-seo' ), __( 'Server requires authentication or is blocking Googlebot from accessing the site.', 'wordpress-seo' ) );
+		$this->set_filter_value(
+			'access_denied',
+			__( 'Access denied', 'wordpress-seo' ),
+			__( 'Server requires authentication or is blocking Googlebot from accessing the site.', 'wordpress-seo' ),
+			sprintf(
+				/* translators: %s: category name. N.B.: The category name is translated separately. */
+				__( 'Show information about errors in category %s', 'wordpress-seo' ),
+				__( 'Access denied', 'wordpress-seo' )
+			)
+		);
 		$this->set_filter_value( 'faulty_redirects', __( 'Faulty redirects', 'wordpress-seo' ) );
-		$this->set_filter_value( 'not_followed',__( 'Not followed', 'wordpress-seo' ) );
-		$this->set_filter_value( 'not_found', __( 'Not found', 'wordpress-seo' ), __( 'URL points to a non-existent page.', 'wordpress-seo' ) );
-		$this->set_filter_value( 'other', __( 'Other', 'wordpress-seo' ), __( 'Google was unable to crawl this URL due to an undetermined issue.', 'wordpress-seo' ) );
-		/* Translators: %1$s: expands to '<code>robots.txt</code>'. */
-		$this->set_filter_value( 'roboted', __( 'Blocked', 'wordpress-seo' ), sprintf( __( 'Googlebot could access your site, but certain URLs are blocked for Googlebot in your %1$s file. This block could either be for all Googlebots or even specifically for Googlebot-mobile.', 'wordpress-seo' ), '<code>robots.txt</code>' ) );
-		$this->set_filter_value( 'server_error', __( 'Server Error', 'wordpress-seo' ), __( 'Request timed out or site is blocking Google.', 'wordpress-seo' ) );
-		$this->set_filter_value( 'soft_404', __( 'Soft 404', 'wordpress-seo' ), __( "The target URL doesn't exist, but your server is not returning a 404 (file not found) error.", 'wordpress-seo' ) );
-	}
-
-	/**
-	 * Add new filter value to the filter_values
-	 * @param string $key
-	 * @param string $value
-	 * @param string $description
-	 */
-	private function set_filter_value( $key, $value, $description = '' ) {
-		$this->filter_values[ $key ] = array(
-			'value'       => $value,
-			'description' => $description,
+		$this->set_filter_value( 'not_followed', __( 'Not followed', 'wordpress-seo' ) );
+		$this->set_filter_value(
+			'not_found',
+			__( 'Not found', 'wordpress-seo' ),
+			__( 'URL points to a non-existent page.', 'wordpress-seo' ),
+			sprintf(
+				/* translators: %s: category name. N.B.: The category name is translated separately. */
+				__( 'Show information about errors in category %s', 'wordpress-seo' ),
+				__( 'Not found', 'wordpress-seo' )
+			)
+		);
+		$this->set_filter_value(
+			'other',
+			__( 'Other', 'wordpress-seo' ),
+			__( 'Google was unable to crawl this URL due to an undetermined issue.', 'wordpress-seo' ),
+			sprintf(
+				/* translators: %s: category name. N.B.: The category name is translated separately. */
+				__( 'Show information about errors in category %s', 'wordpress-seo' ),
+				__( 'Other', 'wordpress-seo' )
+			)
+		);
+		$this->set_filter_value(
+			'roboted',
+			__( 'Blocked', 'wordpress-seo' ),
+			sprintf(
+				/* translators: %1$s: expands to '<code>robots.txt</code>'. */
+				__( 'Googlebot could access your site, but certain URLs are blocked for Googlebot in your %1$s file. This block could either be for all Googlebots or even specifically for Googlebot-mobile.', 'wordpress-seo' ),
+				'<code>robots.txt</code>'
+			),
+			sprintf(
+				/* translators: %s: category name. N.B.: The category name is translated separately. */
+				__( 'Show information about errors in category %s', 'wordpress-seo' ),
+				__( 'Blocked', 'wordpress-seo' )
+			)
+		);
+		$this->set_filter_value(
+			'server_error',
+			__( 'Server Error', 'wordpress-seo' ),
+			__( 'Request timed out or site is blocking Google.', 'wordpress-seo' ),
+			sprintf(
+				/* translators: %s: category name. N.B.: The category name is translated separately. */
+				__( 'Show information about errors in category %s', 'wordpress-seo' ),
+				__( 'Server Error', 'wordpress-seo' )
+			)
+		);
+		$this->set_filter_value(
+			'soft_404',
+			__( 'Soft 404', 'wordpress-seo' ),
+			__( "The target URL doesn't exist, but your server is not returning a 404 (file not found) error.", 'wordpress-seo' ),
+			sprintf(
+				/* translators: %s: category name. N.B.: The category name is translated separately. */
+				__( 'Show information about errors in category %s', 'wordpress-seo' ),
+				__( 'Soft 404', 'wordpress-seo' )
+			)
 		);
 	}
 
 	/**
-	 * Creates a filter link
+	 * Add new filter value to the filter_values.
 	 *
-	 * @param string  $category
-	 * @param integer $count
+	 * @param string $key              Filter key.
+	 * @param string $value            Filter value.
+	 * @param string $description      Optional description string.
+	 * @param string $help_button_text Optional help button text.
+	 */
+	private function set_filter_value( $key, $value, $description = '', $help_button_text = '' ) {
+		$this->filter_values[ $key ] = array(
+			'value'       => $value,
+			'description' => $description,
+			'help-button' => $help_button_text,
+		);
+	}
+
+	/**
+	 * Creates a filter link.
+	 *
+	 * @param string  $category Issue type.
+	 * @param integer $count    Count for the type.
 	 *
 	 * @return string
 	 */
 	private function create_view_link( $category, $count ) {
-		$href  = add_query_arg( array( 'category' => $category, 'paged' => 1 ) );
+		$href = add_query_arg(
+			array(
+				'category' => $category,
+				'paged'    => 1,
+			)
+		);
 
-		$class = 'gsc_category';
+		$class        = 'gsc_category';
+		$aria_current = '';
 
 		if ( $this->category === $category ) {
-			$class .= ' current';
+			$class       .= ' current';
+			$aria_current = ' aria-current="page"';
 		}
 
-		$title = '';
+		$help_button = '';
+		$help_panel  = '';
 		if ( $this->filter_values[ $category ]['description'] !== '' ) {
-			$title = " title='" . esc_attr( $this->filter_values[ $category ]['description'] ) . "'";
+			$help        = new WPSEO_Admin_Help_Panel( $category, $this->filter_values[ $category ]['help-button'], $this->filter_values[ $category ]['description'], 'has-wrapper' );
+			$help_button = $help->get_button_html();
+			$help_panel  = $help->get_panel_html();
 		}
 
 		return sprintf(
-			'<a href="%1$s" class="%2$s" %3$s>%4$s</a> (<span id="gsc_count_%5$s">%6$s</span>)',
+			'<a href="%1$s" class="%2$s"%8$s>%3$s</a> (<span id="gsc_count_%4$s">%5$s</span>) %6$s %7$s',
 			esc_attr( $href ),
 			$class,
-			$title,
 			$this->filter_values[ $category ]['value'],
 			$category,
-			$count
+			$count,
+			$help_button,
+			$help_panel,
+			$aria_current
 		);
 	}
 
 	/**
-	 * Parsing the category counts. When there are 0 issues for a specific category, just remove that one from the array
+	 * Parsing the category counts.
 	 *
-	 * @param array $category_counts
+	 * When there are 0 issues for a specific category, just remove that one from the array.
+	 *
+	 * @param array $category_counts Set of counts for categories.
 	 *
 	 * @return mixed
 	 */
@@ -183,5 +260,4 @@ class WPSEO_GSC_Category_Filters {
 
 		return $category_counts;
 	}
-
 }

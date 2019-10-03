@@ -1,40 +1,50 @@
 <?php
 /**
- * @package WPSEO\Admin|Google_Search_Console
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Admin\Google_Search_Console
  */
 
 /**
- * Class WPSEO_GSC_Issue
+ * Class WPSEO_GSC_Issue.
  */
 class WPSEO_GSC_Issue {
 
 	/**
+	 * The URL of the Google Search Console issue.
+	 *
 	 * @var string
 	 */
 	private $url;
 
 	/**
+	 * The time of the first discovery of the Google Search Console issue.
+	 *
 	 * @var DateTime
 	 */
 	private $first_detected;
 
 	/**
+	 * The time of the last crawl of the URL.
+	 *
 	 * @var DateTime
 	 */
 	private $last_crawled;
 
 	/**
+	 * The HTTP response code of the URL.
+	 *
 	 * @var string
 	 */
 	private $response_code;
 
 	/**
-	 * Constructor
+	 * Search Console issue class constructor.
 	 *
-	 * @param string   $url
-	 * @param DateTime $first_detected
-	 * @param DateTime $last_crawled
-	 * @param string   $response_code
+	 * @param string   $url            URL of the issue.
+	 * @param DateTime $first_detected Time of first discovery.
+	 * @param DateTime $last_crawled   Time of last crawl.
+	 * @param string   $response_code  HTTP response code.
 	 */
 	public function __construct( $url, DateTime $first_detected, DateTime $last_crawled, $response_code ) {
 		$this->url            = $url;
@@ -44,7 +54,7 @@ class WPSEO_GSC_Issue {
 	}
 
 	/**
-	 * Put the class properties in array
+	 * Put the class properties in array.
 	 *
 	 * @return array
 	 */
@@ -60,26 +70,30 @@ class WPSEO_GSC_Issue {
 	}
 
 	/**
-	 * Converting the date to a date format
+	 * Converting the date to a date format.
 	 *
-	 * @param DateTime $date_to_convert
-	 * @param string   $format
+	 * @param DateTime $date_to_convert Date instance.
+	 * @param string   $format          Format string.
 	 *
 	 * @return string
 	 */
-	private function to_date_format( DateTime $date_to_convert, $format = 'Y-m-d H:i:s' ) {
-		return (string) strftime( '%x', strtotime( $date_to_convert->format( $format ) ) );
+	private function to_date_format( DateTime $date_to_convert, $format = '' ) {
+
+		if ( empty( $format ) ) {
+			$format = get_option( 'date_format' );
+		}
+
+		return date_i18n( $format, $date_to_convert->format( 'U' ) );
 	}
 
 	/**
-	 * Converting the date to a timestamp
+	 * Converting the date to a timestamp.
 	 *
-	 * @param DateTime $date_to_convert
+	 * @param DateTime $date_to_convert Date object instance.
 	 *
 	 * @return string
 	 */
 	private function to_timestamp( DateTime $date_to_convert ) {
 		return $date_to_convert->format( 'U' );
 	}
-
 }

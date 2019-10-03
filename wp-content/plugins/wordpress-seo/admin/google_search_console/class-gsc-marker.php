@@ -1,44 +1,56 @@
 <?php
 /**
- * @package WPSEO\Admin|Google_Search_Console
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Admin\Google_Search_Console
  */
 
 /**
- * Class WPSEO_GSC_Marker
+ * Class WPSEO_GSC_Marker.
  */
 class WPSEO_GSC_Marker {
 
 	/**
+	 * Holds the craw issues instance.
+	 *
 	 * @var WPSEO_GSC_Issues
 	 */
 	private $crawl_issues;
 
 	/**
+	 * Holds the URL.
+	 *
 	 * @var string
 	 */
 	private $url = '';
 
 	/**
+	 * Holds the platform (desktop, mobile, feature phone).
+	 *
 	 * @var string
 	 */
 	private $platform;
 
 	/**
+	 * Holds the category.
+	 *
 	 * @var string
 	 */
 	private $category;
 
 	/**
+	 * Holds the result.
+	 *
 	 * @var string
 	 */
 	private $result;
 
 	/**
-	 * Setting up the needed API libs and return the result
+	 * Setting up the needed API libs and return the result.
 	 *
-	 * If param URL is given, the request is performed by a bulk action
+	 * If param URL is given, the request is performed by a bulk action.
 	 *
-	 * @param string $url
+	 * @param string $url Optional URL.
 	 */
 	public function __construct( $url = '' ) {
 		$this->url    = $url;
@@ -46,7 +58,8 @@ class WPSEO_GSC_Marker {
 	}
 
 	/**
-	 * Getting the response for the AJAX request
+	 * Getting the response for the AJAX request.
+	 *
 	 * @return string
 	 */
 	public function get_response() {
@@ -54,7 +67,7 @@ class WPSEO_GSC_Marker {
 	}
 
 	/**
-	 * Setting the result, this method will check if current
+	 * Setting the result, this method will check if current.
 	 *
 	 * @return string
 	 */
@@ -73,7 +86,7 @@ class WPSEO_GSC_Marker {
 	}
 
 	/**
-	 * Check if request is valid by verifying the posted nonce and return the URL if this one is set
+	 * Check if request is valid by verifying the posted nonce and return the URL if this one is set.
 	 *
 	 * @return bool|string
 	 */
@@ -86,7 +99,7 @@ class WPSEO_GSC_Marker {
 	}
 
 	/**
-	 * Storing the data belonging to the current issue, this data is needed in the 'mark as fixed' flow
+	 * Storing the data belonging to the current issue, this data is needed in the 'mark as fixed' flow.
 	 *
 	 * @return bool
 	 */
@@ -105,7 +118,7 @@ class WPSEO_GSC_Marker {
 	/**
 	 * Sending a request to the Google Search Console API to let them know we marked an issue as fixed.
 	 *
-	 * @param WPSEO_GSC_Service $service
+	 * @param WPSEO_GSC_Service $service Service object instance.
 	 *
 	 * @return bool
 	 */
@@ -114,7 +127,7 @@ class WPSEO_GSC_Marker {
 	}
 
 	/**
-	 * Delete the crawl issue from the database
+	 * Delete the crawl issue from the database.
 	 *
 	 * @return bool
 	 */
@@ -125,19 +138,18 @@ class WPSEO_GSC_Marker {
 	/**
 	 * Getting the counts for current platform - category combination and update the score of it.
 	 *
-	 * @param WPSEO_GSC_Service $service
+	 * @param WPSEO_GSC_Service $service Service object instance.
 	 */
 	private function update_issue_count( WPSEO_GSC_Service $service ) {
-		$counts  = new WPSEO_GSC_Count( $service );
+		$counts = new WPSEO_GSC_Count( $service );
 
 		// Get the issues.
 		$total_issues = $counts->get_issue_count( $this->platform, $this->category );
 
 		// Lower the current count with 1.
-		$total_issues = ( $total_issues - 1 );
+		--$total_issues;
 
 		// And update the count.
 		$counts->update_issue_count( $this->platform, $this->category, $total_issues );
 	}
-
 }

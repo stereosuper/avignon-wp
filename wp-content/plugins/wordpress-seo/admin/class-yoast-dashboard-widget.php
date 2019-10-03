@@ -1,40 +1,74 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin
  */
 
 /**
- * Class to change or add WordPress dashboard widgets
+ * Class to change or add WordPress dashboard widgets.
  */
-class Yoast_Dashboard_Widget {
+class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 
+	/**
+	 * Holds the cache transient key.
+	 *
+	 * @var string
+	 */
 	const CACHE_TRANSIENT_KEY = 'wpseo-dashboard-totals';
 
 	/**
+	 * Holds an instance of the admin asset manager.
+	 *
+	 * @var WPSEO_Admin_Asset_Manager
+	 */
+	protected $asset_manager;
+
+	/**
+	 * Holds the dashboard statistics.
+	 *
 	 * @var WPSEO_Statistics
 	 */
 	protected $statistics;
 
 	/**
-	 * @param WPSEO_Statistics $statistics The statistics class to retrieve statistics from.
+	 * Yoast_Dashboard_Widget constructor.
+	 *
+	 * @param WPSEO_Statistics|null $statistics WPSEO_Statistics instance.
 	 */
 	public function __construct( WPSEO_Statistics $statistics = null ) {
-		if ( null === $statistics ) {
+		if ( $statistics === null ) {
 			$statistics = new WPSEO_Statistics();
 		}
 
-		$this->statistics = $statistics;
-
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_dashboard_stylesheet' ) );
-		add_action( 'wp_dashboard_setup', array( $this, 'add_dashboard_widget' ) );
-		add_action( 'wp_insert_post', array( $this, 'clear_cache' ) );
-		add_action( 'delete_post', array( $this, 'clear_cache' ) );
+		$this->statistics    = $statistics;
+		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
 	}
 
 	/**
-	 * Adds dashboard widget to WordPress
+	 * Register WordPress hooks.
+	 */
+	public function register_hooks() {
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_dashboard_assets' ) );
+		add_action( 'admin_init', array( $this, 'queue_dashboard_widget' ) );
+	}
+
+	/**
+	 * Adds the dashboard widget if it should be shown.
+	 *
+	 * @return void
+	 */
+	public function queue_dashboard_widget() {
+		if ( $this->show_widget() ) {
+			add_action( 'wp_dashboard_setup', array( $this, 'add_dashboard_widget' ) );
+		}
+	}
+
+	/**
+	 * Adds dashboard widget to WordPress.
 	 */
 	public function add_dashboard_widget() {
+		add_filter( 'postbox_classes_dashboard_wpseo-dashboard-overview', array( $this, 'wpseo_dashboard_overview_class' ) );
 		wp_add_dashboard_widget(
 			'wpseo-dashboard-overview',
 			/* translators: %s is the plugin name */
@@ -44,121 +78,87 @@ class Yoast_Dashboard_Widget {
 	}
 
 	/**
-	 * Display the dashboard widget
+	 * Adds CSS classes to the dashboard widget.
+	 *
+	 * @param array $classes An array of postbox CSS classes.
+	 *
+	 * @return array
+	 */
+	public function wpseo_dashboard_overview_class( $classes ) {
+		$classes[] = 'yoast wpseo-dashboard-overview';
+		return $classes;
+	}
+
+	/**
+	 * Displays the dashboard widget.
 	 */
 	public function display_dashboard_widget() {
-		$statistics = $this->statistic_items();
-
-		include WPSEO_PATH . '/admin/views/dashboard-widget.php';
+		echo '<div id="yoast-seo-dashboard-widget"></div>';
 	}
 
 	/**
-	 * Enqueue's stylesheet for the dashboard if the current page is the dashboard
+	 * Enqueues assets for the dashboard if the current page is the dashboard.
 	 */
-	public function enqueue_dashboard_stylesheet() {
-		if ( 'dashboard' === get_current_screen()->id ) {
-			wp_enqueue_style( 'wpseo-wp-dashboard', plugins_url( 'css/dashboard' . WPSEO_CSSJS_SUFFIX . '.css', WPSEO_FILE ), array(), WPSEO_VERSION );
-		}
-	}
-
-	/**
-	 * Clears the dashboard widget items cache
-	 */
-	public function clear_cache() {
-		delete_transient( self::CACHE_TRANSIENT_KEY );
-	}
-
-	/**
-	 * An array representing items to be added to the At a Glance dashboard widget
-	 *
-	 * @return array
-	 */
-	private function statistic_items() {
-		$transient = get_transient( self::CACHE_TRANSIENT_KEY );
-		$user_id   = get_current_user_id();
-
-		if ( isset( $transient[ $user_id ][1] ) ) {
-			return $transient[ $user_id ];
+	public function enqueue_dashboard_assets() {
+		if ( ! $this->is_dashboard_screen() ) {
+			return;
 		}
 
-		return $this->set_statistic_items_for_this_user( $transient );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'dashboard-widget', 'wpseoDashboardWidgetL10n', $this->localize_dashboard_script() );
+		$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
+		$yoast_components_l10n->localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'dashboard-widget' );
+		$this->asset_manager->enqueue_script( 'dashboard-widget' );
+		$this->asset_manager->enqueue_style( 'wp-dashboard' );
 	}
 
 	/**
-	 * Set the cache for a specific user
+	 * Translates strings used in the dashboard widget.
 	 *
-	 * @param array|boolean $transient The current stored transient with the cached data.
-	 *
-	 * @return mixed
+	 * @return array The translated strings.
 	 */
-	private function set_statistic_items_for_this_user( $transient ) {
-		if ( $transient === false ) {
-			$transient = array();
-		}
-
-		$user_id                  = get_current_user_id();
-		$filtered_items[ $user_id ] = array_filter( $this->get_seo_scores_with_post_count(), array( $this, 'filter_items' ) );
-
-		set_transient( self::CACHE_TRANSIENT_KEY, array_merge( $filtered_items, $transient ), DAY_IN_SECONDS );
-
-		return $filtered_items[ $user_id ];
-	}
-
-	/**
-	 * Set the SEO scores belonging to their SEO score result
-	 *
-	 * @return array
-	 */
-	private function get_seo_scores_with_post_count() {
+	public function localize_dashboard_script() {
 		return array(
-			array(
-				'seo_rank' => 'good',
-				'title'    => __( 'Posts with good SEO score', 'wordpress-seo' ),
-				'class'    => 'wpseo-glance-good',
-				'count'    => $this->statistics->get_good_seo_post_count(),
+			'feed_header'      => sprintf(
+				/* translators: %1$s resolves to Yoast.com */
+				__( 'Latest blog posts on %1$s', 'wordpress-seo' ),
+				'Yoast.com'
 			),
-			array(
-				'seo_rank' => 'ok',
-				'title'    => __( 'Posts with OK SEO score', 'wordpress-seo' ),
-				'class'    => 'wpseo-glance-ok',
-				'count'    => $this->statistics->get_ok_seo_post_count(),
+			'feed_footer'      => __( 'Read more like this on our SEO blog', 'wordpress-seo' ),
+			'ryte_header'      => sprintf(
+				/* translators: %1$s expands to Ryte. */
+				__( 'Indexability check by %1$s', 'wordpress-seo' ),
+				'Ryte'
 			),
-			array(
-				'seo_rank' => 'poor',
-				'title'    => __( 'Posts with poor SEO score', 'wordpress-seo' ),
-				'class'    => 'wpseo-glance-poor',
-				'count'    => $this->statistics->get_poor_seo_post_count(),
-			),
-			array(
-				'seo_rank' => 'bad',
-				'title'    => __( 'Posts with bad SEO score', 'wordpress-seo' ),
-				'class'    => 'wpseo-glance-bad',
-				'count'    => $this->statistics->get_bad_seo_post_count(),
-			),
-			array(
-				'seo_rank' => 'na',
-				'title'    => __( 'Posts without focus keyword', 'wordpress-seo' ),
-				'class'    => 'wpseo-glance-na',
-				'count'    => $this->statistics->get_no_focus_post_count(),
-			),
-			array(
-				'seo_rank' => 'noindex',
-				/* translators: %s expands to <code>noindex</code> */
-				'title'    => sprintf( __( 'Posts that are set to %s', 'wordpress-seo' ), '<code>noindex</code>' ),
-				'class'    => 'wpseo-glance-noindex',
-				'count'    => $this->statistics->get_no_index_post_count(),
-			),
+			'ryteEnabled'      => ( WPSEO_Options::get( 'onpage_indexability' ) === true ),
+			'ryte_fetch'       => __( 'Fetch the current status', 'wordpress-seo' ),
+			'ryte_analyze'     => __( 'Analyze entire site', 'wordpress-seo' ),
+			'ryte_fetch_url'   => esc_attr( add_query_arg( 'wpseo-redo-onpage', '1' ) ) . '#wpseo-dashboard-overview',
+			'ryte_landing_url' => WPSEO_Shortlinker::get( 'https://yoa.st/rytelp' ),
+			'wp_version'       => substr( $GLOBALS['wp_version'], 0, 3 ) . '-' . ( is_plugin_active( 'classic-editor/classic-editor.php' ) ? '1' : '0' ),
+			// @codingStandardsIgnoreLine
+			'php_version'      => PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION, // phpcs:ignore PHPCompatibility.Constants.NewConstants -- Does not work in PHP 5.2.3 and 5.2.4.
 		);
 	}
 
 	/**
-	 * Filter items if they have a count of zero
+	 * Checks if the current screen is the dashboard screen.
 	 *
-	 * @param array $item
+	 * @return bool Whether or not this is the dashboard screen.
+	 */
+	private function is_dashboard_screen() {
+		$current_screen = get_current_screen();
+
+		return ( $current_screen instanceof WP_Screen && $current_screen->id === 'dashboard' );
+	}
+
+	/**
+	 * Returns true when the dashboard widget should be shown.
 	 *
 	 * @return bool
 	 */
-	private function filter_items( $item ) {
-		return 0 !== $item['count'];
+	private function show_widget() {
+		$analysis_seo = new WPSEO_Metabox_Analysis_SEO();
+
+		return $analysis_seo->is_enabled() && current_user_can( 'edit_posts' );
 	}
 }
