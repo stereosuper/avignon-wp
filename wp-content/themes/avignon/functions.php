@@ -29,7 +29,10 @@ remove_action('wp_head', 'wlwmanifest_link');
 remove_action('wp_head', 'print_emoji_detection_script', 7);
 remove_action('admin_print_scripts', 'print_emoji_detection_script');
 
-add_filter('login_errors', create_function('$a', "return null;"));
+function remove_login_error($a){
+    return null;
+}
+add_filter('login_errors', 'remove_login_error');
 
 function remove_comment_author_class( $classes ) {
 	foreach( $classes as $key => $class ){
@@ -117,7 +120,7 @@ add_action( 'widgets_init', 'avignon_register_sidebars' );
 /*-----------------------------------------------------------------------------------*/
 // widget social
 class Social_Widget extends WP_Widget{
-    function Social_Widget() {
+    function __construct() {
         parent::__construct(false, 'Avignon - Social Networks');
     }
     function form($instance){
@@ -151,7 +154,7 @@ register_widget('Social_Widget');
 
 // widget address
 class Address_Widget extends WP_Widget{
-    function Address_Widget() {
+    function __construct() {
         parent::__construct(false, 'Avignon - Address');
     }
     function form($instance){
@@ -208,7 +211,7 @@ register_widget('Address_Widget');
 
 // widget contact
 class Contact_Widget extends WP_Widget{
-    function Contact_Widget() {
+    function __construct() {
         parent::__construct(false, 'Avignon - Contact');
     }
     function form($instance){
@@ -244,7 +247,7 @@ register_widget('Contact_Widget');
 
 // widget legal
 class Legal_Widget extends WP_Widget{
-    function Legal_Widget() {
+    function __construct() {
         parent::__construct(false, 'Avignon - Legal informations');
     }
     function form($instance){
@@ -269,7 +272,7 @@ register_widget('Legal_Widget');
 
 // widget logo footer
 class Logo_Widget extends WP_Widget{
-    function Logo_Widget() {
+    function __construct() {
         parent::__construct(false, 'Avignon - Bryn Mawr logo');
     }
     function form($instance){

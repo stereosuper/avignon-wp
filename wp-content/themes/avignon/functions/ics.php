@@ -567,6 +567,9 @@ function activities_feed_query( $query ) {
 add_action( 'pre_get_posts', 'activities_feed_query' );
 
 // Update feeds all 600 seconds (about 10 minutes)
-add_filter( 'wp_feed_cache_transient_lifetime', create_function('$a', 'return 600;') );
+function update_feeds($a){
+    return 600;
+}
+add_filter( 'wp_feed_cache_transient_lifetime', 'update_feeds' );
 
 ?>
