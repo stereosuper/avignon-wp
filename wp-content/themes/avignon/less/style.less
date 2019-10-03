@@ -1256,7 +1256,7 @@ nav{
             .transition(opacity .2s ease-in-out);
         }
         a{
-            color: @rougeAvignon;
+            color: #fff;
             text-decoration: underline;
             .klinic-bold(1.333em);
             .transition(opacity .2s ease-in-out);
@@ -1277,6 +1277,17 @@ nav{
         line-height: 1.2em;
         width: 580px;
         .transition(opacity .2s ease-in-out);
+    }
+    .btn{
+        border-color: rgba(255, 255, 255, 0.92);
+        font-style: normal;
+        background: rgba(255, 255, 255, 0.92);
+        color: @rougeAvignon;
+        &:hover, &:focus{
+            border-color: @rougeAvignon;
+            background: @rougeAvignon;
+            color: #fff;
+        }
     }
     &.hover-btn-study, &.hover-btn-live{
         h1{
