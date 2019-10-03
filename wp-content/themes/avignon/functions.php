@@ -32,10 +32,10 @@ remove_action('admin_print_scripts', 'print_emoji_detection_script');
 add_filter('login_errors', create_function('$a', "return null;"));
 
 function remove_comment_author_class( $classes ) {
-    foreach( $classes as $key => $class ){
-        if(strstr($class, "comment-author-")){ unset( $classes[$key] ); }
-    }
-    return $classes;
+	foreach( $classes as $key => $class ){
+		if(strstr($class, "comment-author-")){ unset( $classes[$key] ); }
+	}
+	return $classes;
 }
 add_filter( 'comment_class' , 'remove_comment_author_class' );
 
@@ -43,7 +43,7 @@ add_filter( 'comment_class' , 'remove_comment_author_class' );
 /* Menus
 /*-----------------------------------------------------------------------------------*/
 register_nav_menus(
-    array(
+	array(
         'primary' => 'Primary Menu',
         'secondary-study' => 'Sidebar Menu - Study',
         'secondary-live' => 'Sidebar Menu - Live',
@@ -80,15 +80,15 @@ add_filter( 'wp_nav_menu_objects', 'sub_menu', 10, 2 );
 /*-----------------------------------------------------------------------------------*/
 function avignon_register_sidebars(){
     register_sidebar(array(
-        'id' => 'footer-social',
-        'name' => 'Footer - Social',
-        'description' => 'Set here your social networks for the footer',
-        'before_widget' => '',
-        'after_widget' => '',
-        'before_title' => '',
-        'after_title' => '',
-        'empty_title'=> ''
-    ));
+		'id' => 'footer-social',
+		'name' => 'Footer - Social',
+		'description' => 'Set here your social networks for the footer',
+		'before_widget' => '',
+		'after_widget' => '',
+		'before_title' => '',
+		'after_title' => '',
+		'empty_title'=> ''
+	));
     register_sidebar(array(
         'id' => 'footer-contact',
         'name' => 'Footer - Contact',
@@ -667,13 +667,13 @@ add_action( 'save_post', 'disable_fb_custom', 10, 2 );
 /*-----------------------------------------------------------------------------------*/
 
 function avignon_scripts()  {
-        // header
-        wp_enqueue_style( 'avignon-style', get_template_directory_uri() . '/css/style.css', array(), AVIGNON_VERSION );
-        wp_enqueue_script( 'avignon-modernizr', get_template_directory_uri() . '/js/modernizr-min.js', array(), null);
+		// header
+		wp_enqueue_style( 'avignon-style', get_template_directory_uri() . '/css/style.css', array(), AVIGNON_VERSION );
+		wp_enqueue_script( 'avignon-modernizr', get_template_directory_uri() . '/js/modernizr-min.js', array(), null);
 
-        // footer
-        wp_deregister_script('jquery');
-        wp_enqueue_script( 'jquery', get_template_directory_uri() . '/js/jquery-1.11.2.min.js', array(), null );
+		// footer
+	    wp_deregister_script('jquery');
+		wp_enqueue_script( 'jquery', get_template_directory_uri() . '/js/jquery-1.11.2.min.js', array(), null );
 
         wp_enqueue_script( 'avignon-ismobile', get_template_directory_uri() . '/js/isMobile.min.js', array(), null, true );
 

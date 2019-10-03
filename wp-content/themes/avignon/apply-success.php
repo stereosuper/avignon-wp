@@ -39,10 +39,10 @@ get_header(); ?>
                             </p>
                         </div>
                     </aside><section>
-
                         <h2><?php the_field('subtitle'); ?></h2>
                         
                         <p><?php the_field('recommenders'); ?></p>
+                        
                         <ul>
                             <li>
                                 <a href="<?php echo add_query_arg( array( 'token' => $_GET['token'], 'reference' => 1 ), get_permalink( AVIGNON_RECOMMENDATION_PAGE_ID ) ) ?>">
@@ -60,12 +60,12 @@ get_header(); ?>
 
                         <ul>
                             <li>
-                                <a href="<?php the_field( 'health_evaluation_file', 'options' ) ?>">
+                                <a href="<?php echo add_query_arg( 'token', $token, get_permalink( AVIGNON_HEALTH_EVALUATION_PAGE_ID ) ) ?>">
                                     Health evaluation form
                                 </a>
                             </li>
                         </ul>
-                        
+                         
                         <p><?php the_field('last'); ?></p>
                     </section>
 

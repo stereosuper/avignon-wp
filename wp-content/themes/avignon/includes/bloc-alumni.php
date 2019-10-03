@@ -13,17 +13,17 @@
 	<div id="img-bloc-contribute">
 		<ul id="images-contribute">
 			<li class="imgLiquidFill">
-				<?php echo wp_get_attachment_image( get_field('contributeImg1', 'options') ); ?>
+				<?php echo wp_get_attachment_image( get_field('contributeImg1', 'options'), 'thumbnail' ); ?>
 			</li><li class="imgLiquidFill">
-				<?php echo wp_get_attachment_image( get_field('contributeImg2', 'options') ); ?>
+				<?php echo wp_get_attachment_image( get_field('contributeImg2', 'options'), 'thumbnail' ); ?>
 			</li><li class="imgLiquidFill">
-				<?php echo wp_get_attachment_image( get_field('contributeImg3', 'options') ); ?>
+				<?php echo wp_get_attachment_image( get_field('contributeImg3', 'options'), 'thumbnail' ); ?>
 			</li><li class="imgLiquidFill">
-				<?php echo wp_get_attachment_image( get_field('contributeImg4', 'options') ); ?>
+				<?php echo wp_get_attachment_image( get_field('contributeImg4', 'options'), 'thumbnail' ); ?>
 			</li><li class="imgLiquidFill">
-				<?php echo wp_get_attachment_image( get_field('contributeImg5', 'options') ); ?>
+				<?php echo wp_get_attachment_image( get_field('contributeImg5', 'options'), 'thumbnail' ); ?>
 			</li><li class="imgLiquidFill">
-				<?php echo wp_get_attachment_image( get_field('contributeImg6', 'options') ); ?>
+				<?php echo wp_get_attachment_image( get_field('contributeImg6', 'options'), 'thumbnail' ); ?>
 			</li>
 		</ul>
 	</div>
