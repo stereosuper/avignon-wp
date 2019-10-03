@@ -59,16 +59,6 @@ Thumbs.db
 *.o
 *.so
 
-# ignore packaged files
-*.7z
-*.dmg
-*.gz
-*.iso
-*.jar
-*.rar
-*.tar
-*.zip
-
 # -------------------------
 # BEGIN Whitelisted Files
 # -------------------------
