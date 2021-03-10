@@ -60,7 +60,7 @@
 			</div>
 
 			<!-- Le Monde Livres -->
-			<script src="http://use.typekit.net/rwg3qyk.js"></script>
+			<script src="//use.typekit.net/rwg3qyk.js"></script>
 
 			<?php wp_footer(); ?>
 

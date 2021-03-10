@@ -17,7 +17,7 @@ get_header(); ?>
 				<a href="<?php echo get_permalink( $post->post_parent ); ?>" title="Go back" class='btn-arrow-back' data-click='back'>Back</a>
 				
 				<?php $postType = get_field('slug'); ?>
-				<?php $url = str_replace('http://', '', get_site_url()); ?>
+				<?php $url = str_replace('https://', '', get_site_url()); ?>
 				<ul>
 					<li><a href='<?php echo "webcal://" . $url . "?feed=avignon-".$postType; ?>' title='Suscribe to these <?php echo $postType; ?> in iCal' class='btn-arrow' rel='nofollow'>Add to iCal</a></li>
 					<li class='none850'><a href='https://www.google.com/calendar/render?cid=<?php echo site_url() . "?feed=avignon-".$postType; ?>' title='Suscribe to these <?php echo $postType; ?> in Google Calendar' target='_blank' class='btn-arrow' rel='nofollow'>Add to Google Calendar</a></li>
